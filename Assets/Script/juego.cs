@@ -8,11 +8,19 @@ public class juego : MonoBehaviour {
 	public Texture ayudaTexture;
 	public string numeroMonedas = "0";
 	public string textoAyuda = "Hola Soy Chia";
+	public GameObject prefab;
+	public Vector3 rotacion;
 	// Use this for initialization
 	void Start () {
-	
+		GameObject camara = GameObject.FindGameObjectWithTag ("MainCamera");
+		GameObject personaje = Instantiate (prefab, transform.position, transform.rotation) as GameObject;
+
+		camara.transform.parent = personaje.transform;
+
+		camara.transform.localPosition = new Vector3(0.13f, 1.8f, -2.5f);
+		camara.transform.Rotate(personaje.transform.rotation.x + rotacion.x, personaje.transform.rotation.y + rotacion.y, personaje.transform.rotation.z + rotacion.z);
+
 	}
-	
 	// Update is called once per frame
 	void Update () {
 	

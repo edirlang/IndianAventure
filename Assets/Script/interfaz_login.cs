@@ -16,11 +16,13 @@ public class interfaz_login : MonoBehaviour {
 	void Update () {
 		
 	}
+
 	void OnGUI(){
 
 		if (!resultado) {
 			GUIStyle style = new GUIStyle();
 			style.alignment = TextAnchor.MiddleCenter;
+
 			GUI.Box(new Rect(0,0, Screen.width, Screen.height), BoxTexture, style);
 
 			GUI.Box (new Rect (Screen.width / 3, Screen.height/6, Screen.width/3 , 4 *(Screen.height/6)), "Login");
@@ -36,9 +38,8 @@ public class interfaz_login : MonoBehaviour {
 				StartCoroutine("comprobarUser");
 			}
 		}else{
-			if (GUI.Button (new Rect (Screen.width / 2 - 50, 4 *(Screen.height/6) + (Screen.height/12), 100, 30), "Continuar")){
-				Application.LoadLevel("selecionarPersonaje");
-			}
+			Application.LoadLevel("selecionarPersonaje");
+
 		}
 	}
 		
