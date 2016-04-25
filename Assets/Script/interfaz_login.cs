@@ -6,6 +6,7 @@ public class interfaz_login : MonoBehaviour {
 	public Texture BoxTexture;
 	private string username = "";
 	private string password = "";
+	private string resultado = "";
 	// Use this for initialization
 	void Start () {
 
@@ -30,8 +31,28 @@ public class interfaz_login : MonoBehaviour {
 		password =  GUI.PasswordField(new Rect(Screen.width / 3 + 10, 5*(Screen.height/8), Screen.width/3 - 20 , 30),password,"*"[0],50);
 
 		if (GUI.Button (new Rect (Screen.width / 2 - 50, 4 *(Screen.height/6) + (Screen.height/12), 100, 30), "Login")) {
-			Application.LoadLevel("selecionarPersonaje");
+			enviar();
 		}
 
+	}
+
+	void enviar(){
+		StartCoroutine("comprobarUser");
+		Debug.Log (resultado);
+	}
+
+	IEnumerator comprobarUser(){
+		string url = "localhost/indianAventure/check_user.php?1="+username+"&2="+password;
+		WWW www = new WWW(url);
+		yield return www;
+		if (www.text.Equals ("correcto")) {
+			Application.LoadLevel ("selecionarPersonaje");
+			Debug.Log (www.text);
+		} else {
+			Debug.Log (www.text);
+		}
+		if(www.error != null){
+			Debug.Log(www.error);
+		}
 	}
 }
