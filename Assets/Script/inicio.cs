@@ -22,8 +22,10 @@ public class inicio : MonoBehaviour {
 		style.alignment = TextAnchor.MiddleCenter;
 		GUI.backgroundColor = Color.red;
 
-		if (GUI.Button (new Rect (Screen.width / 2, 4 *(Screen.height/6) + (Screen.height/12), 70, 20), "Selecionar")) {
-			Application.LoadLevel("level1");
+		if (GUI.Button (new Rect (Screen.width / 2, 4 *(Screen.height/6) + (Screen.height/12), 75, 20), "Selecionar")) {
+
+			if(General.personaje != null)
+				Application.LoadLevel("level1");
 		}
 
 		if (GUI.Button (new Rect (Screen.width / 2- 80, 4 *(Screen.height/6) + (Screen.height/12), 70, 20), "Nuevo")) {
