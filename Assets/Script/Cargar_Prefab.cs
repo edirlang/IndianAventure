@@ -16,8 +16,11 @@ public class Cargar_Prefab : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		GameObject otro = GameObject.FindGameObjectWithTag ("Personaje_Selecion");
+		GameObject otro = GameObject.FindGameObjectWithTag ("Player");
 		Destroy (otro);
 		GameObject personaje = Instantiate (prefab, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+		General.personaje = prefab;
+		personaje.GetComponent<movimiento>().enabled = false;
+		Debug.Log(General.personaje);
 	}
 }

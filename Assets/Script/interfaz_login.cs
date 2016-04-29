@@ -38,6 +38,7 @@ public class interfaz_login : MonoBehaviour {
 				StartCoroutine("comprobarUser");
 			}
 		}else{
+			General.username = username;
 			Application.LoadLevel("selecionarPersonaje");
 
 		}

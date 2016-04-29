@@ -13,7 +13,7 @@ public class juego : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		GameObject camara = GameObject.FindGameObjectWithTag ("MainCamera");
-		GameObject personaje = Instantiate (prefab, transform.position, transform.rotation) as GameObject;
+		GameObject personaje = Instantiate (General.personaje, transform.position, transform.rotation) as GameObject;
 
 		camara.transform.parent = personaje.transform;
 
