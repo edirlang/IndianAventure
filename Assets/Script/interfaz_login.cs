@@ -37,6 +37,10 @@ public class interfaz_login : MonoBehaviour {
 			if (GUI.Button (new Rect (Screen.width / 2 - 50, 4 *(Screen.height/6) + (Screen.height/12), 100, 30), "Login")) {
 				StartCoroutine("comprobarUser");
 			}
+
+			if (GUI.Button (new Rect (Screen.width - 100, Screen.height - 30, 100, 30), "saltar")) {
+				Application.LoadLevel("selecionarPersonaje");
+			}
 		}else{
 			General.username = username;
 			Application.LoadLevel("selecionarPersonaje");
