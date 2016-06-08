@@ -7,6 +7,7 @@ public class interfaz_login : MonoBehaviour {
 	private string username = "";
 	private string password = "";
 	private bool resultado = false;
+	private string mensaje;
 	// Use this for initialization
 	void Start () {
 
@@ -33,9 +34,15 @@ public class interfaz_login : MonoBehaviour {
 			GUI.Label(new Rect(Screen.width / 3 + 10, 4*(Screen.height/8), 100, 50),"Contraseña");
 			password =  GUI.PasswordField(new Rect(Screen.width / 3 + 10, 5*(Screen.height/8), Screen.width/3 - 20 , 30),password,"*"[0],50);
 
+			GUI.Label(new Rect(Screen.width / 3 + 100 , 2*(Screen.height/8), 100, 512),mensaje);
 
 			if (GUI.Button (new Rect (Screen.width / 2 - 50, 4 *(Screen.height/6) + (Screen.height/12), 100, 30), "Login")) {
-				StartCoroutine("comprobarUser");
+				string url = "http://fusa.audiplantas.com/check_user.php?1="+username+"&2="+password;
+				WWWForm form = new WWWForm();
+				form.AddField("1", username);
+				form.AddField("2", password);
+				WWW www = new WWW(url, form);
+				StartCoroutine(comprobarUser(www));
 			}
 
 			if (GUI.Button (new Rect (Screen.width - 100, Screen.height - 30, 100, 30), "saltar")) {
@@ -50,18 +57,20 @@ public class interfaz_login : MonoBehaviour {
 		
 
 
-	IEnumerator comprobarUser(){
-		string url = "localhost/indianAventure/check_user.php?1="+username+"&2="+password;
-		WWW www = new WWW(url);
+	public IEnumerator comprobarUser(WWW www){
 		yield return www;
-		if (www.text.Length == 2 || www.text.Length == 1) {
-			resultado = true;
-			Debug.Log (resultado);
-		} else {
-			Debug.Log ("nombre de usuario o contraseña no son correctas");
-		}
-		if(www.error != null){
+		if(www.error == null){
+			if (www.text.Length == 2 || www.text.Length == 1) {
+				resultado = true;
+				Debug.Log (resultado);
+			} else {
+				mensaje = "nombre de usuario o contraseña no son correctas";
+				Debug.Log ("nombre de usuario o contraseña no son correctas");
+			}
+		}else{
 			Debug.Log(www.error);
+			mensaje = www.error;
+
 		}
 	}
 }
