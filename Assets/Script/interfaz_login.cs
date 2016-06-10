@@ -36,23 +36,37 @@ public class interfaz_login : MonoBehaviour {
 	}
 
 	public void login(){
+		GUIStyle style = GUI.skin.GetStyle ("label");
+		style.fontSize = (int)(30.0f );
+		
+		style = GUI.skin.GetStyle ("box");
+		style.fontSize = (int)(30.0f );
+		
+		style = GUI.skin.GetStyle ("button");
+		style.fontSize = (int)(30.0f );
+		
+		style = GUI.skin.GetStyle ("textField");
+		style.fontSize = (int)(30.0f );
+
 		if (!resultado) {
-			GUIStyle style = new GUIStyle();
 			style.alignment = TextAnchor.MiddleCenter;
 			
 			GUI.Box(new Rect(0,0, Screen.width, Screen.height), BoxTexture, style);
 			
-			GUI.Box (new Rect (Screen.width / 3, Screen.height/6, Screen.width/3 , 4 *(Screen.height/6)), "Login");
+			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Login");
 			
-			GUI.Label(new Rect(Screen.width / 3 + 10 , 2*(Screen.height/8), 100, 50),"Username");
-			username = GUI.TextField(new Rect(Screen.width / 3 + 10 , 3*(Screen.height/8), Screen.width/3 - 20, 30),username,25);
+			GUI.Label(new Rect (Screen.width / 4, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Username:");
+			username = GUI.TextField(new Rect(2*(Screen.width / 4), 3*(Screen.height/7),  Screen.width / 4, Screen.height / 10),username,25);
 			
-			GUI.Label(new Rect(Screen.width / 3 + 10, 4*(Screen.height/8), 100, 50),"Contraseña");
-			password =  GUI.PasswordField(new Rect(Screen.width / 3 + 10, 5*(Screen.height/8), Screen.width/3 - 20 , 30),password,"*"[0],50);
-			
-			GUI.Label(new Rect(Screen.width / 3 + 100 , 2*(Screen.height/8), 100, 512),mensaje);
-			
-			if (GUI.Button (new Rect (Screen.width / 2 - 50, 4 *(Screen.height/6) + (Screen.height/12), 100, 30), "Login")) {
+			GUI.Label(new Rect(Screen.width / 4, 4*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Contraseña");
+			password =  GUI.PasswordField(new Rect(2*(Screen.width / 4), 4*(Screen.height/7),  Screen.width / 4, Screen.height / 10),password,"*"[0],50);
+
+			style = GUI.skin.GetStyle ("label");
+			style.fontSize = (int)(20.0f );
+			GUI.color = Color.red;
+			GUI.Label(new Rect(Screen.width / 4, 2*(Screen.height / 7), Screen.width / 2 + Screen.width / 4, Screen.height / 10),mensaje);
+			GUI.color = Color.white;
+			if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8 , 5 *(Screen.height/7), Screen.width / 4, Screen.height / 10), "Login")) {
 				string url = "http://fusa.audiplantas.com/check_user.php?1="+username+"&2="+password;
 				WWWForm form = new WWWForm();
 				form.AddField("1", username);
@@ -60,8 +74,11 @@ public class interfaz_login : MonoBehaviour {
 				WWW www = new WWW(url, form);
 				StartCoroutine(comprobarUser(www));
 			}
-			
-			if (GUI.Button (new Rect (Screen.width - 100, Screen.height - 30, 100, 30), "Registrar")) {
+
+			style = GUI.skin.GetStyle ("button");
+			style.fontSize = (int)(20.0f );
+			GUI.color = Color.blue;
+			if (GUI.Button (new Rect(Screen.width / 2 - Screen.width / 12 , 12 *(Screen.height/14), Screen.width / 6, Screen.height / 14), "Registrar")) {
 				registrar = true;
 			}
 		}else{
@@ -106,17 +123,20 @@ public class interfaz_login : MonoBehaviour {
 			
 			Masculino = GUI.Toggle (new Rect (2 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 14), Masculino, "Masculino");
 			Femenino = GUI.Toggle (new Rect (3 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 14), Femenino, "Femenino");
-						
+
+			if (GUI.Button (new Rect ((Screen.width / 14), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {
+				registrar = false;
+			}
+
 			if (GUI.Button (new Rect (Screen.width - (Screen.width / 4), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Siguiente")) {
 				Siguiente = false;
 			}
 		} else {
-			GUI.Label (new Rect (Screen.width / 5, 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Contraseña");
-			Contraseña = GUI.TextField (new Rect (2 * (Screen.width / 4), 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Contraseña, 50);
-
-			GUI.Label (new Rect (Screen.width / 5, 4*(Screen.height / 7), Screen.width / 4, Screen.height / 10), "Usuario");
+			GUI.Label (new Rect (Screen.width / 5, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10), "Usuario");
 			Usuario = GUI.TextField (new Rect (2 * (Screen.width / 4), 4*(Screen.height / 7), Screen.width / 4, Screen.height / 12), Usuario, 50);
 
+			GUI.Label (new Rect (Screen.width / 5, 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Contraseña");
+			Contraseña = GUI.TextField (new Rect (2 * (Screen.width / 4), 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Contraseña, 50);
 
 			if (GUI.Button (new Rect ((Screen.width / 14), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {
 				Siguiente = true;
