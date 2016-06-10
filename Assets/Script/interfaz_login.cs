@@ -133,22 +133,32 @@ public class interfaz_login : MonoBehaviour {
 			}
 		} else {
 			GUI.Label (new Rect (Screen.width / 5, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10), "Usuario");
-			Usuario = GUI.TextField (new Rect (2 * (Screen.width / 4), 4*(Screen.height / 7), Screen.width / 4, Screen.height / 12), Usuario, 50);
+			Usuario = GUI.TextField (new Rect (2 * (Screen.width / 4), 3*(Screen.height / 7), Screen.width / 4, Screen.height / 12), Usuario, 50);
 
 			GUI.Label (new Rect (Screen.width / 5, 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Contraseña");
-			Contraseña = GUI.TextField (new Rect (2 * (Screen.width / 4), 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Contraseña, 50);
+			Contraseña = GUI.PasswordField (new Rect (2 * (Screen.width / 4), 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Contraseña,"*"[0], 50);
 
 			if (GUI.Button (new Rect ((Screen.width / 14), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {
 				Siguiente = true;
 			}
 
 			if (GUI.Button (new Rect (Screen.width - (Screen.width / 4), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Guardar")) {
-				string url = "http://fusa.audiplantas.com/check_user.php?1="+username+"&2="+password;
+				string url = General.hosting+"registrar";
 				WWWForm form = new WWWForm();
-				form.AddField("1", username);
-				form.AddField("2", password);
+				form.AddField("username", Usuario);
+				form.AddField("nombre", Nombre);
+				form.AddField("apellido", Apellido);
+				form.AddField("fecha", Fecha_nacimiento);
+				form.AddField("email", Email);
+				if(Masculino){
+					form.AddField("genero", "M");
+				}else{
+					form.AddField("genero", "F");
+				}
+				form.AddField("contrasena", Contraseña);
+
 				WWW www = new WWW(url, form);
-				StartCoroutine(comprobarUser(www));
+				StartCoroutine(registrarUser(www));
 			}
 		}
 	}
@@ -161,13 +171,28 @@ public class interfaz_login : MonoBehaviour {
 				Debug.Log (resultado);
 			} else {
 				mensaje = "nombre de usuario o contraseña no son correctas";
-				Debug.Log ("nombre de usuario o contraseña no son correctas");
-			
+				Debug.Log ("nombre de usuario o contraseña no son correctas");		
 			}
 		}else{
 			Debug.Log(www.error);
 			mensaje = www.error;
 
+		}
+	}
+
+	public IEnumerator registrarUser(WWW www){
+		yield return www;
+		if(www.error == null){
+			if (www.text.Length == 2 || www.text.Length == 1) {
+				registrar = false;
+			} else {
+				mensaje = "No se logro crear tu cuenta";
+				Debug.Log ("No se logro crear tu cuenta");
+			}
+		}else{
+			Debug.Log(www.error);
+			mensaje = www.error;
+			
 		}
 	}
 }

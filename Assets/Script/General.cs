@@ -7,7 +7,7 @@ public class General : MonoBehaviour {
 	public static string username="anom";
 	public GameObject personajeDefault;
 	public static GameObject personaje;
-	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/";
+	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
 	// Use this for initialization
 	void Start () {
 		PlayerPrefs.GetInt ("salud",3);
