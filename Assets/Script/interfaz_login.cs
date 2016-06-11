@@ -53,7 +53,7 @@ public class interfaz_login : MonoBehaviour {
 		if (!resultado) {
 			style.alignment = TextAnchor.MiddleCenter;
 			
-			GUI.Box(new Rect(0,0, Screen.width, Screen.height), BoxTexture, style);
+			GUI.Box(new Rect(1,1, Screen.width, Screen.height), BoxTexture, style);
 			
 			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Login");
 			
@@ -69,10 +69,10 @@ public class interfaz_login : MonoBehaviour {
 			GUI.Label(new Rect(Screen.width / 4, 2*(Screen.height / 7), Screen.width / 2 + Screen.width / 4, Screen.height / 10),mensaje);
 			GUI.color = Color.white;
 			if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8 , 5 *(Screen.height/7), Screen.width / 4, Screen.height / 10), "Login")) {
-				string url = General.hosting+"check_user.php?1="+username+"&2="+password;
+				string url = General.hosting+"login";
 				WWWForm form = new WWWForm();
-				form.AddField("1", username);
-				form.AddField("2", password);
+				form.AddField("username", username);
+				form.AddField("contrasena", password);
 				WWW www = new WWW(url, form);
 				StartCoroutine(comprobarUser(www));
 			}
@@ -182,6 +182,7 @@ public class interfaz_login : MonoBehaviour {
 
 	public IEnumerator comprobarUser(WWW www){
 		yield return www;
+		Debug.Log (www.text);
 		if(www.error == null){
 			if (www.text.Length == 2 || www.text.Length == 1) {
 				resultado = true;
