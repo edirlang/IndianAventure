@@ -12,7 +12,7 @@ public class interfaz_login : MonoBehaviour {
 	private string mensaje;
 	private bool registrar = false;
 	private bool Siguiente = true;
-	private string Nombre="", Apellido="", Email="", Fecha_nacimiento="";
+	private string Nombre="", Apellido="", Email="", Fecha_nacimiento="", ano = "",mes="",dia="";
 
 	private bool Masculino = false;
 	private bool Femenino = false;
@@ -36,6 +36,8 @@ public class interfaz_login : MonoBehaviour {
 	}
 
 	public void login(){
+		Nombre = "";
+		Fecha_nacimiento = Email = Usuario = Contraseña = Apellido = Nombre;
 		GUIStyle style = GUI.skin.GetStyle ("label");
 		style.fontSize = (int)(30.0f );
 		
@@ -67,7 +69,7 @@ public class interfaz_login : MonoBehaviour {
 			GUI.Label(new Rect(Screen.width / 4, 2*(Screen.height / 7), Screen.width / 2 + Screen.width / 4, Screen.height / 10),mensaje);
 			GUI.color = Color.white;
 			if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8 , 5 *(Screen.height/7), Screen.width / 4, Screen.height / 10), "Login")) {
-				string url = "http://fusa.audiplantas.com/check_user.php?1="+username+"&2="+password;
+				string url = General.hosting+"check_user.php?1="+username+"&2="+password;
 				WWWForm form = new WWWForm();
 				form.AddField("1", username);
 				form.AddField("2", password);
@@ -89,6 +91,10 @@ public class interfaz_login : MonoBehaviour {
 	}	
 
 	public void registrarUsuario(){
+
+		GUI.color = Color.red;
+		GUI.Label(new Rect(Screen.width / 6, Screen.height / 14, Screen.width / 2 + Screen.width / 4, Screen.height / 10),mensaje);
+		GUI.color = Color.white;
 
 		GUIStyle style = GUI.skin.GetStyle ("label");
 		style.fontSize = (int)(20.0f );
@@ -117,8 +123,13 @@ public class interfaz_login : MonoBehaviour {
 			Email = GUI.TextField (new Rect (2 * (Screen.width / 4), 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Email, 50);
 	
 			GUI.Label (new Rect (Screen.width / 5, 4 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Fecha de Nacimiento");
-			Fecha_nacimiento = GUI.TextField (new Rect (2 * (Screen.width / 4), 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Fecha_nacimiento, 10);
-	
+			ano = GUI.TextField (new Rect (8 * (Screen.width / 16), 4 * (Screen.height / 7), Screen.width / 12, Screen.height / 12), ano, 4);
+			GUI.Label (new Rect (19 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
+			mes = GUI.TextField (new Rect (20 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), mes, 2);
+			GUI.Label (new Rect (22 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
+			dia = GUI.TextField (new Rect (23 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), dia, 2);
+
+			Fecha_nacimiento = ano+"-"+mes+"-"+dia;
 			GUI.Label (new Rect (Screen.width / 5, 5 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Genero");
 			
 			Masculino = GUI.Toggle (new Rect (2 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 14), Masculino, "Masculino");
@@ -126,6 +137,7 @@ public class interfaz_login : MonoBehaviour {
 
 			if (GUI.Button (new Rect ((Screen.width / 14), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {
 				registrar = false;
+				mensaje = "";
 			}
 
 			if (GUI.Button (new Rect (Screen.width - (Screen.width / 4), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Siguiente")) {
@@ -143,22 +155,27 @@ public class interfaz_login : MonoBehaviour {
 			}
 
 			if (GUI.Button (new Rect (Screen.width - (Screen.width / 4), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Guardar")) {
-				string url = General.hosting+"registrar";
-				WWWForm form = new WWWForm();
-				form.AddField("username", Usuario);
-				form.AddField("nombre", Nombre);
-				form.AddField("apellido", Apellido);
-				form.AddField("fecha", Fecha_nacimiento);
-				form.AddField("email", Email);
-				if(Masculino){
-					form.AddField("genero", "M");
-				}else{
-					form.AddField("genero", "F");
-				}
-				form.AddField("contrasena", Contraseña);
+				if(validarusuario()){
+					string url = General.hosting+"registrar";
+					WWWForm form = new WWWForm();
+					form.AddField("username", Usuario);
+					form.AddField("nombre", Nombre);
+					form.AddField("apellido", Apellido);
+					form.AddField("fecha", Fecha_nacimiento);
+					form.AddField("email", Email);
+					if(Masculino){
+						form.AddField("genero", "M");
+					}else{
+						form.AddField("genero", "F");
+					}
+					form.AddField("contrasena", Contraseña);
 
-				WWW www = new WWW(url, form);
-				StartCoroutine(registrarUser(www));
+					WWW www = new WWW(url, form);
+					StartCoroutine(registrarUser(www));
+				}else{
+					if(mensaje != "La fecha de nacimiento tiene un formato de aaaa/mm/dd")
+						mensaje = "Por favor llena todo el formulario";
+				}
 			}
 		}
 	}
@@ -170,7 +187,7 @@ public class interfaz_login : MonoBehaviour {
 				resultado = true;
 				Debug.Log (resultado);
 			} else {
-				mensaje = "nombre de usuario o contraseña no son correctas";
+				mensaje = www.text;
 				Debug.Log ("nombre de usuario o contraseña no son correctas");		
 			}
 		}else{
@@ -184,6 +201,7 @@ public class interfaz_login : MonoBehaviour {
 		yield return www;
 		if(www.error == null){
 			if (www.text.Length == 2 || www.text.Length == 1) {
+				mensaje = "El usuario a sido creado";
 				registrar = false;
 			} else {
 				mensaje = "No se logro crear tu cuenta";
@@ -194,5 +212,28 @@ public class interfaz_login : MonoBehaviour {
 			mensaje = www.error;
 			
 		}
+	}
+
+	private bool validarusuario(){
+		int i = 0;
+		if (Nombre == "")
+						return false;
+				else if (Apellido == "")
+						return false;
+				else if (Email == "")
+						return false;
+				else if (Fecha_nacimiento == "")
+						return false;
+				else if (Usuario == "")
+						return false;
+				else if (Contraseña == "")
+						return false;
+		else if (int.TryParse (ano, out i) && int.TryParse (mes, out i) && int.TryParse (dia, out i)) {
+						mensaje = "";	
+						return true;
+				}else {
+						mensaje = "La fecha de nacimiento tiene un formato de aaaa/mm/dd";
+						return false;
+				}
 	}
 }
