@@ -33,12 +33,20 @@ private var velocity : Vector3;						// Used for continuing momentum while in ai
 
 function Start()
 {
+	var camara = GameObject.Find( "Main Camera" );
+	if ( camara )
+		cameraPivot = camara.transform;	
+	var joystick1 = GameObject.Find( "j1" );
+	if ( joystick1 )
+		moveJoystick = joystick1.GetComponent(Joystick);
+		
+	rotateJoystick = moveJoystick;
 	// Cache component lookup at startup instead of doing this every frame		
 	thisTransform = GetComponent( Transform );
 	character = GetComponent( CharacterController );	
 
 	// Move the character to the correct start position in the level, if one exists
-	var spawn = GameObject.Find( "PlayerSpawn" );
+	var spawn = GameObject.Find( "PlayerJuego" );
 	if ( spawn )
 		thisTransform.position = spawn.transform.position;
 }
@@ -74,13 +82,14 @@ function Update()
 			movement *= backwardSpeed * absJoyPos.y;
 			cameraTarget.z = moveJoystick.position.y * 0.75;
 		}
+		
 	}
 	else
 	{
 		movement *= sidestepSpeed * absJoyPos.x;
 		
 		// Let's move the camera a bit, so the character isn't stuck under our thumb
-		cameraTarget.x = -moveJoystick.position.x * 0.5;
+		//cameraTarget.x = -moveJoystick.position.x * 0.5;
 	}
 	
 	// Check for jump
@@ -99,7 +108,7 @@ function Update()
 		velocity.y += Physics.gravity.y * Time.deltaTime;
 		
 		// Move the camera back from the character when we jump
-		cameraTarget.z = -jumpSpeed * 0.25;
+		//cameraTarget.z = -jumpSpeed * 0.25;
 		
 		// Adjust additional movement while in-air
 		movement.x *= inAirMultiplier;
@@ -121,7 +130,7 @@ function Update()
 	var pos = cameraPivot.localPosition;
 	pos.x = Mathf.SmoothDamp( pos.x, cameraTarget.x, cameraVelocity.x, 0.3 );
 	pos.z = Mathf.SmoothDamp( pos.z, cameraTarget.z, cameraVelocity.z, 0.5 );
-	cameraPivot.localPosition = pos;
+	//cameraPivot.localPosition = pos;
 
 	// Apply rotation from rotation joystick
 	if ( character.isGrounded )
@@ -135,6 +144,6 @@ function Update()
 		thisTransform.Rotate( 0, camRotation.x, 0, Space.World );
 		
 		// Rotate only the camera with y-axis input
-		cameraPivot.Rotate( camRotation.y, 0, 0 );
+		//cameraPivot.Rotate( camRotation.y, 0, 0 );
 	}
 }
