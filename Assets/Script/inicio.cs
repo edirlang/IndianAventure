@@ -77,15 +77,22 @@ public class inicio : MonoBehaviour {
 			System.Threading.Thread.Sleep(1000);
 		}
 
-		if (tienePersonaje)
+		if (tienePersonaje || correcto)
 		{
+			if(General.idPersonaje == 1)
+			{
+				General.personaje = pj1;
+			}else if (General.idPersonaje == 2)
+			{
+				General.personaje = pj2;
+			}else if(General.idPersonaje == 3)
+			{
+				General.personaje = pj3;
+			}
+
 			continuar = true;
-			Application.LoadLevel ("level1");
-		}
-		if(correcto)
-		{
-			continuar = true;
-			Application.LoadLevel("level1");
+			if(General.personaje != null)
+				Application.LoadLevel ("level1");
 		}
 		if(!continuar)
 		{
@@ -117,7 +124,7 @@ public class inicio : MonoBehaviour {
 			}
 		}else{
 			GUI.Box(new Rect(0,0, Screen.width, Screen.height), BoxTexture);
-			GUI.Label(new Rect(Screen.width - 100 , Screen.height-50, 100, 50),"Cargando...");
+			GUI.Label(new Rect(Screen.width - Screen.width/4 , Screen.height-Screen.height/6, Screen.width/4, Screen.height/6),"Cargando...");
 		}
 	}
 

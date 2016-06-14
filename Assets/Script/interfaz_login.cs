@@ -56,7 +56,11 @@ public class interfaz_login : MonoBehaviour {
 			GUI.Box(new Rect(1,1, Screen.width, Screen.height), BoxTexture, style);
 			
 			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Login");
-			
+
+			if (GUI.Button (new Rect (Screen.width - Screen.width/10, Screen.height - Screen.height/8 , Screen.width/10 , Screen.height/10), "Salir")) {
+				Application.Quit();
+			}
+
 			GUI.Label(new Rect (Screen.width / 4, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Username:");
 			username = GUI.TextField(new Rect(2*(Screen.width / 4), 3*(Screen.height/7),  Screen.width / 4, Screen.height / 10),username,25);
 			
@@ -122,7 +126,7 @@ public class interfaz_login : MonoBehaviour {
 			GUI.Label (new Rect (Screen.width / 5, 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Email");
 			Email = GUI.TextField (new Rect (2 * (Screen.width / 4), 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Email, 50);
 	
-			GUI.Label (new Rect (Screen.width / 5, 4 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Fecha de Nacimiento");
+			GUI.Label (new Rect (Screen.width / 5, 4 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Fecha de Nacimiento (aaaa-mm-dd)");
 			ano = GUI.TextField (new Rect (8 * (Screen.width / 16), 4 * (Screen.height / 7), Screen.width / 12, Screen.height / 12), ano, 4);
 			GUI.Label (new Rect (19 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
 			mes = GUI.TextField (new Rect (20 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), mes, 2);
@@ -172,9 +176,6 @@ public class interfaz_login : MonoBehaviour {
 
 					WWW www = new WWW(url, form);
 					StartCoroutine(registrarUser(www));
-				}else{
-					if(mensaje != "La fecha de nacimiento tiene un formato de aaaa/mm/dd")
-						mensaje = "Por favor llena todo el formulario";
 				}
 			}
 		}
@@ -202,7 +203,7 @@ public class interfaz_login : MonoBehaviour {
 		yield return www;
 		if(www.error == null){
 			if (www.text.Length == 2 || www.text.Length == 1) {
-				mensaje = "El usuario a sido creado";
+				mensaje = "El usuario ha sido creado";
 				registrar = false;
 			} else {
 				mensaje = "No se logro crear tu cuenta";
@@ -218,23 +219,40 @@ public class interfaz_login : MonoBehaviour {
 	private bool validarusuario(){
 		int i = 0;
 		if (Nombre == "")
-						return false;
-				else if (Apellido == "")
-						return false;
-				else if (Email == "")
-						return false;
-				else if (Fecha_nacimiento == "")
-						return false;
-				else if (Usuario == "")
-						return false;
-				else if (Contraseña == "")
-						return false;
+		{
+			mensaje ="Por favor escribe tu Nombre";
+			return false;
+		}
+		else if (Apellido == "")
+		{
+			mensaje ="Por favor escribe tu Apellido";
+			return false;
+		}
+		else if (Email == "")
+		{
+			mensaje ="Por favor escribe tu E-mail";
+			return false;
+		}
+		else if (Fecha_nacimiento == "")
+		{
+			mensaje ="Por favor escribe tu Fecha de Nacimiento";
+			return false;
+		}
+		else if (Usuario == ""){
+			mensaje ="Por favor escribe tu Nomnbre de Usuario (username)";
+			return false;
+		}
+		else if (Contraseña == "")
+		{
+			mensaje ="Por favor escribe tu contraseña";
+			return false;
+		}
 		else if (int.TryParse (ano, out i) && int.TryParse (mes, out i) && int.TryParse (dia, out i)) {
-						mensaje = "";	
-						return true;
-				}else {
-						mensaje = "La fecha de nacimiento tiene un formato de aaaa/mm/dd";
-						return false;
-				}
+			mensaje = "";	
+			return true;
+		}else {
+			mensaje = "La fecha de nacimiento tiene un formato de aaaa-mm-dd";
+			return false;
+		}
 	}
 }

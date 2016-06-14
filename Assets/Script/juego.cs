@@ -14,18 +14,6 @@ public class juego : MonoBehaviour {
 	public GameObject pj1,pj2,pj3, objetoInstanciar;
 	// Use this for initialization
 	void Start () {
-
-		if(General.idPersonaje == 1)
-		{
-			General.personaje = pj1;
-		}else if (General.idPersonaje == 2)
-		{
-			General.personaje = pj2;
-		}else if(General.idPersonaje == 3)
-		{
-			General.personaje = pj3;
-		}
-
 		GameObject camara = GameObject.FindGameObjectWithTag ("MainCamera");
 		GameObject personaje = Instantiate (General.personaje, transform.position, transform.rotation) as GameObject;
 
@@ -59,8 +47,11 @@ public class juego : MonoBehaviour {
 		GUI.Box (new Rect (Screen.width - Screen.width/10, Screen.height/2 - Screen.height/10, Screen.width/10, Screen.height/10), ayudaTexture, style);
 		GUI.Label (new Rect (Screen.width - Screen.width/10, Screen.height/2, 100, 30), textoAyuda);
 
-		if (GUI.Button (new Rect (Screen.width - Screen.width/10, Screen.height - 35 , Screen.width/10 , Screen.height/10), "Salir")) {
-			Application.LoadLevel("selecionarPersonaje");
+		if (GUI.Button (new Rect (Screen.width - Screen.width/10, Screen.height - Screen.height/10 , Screen.width/10 , Screen.height/10), "Salir")) {
+			General.username = null;
+			General.idPersonaje = 0;
+			General.personaje = null;
+			Application.LoadLevel("main");
 		}
 		
 	}
