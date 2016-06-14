@@ -10,8 +10,22 @@ public class juego : MonoBehaviour {
 	public string textoAyuda = "Hola Soy Chia";
 	public GameObject prefab;
 	public Vector3 rotacion;
+	private string idPersonaje;
+	public GameObject pj1,pj2,pj3, objetoInstanciar;
 	// Use this for initialization
 	void Start () {
+
+		if(General.idPersonaje == 1)
+		{
+			General.personaje = pj1;
+		}else if (General.idPersonaje == 2)
+		{
+			General.personaje = pj2;
+		}else if(General.idPersonaje == 3)
+		{
+			General.personaje = pj3;
+		}
+
 		GameObject camara = GameObject.FindGameObjectWithTag ("MainCamera");
 		GameObject personaje = Instantiate (General.personaje, transform.position, transform.rotation) as GameObject;
 
