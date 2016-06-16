@@ -97,21 +97,27 @@ public class inicio : MonoBehaviour {
 			GUIStyle style = new GUIStyle();
 			style.alignment = TextAnchor.MiddleCenter;
 
-			GUI.color = Color.red;
-			GUI.Label(new Rect(Screen.width/2 - (Screen.width/6), Screen.height/32, 5*(Screen.width/8), Screen.height/2),"ELIGE TU PERSONAJE");
-
-			GUI.Label(new Rect(5*(Screen.width/8), Screen.height/10, 3*(Screen.width/8), Screen.height/2),"Caracteristicas");
+			GUI.color = Color.black;
+			GUIStyle styleLabel = GUI.skin.GetStyle ("label");
+			styleLabel.fontSize = (int)(40.0f );
+			GUI.Label(new Rect(Screen.width/2 - (Screen.width/6), Screen.height/64, 5*(Screen.width/8), Screen.height/2),"ELIGE TU PERSONAJE");
+			styleLabel.fontSize = (int)(30.0f );
+			GUI.Label(new Rect(5*(Screen.width/8 - Screen.width /128), Screen.height/6, 3*(Screen.width/10), Screen.height/2),"Caracteristicas");
 
 			GUI.color = Color.white;
-			GUI.Label(new Rect(5*(Screen.width/8), 2*(Screen.height/10), 5*(Screen.width/8), Screen.height/2),cuadroTexture);
+			GUI.Label(new Rect(5*(Screen.width/8), 2*(Screen.height/7), 5*(Screen.width/8), Screen.height/2),cuadroTexture);
 			GUI.color = Color.blue;
 			GUI.Label(new Rect(5*(Screen.width/8) + (Screen.width/64), 2*(Screen.height/10), 5*(Screen.width/8), Screen.height/2),caracteristicas);
 
-			GUI.color = Color.white;
-			GUI.Label(new Rect(2*(Screen.width/8), 5 *(Screen.height/6), Screen.width/6, Screen.height/10),"Alias:");
-			nickname = GUI.TextField(new Rect(3*(Screen.width / 8), 5 *(Screen.height/6), Screen.width / 4, Screen.height/12),nickname,25);
+			GUI.color = Color.black;
+			styleLabel.fontSize = (int)(30.0f );
+			GUI.Label(new Rect(2*(Screen.width/12), 20 *(Screen.height/24), Screen.width/6, Screen.height/10),"Alias:");
+			nickname = GUI.TextField(new Rect(4*(Screen.width/12), 20 *(Screen.height/24), Screen.width/4, Screen.height/10),nickname,25);
 
-			if (GUI.Button (new Rect (5*(Screen.width / 8), 5 *(Screen.height/6), Screen.width / 5, Screen.height/12), "Crear")) {
+			GUI.color = Color.white;
+			GUIStyle styleButton = GUI.skin.GetStyle ("Button");
+			styleButton.fontSize = (int)(30.0f );
+			if (GUI.Button (new Rect (5*(Screen.width / 8), 20 *(Screen.height/24), Screen.width / 5, Screen.height/12), "Crear")) {
 				if(validarPersonaje())
 				{
 					string url = General.hosting+"crearPersonaje";

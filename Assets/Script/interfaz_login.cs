@@ -55,17 +55,17 @@ public class interfaz_login : MonoBehaviour {
 			
 			GUI.Box(new Rect(1,1, Screen.width, Screen.height), BoxTexture, style);
 			
-			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Login");
+			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Bienvenidos a Indian Adventure");
 
 			if (GUI.Button (new Rect (Screen.width - Screen.width/10, Screen.height - Screen.height/8 , Screen.width/10 , Screen.height/10), "Salir")) {
 				Application.Quit();
 			}
 
-			GUI.Label(new Rect (Screen.width / 4, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Username:");
-			username = GUI.TextField(new Rect(2*(Screen.width / 4), 3*(Screen.height/7),  Screen.width / 4, Screen.height / 10),username,25);
+			GUI.Label(new Rect (Screen.width / 4, 2*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Username:");
+			username = GUI.TextField(new Rect(2*(Screen.width / 4), 2*(Screen.height/7),  Screen.width / 4, Screen.height / 10),username,25);
 			
-			GUI.Label(new Rect(Screen.width / 4, 4*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Contraseña");
-			password =  GUI.PasswordField(new Rect(2*(Screen.width / 4), 4*(Screen.height/7),  Screen.width / 4, Screen.height / 10),password,"*"[0],50);
+			GUI.Label(new Rect(Screen.width / 4, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Contraseña");
+			password =  GUI.PasswordField(new Rect(2*(Screen.width / 4), 3*(Screen.height/7),  Screen.width / 4, Screen.height / 10),password,"*"[0],50);
 
 			style = GUI.skin.GetStyle ("label");
 			style.fontSize = (int)(20.0f );
