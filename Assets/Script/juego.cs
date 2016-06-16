@@ -12,6 +12,7 @@ public class juego : MonoBehaviour {
 	public Vector3 rotacion;
 	private string idPersonaje;
 	public GameObject pj1,pj2,pj3, objetoInstanciar;
+	private bool salir = false;
 	// Use this for initialization
 	void Start () {
 		GameObject camara = GameObject.FindGameObjectWithTag ("MainCamera");
@@ -48,11 +49,28 @@ public class juego : MonoBehaviour {
 		GUI.Label (new Rect (Screen.width - Screen.width/10, Screen.height/2, 100, 30), textoAyuda);
 
 		if (GUI.Button (new Rect (Screen.width - Screen.width/10, Screen.height - Screen.height/10 , Screen.width/10 , Screen.height/10), "Salir")) {
+			string url = General.hosting+"logout";
+			WWWForm form = new WWWForm();
+			form.AddField("username", General.username);
+			WWW www = new WWW(url, form);
+			StartCoroutine(desconectarUser(www));
+		}
+		if (salir) {
 			General.username = null;
 			General.idPersonaje = 0;
 			General.personaje = null;
-			Application.LoadLevel("main");
+			Application.LoadLevel ("main");
 		}
 		
+	}
+
+	public IEnumerator desconectarUser(WWW www){
+		yield return www;
+		if(www.error == null){
+			Debug.Log(www.text);
+			salir = true;
+		}else{
+			Debug.Log(www.error);
+		}
 	}
 }

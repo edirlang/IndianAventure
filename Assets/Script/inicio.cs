@@ -24,13 +24,11 @@ public class inicio : MonoBehaviour {
 		form2.AddField("username", General.username);
 		WWW www2 = new WWW(url2, form2);
 		StartCoroutine(General.consultarPersonajeUsername(www2));
-		System.Threading.Thread.Sleep(2000);
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 	void OnGUI(){
 		if (GUI.Button (new Rect (Screen.width / 8,(Screen.height/16), Screen.width / 6, Screen.height/4), pj1Texture)) {
@@ -98,16 +96,19 @@ public class inicio : MonoBehaviour {
 		{
 			GUIStyle style = new GUIStyle();
 			style.alignment = TextAnchor.MiddleCenter;
+
 			GUI.color = Color.red;
+			GUI.Label(new Rect(Screen.width/2 - (Screen.width/6), Screen.height/32, 5*(Screen.width/8), Screen.height/2),"ELIGE TU PERSONAJE");
+
 			GUI.Label(new Rect(5*(Screen.width/8), Screen.height/10, 3*(Screen.width/8), Screen.height/2),"Caracteristicas");
-			GUI.Label(new Rect(5*(Screen.width/8), Screen.height/6, 5*(Screen.width/8), Screen.height/2),cuadroTexture);
 
 			GUI.color = Color.white;
-			GUI.Label(new Rect(5*(Screen.width/8), Screen.height/6, 5*(Screen.width/8), Screen.height/2),caracteristicas);
+			GUI.Label(new Rect(5*(Screen.width/8), 2*(Screen.height/10), 5*(Screen.width/8), Screen.height/2),cuadroTexture);
+			GUI.color = Color.blue;
+			GUI.Label(new Rect(5*(Screen.width/8) + (Screen.width/64), 2*(Screen.height/10), 5*(Screen.width/8), Screen.height/2),caracteristicas);
 
-			GUI.color = Color.black;
+			GUI.color = Color.white;
 			GUI.Label(new Rect(2*(Screen.width/8), 5 *(Screen.height/6), Screen.width/6, Screen.height/10),"Alias:");
-			GUI.color = Color.white;
 			nickname = GUI.TextField(new Rect(3*(Screen.width / 8), 5 *(Screen.height/6), Screen.width / 4, Screen.height/12),nickname,25);
 
 			if (GUI.Button (new Rect (5*(Screen.width / 8), 5 *(Screen.height/6), Screen.width / 5, Screen.height/12), "Crear")) {
