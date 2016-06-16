@@ -100,6 +100,7 @@ public class inicio : MonoBehaviour {
 			GUI.color = Color.black;
 			GUIStyle styleLabel = GUI.skin.GetStyle ("label");
 			styleLabel.fontSize = (int)(40.0f );
+
 			GUI.Label(new Rect(Screen.width/2 - (Screen.width/6), Screen.height/64, 5*(Screen.width/8), Screen.height/2),"ELIGE TU PERSONAJE");
 			styleLabel.fontSize = (int)(30.0f );
 			GUI.Label(new Rect(5*(Screen.width/8 - Screen.width /128), Screen.height/6, 3*(Screen.width/10), Screen.height/2),"Caracteristicas");
