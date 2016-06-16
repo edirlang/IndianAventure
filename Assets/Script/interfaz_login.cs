@@ -57,7 +57,7 @@ public class interfaz_login : MonoBehaviour {
 			
 			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Bienvenidos a Indian Adventure");
 
-			if (GUI.Button (new Rect (Screen.width - Screen.width/10, Screen.height - Screen.height/8 , Screen.width/10 , Screen.height/10), "Salir")) {
+			if (GUI.Button (new Rect (5*(Screen.width / 8), 6 *(Screen.height/8), Screen.width / 4, Screen.height / 10), "Salir")) {
 				Application.Quit();
 			}
 
@@ -72,7 +72,7 @@ public class interfaz_login : MonoBehaviour {
 			GUI.color = Color.red;
 			GUI.Label(new Rect(Screen.width / 4, 2*(Screen.height / 7), Screen.width / 2 + Screen.width / 4, Screen.height / 10),mensaje);
 			GUI.color = Color.white;
-			if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8 , 5 *(Screen.height/7), Screen.width / 4, Screen.height / 10), "Login")) {
+			if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8 , 4 *(Screen.height/7), Screen.width / 4, Screen.height / 10), "Ingresar")) {
 				string url = General.hosting+"login";
 				WWWForm form = new WWWForm();
 				form.AddField("username", username);
@@ -82,9 +82,9 @@ public class interfaz_login : MonoBehaviour {
 			}
 
 			style = GUI.skin.GetStyle ("button");
-			style.fontSize = (int)(20.0f );
+			style.fontSize = (int)(30.0f );
 			GUI.color = Color.blue;
-			if (GUI.Button (new Rect(Screen.width / 2 - Screen.width / 12 , 12 *(Screen.height/14), Screen.width / 6, Screen.height / 14), "Registrar")) {
+			if (GUI.Button (new Rect(1*(Screen.width / 8), 6 *(Screen.height/8), Screen.width / 4, Screen.height / 10), "Registrar")) {
 				registrar = true;
 			}
 		}else{
@@ -101,19 +101,19 @@ public class interfaz_login : MonoBehaviour {
 		GUI.color = Color.white;
 
 		GUIStyle style = GUI.skin.GetStyle ("label");
-		style.fontSize = (int)(20.0f );
+		style.fontSize = (int)(30.0f );
 
 		style = GUI.skin.GetStyle ("box");
-		style.fontSize = (int)(20.0f );
+		style.fontSize = (int)(40.0f );
 
 		style = GUI.skin.GetStyle ("button");
-		style.fontSize = (int)(20.0f );
+		style.fontSize = (int)(30.0f );
 
 		style = GUI.skin.GetStyle ("textField");
-		style.fontSize = (int)(20.0f );
+		style.fontSize = (int)(30.0f );
 
 		style = GUI.skin.GetStyle ("toggle");
-		style.fontSize = (int)(20.0f );
+		style.fontSize = (int)(30.0f );
 
 		GUI.Box(new Rect(0,0, Screen.width, Screen.height),"Registro de Usuario");
 		if (Siguiente) {
