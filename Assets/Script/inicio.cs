@@ -31,7 +31,7 @@ public class inicio : MonoBehaviour {
 
 	}
 	void OnGUI(){
-		if (GUI.Button (new Rect (Screen.width / 8,(Screen.height/16), Screen.width / 6, Screen.height/4), pj1Texture)) {
+		if (GUI.Button (new Rect (5*(Screen.width / 32),(Screen.height/16), Screen.width / 10, Screen.height/4), pj1Texture)) {
 			General.idPersonaje = 1;
 			General.personaje = pj1;
 			GameObject otro = GameObject.FindGameObjectWithTag ("Player");
@@ -45,7 +45,7 @@ public class inicio : MonoBehaviour {
 			StartCoroutine(consultarPersonaje(www));
 		}
 
-		if (GUI.Button (new Rect (Screen.width / 8,5*(Screen.height/16), Screen.width / 6, Screen.height/4), pj2Texture)) {
+		if (GUI.Button (new Rect (5*(Screen.width / 32),5*(Screen.height/16), Screen.width / 10, Screen.height/4), pj2Texture)) {
 			General.idPersonaje = 2;
 			General.personaje = pj2;
 			GameObject otro = GameObject.FindGameObjectWithTag ("Player");
@@ -59,7 +59,7 @@ public class inicio : MonoBehaviour {
 			StartCoroutine(consultarPersonaje(www));
 		}
 
-		if (GUI.Button (new Rect (Screen.width / 8,9*(Screen.height/16), Screen.width / 6, Screen.height/4), pj3Texture)) {
+		if (GUI.Button (new Rect (5*(Screen.width / 32),9*(Screen.height/16), Screen.width / 10, Screen.height/4), pj3Texture)) {
 			General.idPersonaje = 3;
 			General.personaje = pj3;
 			GameObject otro = GameObject.FindGameObjectWithTag ("Player");
