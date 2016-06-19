@@ -7,7 +7,7 @@ public class juego : MonoBehaviour {
 	public Texture monedasTexture;
 	public Texture ayudaTexture;
 	public string numeroMonedas = "0";
-	public string textoAyuda = "Hola Soy Chia";
+	public string textoAyuda = "Chia";
 	public GameObject prefab;
 	public Vector3 rotacion;
 	private string idPersonaje;
@@ -40,13 +40,13 @@ public class juego : MonoBehaviour {
 		GUI.Box (new Rect (3*(Screen.width/10) - Screen.width/20, 10, Screen.width/10 , Screen.height/10), corazonTexture, style);
 
 		//Monedas
-		GUI.Box (new Rect (Screen.width - 2* (Screen.width/10), 10, Screen.width/10 , Screen.height/10), monedasTexture, style);
-		GUI.Label (new Rect (Screen.width - Screen.width/10, 10, 100, 30), numeroMonedas);
+		GUI.Box (new Rect (Screen.width - Screen.width/8, 10, Screen.width/10 , Screen.height/9), monedasTexture, style);
+		GUI.Label (new Rect (Screen.width - Screen.width/14, 10, Screen.width/10 , Screen.height/9), numeroMonedas);
 
 		// Ayuda
 		style.alignment = TextAnchor.MiddleCenter;
-		GUI.Box (new Rect (Screen.width - Screen.width/10, Screen.height/2 - Screen.height/10, Screen.width/10, Screen.height/10), ayudaTexture, style);
-		GUI.Label (new Rect (Screen.width - Screen.width/10, Screen.height/2, 100, 30), textoAyuda);
+		GUI.Box (new Rect (Screen.width - Screen.width/7, Screen.height/2 - Screen.height/4, Screen.width/6, Screen.height/4), ayudaTexture, style);
+		GUI.Label (new Rect (Screen.width - Screen.width/10, Screen.height/2, Screen.width/12, Screen.height/9), "Chia");
 
 		if (GUI.Button (new Rect (Screen.width - Screen.width/10, Screen.height - Screen.height/10 , Screen.width/10 , Screen.height/10), "Salir")) {
 			string url = General.hosting+"logout";
