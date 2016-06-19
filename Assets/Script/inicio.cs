@@ -13,6 +13,10 @@ public class inicio : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		if(General.username == "")
+		{
+			Application.LoadLevel("main");
+		}
 		string url = General.hosting+"consultarPersonaje";
 		WWWForm form = new WWWForm();
 		form.AddField("username", username);

@@ -9,6 +9,7 @@ public class General : MonoBehaviour {
 	public static GameObject personaje;
 	public static int idPersonaje;
 	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
+	public static bool conectado = false;
 	// Use this for initialization
 	void Start () {
 		PlayerPrefs.GetInt ("salud",3);
