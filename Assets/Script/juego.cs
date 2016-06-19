@@ -46,7 +46,7 @@ public class juego : MonoBehaviour {
 		// Ayuda
 		style.alignment = TextAnchor.MiddleCenter;
 		GUI.Box (new Rect (Screen.width - Screen.width/7, Screen.height/2 - Screen.height/4, Screen.width/6, Screen.height/4), ayudaTexture, style);
-		GUI.Label (new Rect (Screen.width - Screen.width/10, Screen.height/2, Screen.width/12, Screen.height/9), "Chia");
+		GUI.Label (new Rect (Screen.width - Screen.width/10, Screen.height/2, Screen.width/12, Screen.height/9), textoAyuda);
 
 		if (GUI.Button (new Rect (Screen.width - Screen.width/10, Screen.height - Screen.height/10 , Screen.width/10 , Screen.height/10), "Salir")) {
 			string url = General.hosting+"logout";
