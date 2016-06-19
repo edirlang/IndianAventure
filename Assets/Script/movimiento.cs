@@ -13,17 +13,21 @@ public class movimiento : MonoBehaviour {
 	private Vector3 syncStartPosition = Vector3.zero;
 	private Vector3 syncEndPosition = Vector3.zero;
 	private GameObject camara;
+	private NetworkView nw;
+	private Animator animator;
 
 	void Start()
 	{
+		nw = GetComponent<NetworkView> ();
 		camara = GameObject.FindGameObjectWithTag ("MainCamera");
+		animator = GetComponent<Animator> ();
 	}
 	
 	void Update() {
-		if (networkView.isMine)
+		if (nw.isMine)
 		{
 			camara.transform.parent = transform;
-			camara.transform.localPosition = new Vector3(0.13f, 1.8f, -2.5f);
+			camara.transform.localPosition = new Vector3(0.13f, 2.8f, -2.5f);
 			controlMovimiento ();
 		}
 		else
@@ -40,13 +44,20 @@ public class movimiento : MonoBehaviour {
 	
 	void controlMovimiento()
 	{
-		CharacterController controller = GetComponent<CharacterController>();
+		GameObject player = GameObject.Find (Network.player.ipAddress);
+		CharacterController controller = player.GetComponent<CharacterController>();
 		if (controller.isGrounded) {
 			moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
-			moveDirection = transform.TransformDirection(moveDirection);
+			moveDirection = player.transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
 			
 			transform.Rotate(0,Input.GetAxis("Horizontal"),0);
+			float f_hor = Input.GetAxis("Horizontal");
+			//Get Vertical move - move forward or backward
+			float f_ver = Input.GetAxis("Vertical");
+
+			animator.SetFloat("speed", f_hor*f_hor+f_ver*f_ver);
+
 			if (Input.GetButton("Jump"))
 				moveDirection.y = jumpSpeed;
 			
