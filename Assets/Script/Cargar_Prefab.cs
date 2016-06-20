@@ -20,7 +20,10 @@ public class Cargar_Prefab : MonoBehaviour {
 		Destroy (otro);
 		GameObject personaje = Instantiate (prefab, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
 		General.personaje = prefab;
+
 		personaje.GetComponent<movimiento>().enabled = false;
+		Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
+		Destroy(rigibodypj);
 		Debug.Log(General.personaje);
 	}
 }

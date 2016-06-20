@@ -42,6 +42,8 @@ public class inicio : MonoBehaviour {
 			Destroy (otro);
 			GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
 			personaje.GetComponent<movimiento>().enabled = false;
+			Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
+			Destroy(rigibodypj);
 			string url = General.hosting+"consultarPersonajeCaracteristicas";
 			WWWForm form = new WWWForm();
 			form.AddField("id", 1);
@@ -56,6 +58,8 @@ public class inicio : MonoBehaviour {
 			Destroy (otro);
 			GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
 			personaje.GetComponent<movimiento>().enabled = false;
+			Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
+			Destroy(rigibodypj);
 			string url = General.hosting+"consultarPersonajeCaracteristicas";
 			WWWForm form = new WWWForm();
 			form.AddField("id", 2);
@@ -70,7 +74,8 @@ public class inicio : MonoBehaviour {
 			Destroy (otro);
 			GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
 			personaje.GetComponent<movimiento>().enabled = false;
-
+			Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
+			Destroy(rigibodypj);
 			string url = General.hosting+"consultarPersonajeCaracteristicas";
 			WWWForm form = new WWWForm();
 			form.AddField("id", 3);
