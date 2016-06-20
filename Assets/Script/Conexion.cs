@@ -5,7 +5,7 @@ public class Conexion : MonoBehaviour {
 
 	private HostData[] hostList;
 	private const string typeName = "UniqueGameName";
-	private string gameName = "Fusasuga";
+	private string gameName = "";
 
 	public Texture corazonTexture;
 	public Texture monedasTexture;
@@ -16,6 +16,7 @@ public class Conexion : MonoBehaviour {
 	public Vector3 rotacion;
 	private string idPersonaje;
 	private bool salir = false;
+
 
 	void Start()
 	{
@@ -29,31 +30,43 @@ public class Conexion : MonoBehaviour {
 	void  OnGUI (){
 		GUIStyle style = new GUIStyle ();
 		style.alignment = TextAnchor.MiddleLeft;
+		style = GUI.skin.GetStyle ("label");
+		style.fontSize = (int)(20.0f );
+
+		style = GUI.skin.GetStyle ("button");
+		style.fontSize = (int)(20.0f );
+
+		style = GUI.skin.GetStyle ("textfield");
+		style.fontSize = (int)(20.0f );
 
 		// Checking if you are connected to the server or not
 		if (Network.peerType == NetworkPeerType.Disconnected)
 		{
-			GUI.Box(new Rect(0,0, 3 * (Screen.width/4), Screen.height),"Servidores");
+			GUI.Box(new Rect(0, 0, Screen.width, 2*(Screen.height/3)),"Servidores");
 
-			if (GUI.Button(new Rect(Screen.width/2, Screen.height - Screen.height/10, Screen.width/5, Screen.height/10), "Actualizar"))
+			if (GUI.Button(new Rect(Screen.width - Screen.width/5, 7*(Screen.height/12), Screen.width/6, Screen.height/10), "Actualizar"))
 				RefreshHostList();
 
 			if (hostList != null)
 			{
 				for (int i = 0; i < hostList.Length; i++)
 				{
-					GUI.Label (new Rect (Screen.width/16, (i+1)*(Screen.height/8), Screen.width / 3, Screen.height / 8), hostList[i].gameName+"("+hostList[i].ip[0] + ")");
+					if(i>5){
+						break;
+					}
+					GUI.Label (new Rect (Screen.width/16, (i+1)*(Screen.height/11), 2*(Screen.width / 3), Screen.height /11), hostList[i].gameName+"("+hostList[i].ip[0] + ")");
 
-					if (GUI.Button(new Rect(8*(Screen.width/16), (i+1)*(Screen.height/8),Screen.width / 6, Screen.height / 8), "Conectar"))
+					if (GUI.Button(new Rect(2*(Screen.width / 3), (i+1)*(Screen.height/11),Screen.width / 6, Screen.height / 12), "Conectar"))
 						JoinServer(hostList[i]);
 				}
 			}
 
-			GUI.Box(new Rect(Screen.width - Screen.width/4,0, Screen.width/4, Screen.height),"Crear servidor");
+			GUI.Box(new Rect(0, Screen.height - Screen.height/3, Screen.width, Screen.height),"Crear servidor");
 
-			gameName = GUI.TextField(new Rect(12*(Screen.width/16), Screen.height/4,Screen.width / 3, Screen.height / 8),gameName);
+			GUI.Label(new Rect(Screen.width/16, 5*(Screen.height/6),Screen.width/3, Screen.height/8), "Nombre");
+			gameName = GUI.TextField(new Rect(4*(Screen.width/16), 5*(Screen.height/6),Screen.width/3, Screen.height/10),gameName);
 
-			if (GUI.Button (new Rect(12*(Screen.width/16), 2 * (Screen.height/4),Screen.width / 3, Screen.height / 8),"Crear Servidor"))
+			if (GUI.Button (new Rect(10*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10),"Crear"))
 			{
 				StartServer();
 			}
@@ -63,7 +76,7 @@ public class Conexion : MonoBehaviour {
 			pantallaJuego();
 		}
 
-		if (GUI.Button (new Rect (Screen.width - Screen.width / 10, Screen.height - Screen.height / 10, Screen.width / 10, Screen.height / 10), "Salir")) {
+		if (GUI.Button (new Rect (13*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Salir")) {
 			string url = General.hosting + "logout";
 			WWWForm form = new WWWForm ();
 			form.AddField ("username", General.username);
