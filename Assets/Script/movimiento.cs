@@ -24,16 +24,10 @@ public class movimiento : MonoBehaviour {
 	}
 	
 	void Update() {
-		if (nw.isMine)
-		{
-			camara.transform.parent = transform;
+		camara.transform.parent = transform;
 			camara.transform.localPosition = new Vector3(0.13f, 2.8f, -4.5f);
 			controlMovimiento ();
-		}
-		else
-		{
-			SyncedMovement();
-		}
+
 	}
 	
 	private void SyncedMovement()

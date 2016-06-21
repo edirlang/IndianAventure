@@ -31,11 +31,11 @@ private var character : CharacterController;
 private var cameraVelocity : Vector3;
 private var velocity : Vector3;	
 private var nw : NetworkView;
-private float lastSynchronizationTime = 0f;
-private float syncDelay = 0f;
-private float syncTime = 0f;
-private Vector3 syncStartPosition = Vector3.zero;
-private Vector3 syncEndPosition = Vector3.zero;
+private var lastSynchronizationTime : float = 0f;
+private var syncDelay : float= 0f;
+private var syncTime : float= 0f;
+private var syncStartPosition : Vector3 = Vector3.zero;
+private var syncEndPosition : Vector3 = Vector3.zero;
 					// Used for continuing momentum while in air
 
 function Start()
