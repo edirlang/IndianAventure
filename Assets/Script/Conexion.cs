@@ -114,7 +114,7 @@ public class Conexion : MonoBehaviour {
 
 	private void StartServer()
 	{
-		Network.InitializeServer(4, 25000, !Network.HavePublicAddress());
+		Network.InitializeServer(100, 25000, !Network.HavePublicAddress());
 		MasterServer.RegisterHost(typeName, gameName);
 	}
 
@@ -146,8 +146,12 @@ public class Conexion : MonoBehaviour {
 
 	private void SpawnPlayer()
 	{
-		GameObject g = (GameObject) Network.Instantiate (General.personaje, transform.position, transform.rotation, 0);
-		g.name = Network.player.ipAddress;
+		foreach (GameObject Go in FindObjectsOfType(typeof(GameObject)) as GameObject[])
+		{
+			Go.SendMessage("OnNetworkLoadedLevel",SendMessageOptions.DontRequireReceiver);
+		}
+		//GameObject g = (GameObject) Network.Instantiate (General.personaje, transform.position, transform.rotation, 0);
+		//g.name = Network.player.ipAddress;
 	}
 
 	void OnPlayerDisconnected (NetworkPlayer player) {

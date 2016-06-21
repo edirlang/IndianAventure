@@ -160,12 +160,40 @@ function Update()
 		}
 	}else
 	{
-		SyncedMovement();
+		//SyncedMovement();
 	}	
 }
 
+/*
 function SyncedMovement()
 {
 	syncTime += Time.deltaTime;
 	rigidbody.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
 }
+
+function OnSerializeNetworkView(stream : BitStream, info : NetworkMessageInfo)
+	{
+		var syncPosition : Vector3 = Vector3.zero;
+		var syncVelocity : Vector3 = Vector3.zero;
+		if (stream.isWriting)
+		{
+			syncPosition = rigidbody.position;
+			stream.Serialize(syncPosition);
+			
+			syncVelocity = rigidbody.velocity;
+			stream.Serialize(syncVelocity);
+		}
+		else
+		{
+			stream.Serialize( syncPosition);
+			stream.Serialize(syncVelocity);
+			
+			syncTime = 0f;
+			syncDelay = Time.time - lastSynchronizationTime;
+			lastSynchronizationTime = Time.time;
+			
+			syncEndPosition = syncPosition + syncVelocity * syncDelay;
+			syncStartPosition = rigidbody.position;
+		}
+	}
+	*/

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class movimiento : MonoBehaviour {
+
 	public float speed = 6.0F;
 	public float jumpSpeed = 8.0F;
 	public float gravity = 20.0F;
@@ -20,20 +21,21 @@ public class movimiento : MonoBehaviour {
 	{
 		nw = GetComponent<NetworkView> ();
 		camara = GameObject.FindGameObjectWithTag ("MainCamera");
-		animator = GetComponent<Animator> ();
+		//animator = GetComponent<Animator> ();
 	}
 	
 	void Update() {
-		camara.transform.parent = transform;
+		nw = GetComponent<NetworkView> ();
+		if (nw.isMine)
+		{
+			camara.transform.parent = transform;
 			camara.transform.localPosition = new Vector3(0.13f, 2.8f, -4.5f);
 			controlMovimiento ();
-
-	}
-	
-	private void SyncedMovement()
-	{
-		syncTime += Time.deltaTime;
-		rigidbody.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
+		}
+		else
+		{
+			//SyncedMovement();
+		}
 	}
 	
 	void controlMovimiento()
@@ -50,7 +52,7 @@ public class movimiento : MonoBehaviour {
 			//Get Vertical move - move forward or backward
 			float f_ver = Input.GetAxis("Vertical");
 
-			animator.SetFloat("speed", f_hor*f_hor+f_ver*f_ver);
+			//animator.SetFloat("speed", f_hor*f_hor+f_ver*f_ver);
 
 			if (Input.GetButton("Jump"))
 				moveDirection.y = jumpSpeed;
@@ -59,7 +61,15 @@ public class movimiento : MonoBehaviour {
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 	}
-	
+	/*
+	 * 
+	private void SyncedMovement()
+	{
+		syncTime += Time.deltaTime;
+		rigidbody.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
+	}
+
+
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
 	{
 		Vector3 syncPosition = Vector3.zero;
@@ -85,4 +95,5 @@ public class movimiento : MonoBehaviour {
 			syncStartPosition = rigidbody.position;
 		}
 	}
+	 */
 }
