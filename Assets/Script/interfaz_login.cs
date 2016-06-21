@@ -194,7 +194,7 @@ public class interfaz_login : MonoBehaviour {
 			}
 		}else{
 			Debug.Log(www.error);
-			mensaje = www.error;
+			mensaje = "Verifica tu conexión de red";
 
 		}
 	}

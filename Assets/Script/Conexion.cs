@@ -146,7 +146,7 @@ public class Conexion : MonoBehaviour {
 
 	private void SpawnPlayer()
 	{
-		GameObject g = (GameObject) Network.Instantiate (General.personaje, General.personaje.transform.position, General.personaje.transform.rotation, 0);
+		GameObject g = (GameObject) Network.Instantiate (General.personaje, transform.position, transform.rotation, 0);
 		g.name = Network.player.ipAddress;
 	}
 
