@@ -44,7 +44,7 @@ public class Conexion : MonoBehaviour {
 		{
 			GUI.Box(new Rect(0, 0, Screen.width, 2*(Screen.height/3)),"Servidores");
 
-			if (GUI.Button(new Rect(Screen.width - Screen.width/5, 7*(Screen.height/12), Screen.width/6, Screen.height/10), "Actualizar"))
+			if (GUI.Button(new Rect(13*(Screen.width/16) , 21*(Screen.height/36), Screen.width/6, Screen.height/10), "Actualizar"))
 				RefreshHostList();
 
 			if (hostList != null)
@@ -56,17 +56,17 @@ public class Conexion : MonoBehaviour {
 					}
 					GUI.Label (new Rect (Screen.width/16, (i+1)*(Screen.height/11), 2*(Screen.width / 3), Screen.height /11), hostList[i].gameName+"("+hostList[i].ip[0] + ")");
 
-					if (GUI.Button(new Rect(2*(Screen.width / 3), (i+1)*(Screen.height/11),Screen.width / 6, Screen.height / 12), "Conectar"))
+					if (GUI.Button(new Rect(13*(Screen.width/16), (i+1)*(Screen.height/11),Screen.width / 6, Screen.height / 12), "Conectar"))
 						JoinServer(hostList[i]);
 				}
 			}
 
 			GUI.Box(new Rect(0, Screen.height - Screen.height/3, Screen.width, Screen.height),"Crear servidor");
 
-			GUI.Label(new Rect(Screen.width/16, 5*(Screen.height/6),Screen.width/3, Screen.height/8), "Nombre");
-			gameName = GUI.TextField(new Rect(4*(Screen.width/16), 5*(Screen.height/6),Screen.width/3, Screen.height/10),gameName);
+			GUI.Label(new Rect(Screen.width/5, 12*(Screen.height/14),Screen.width/3, Screen.height/8), "Nombre");
+			gameName = GUI.TextField(new Rect(5*(Screen.width/17), 5*(Screen.height/6),Screen.width/3, Screen.height/10),gameName);
 
-			if (GUI.Button (new Rect(10*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10),"Crear"))
+			if (GUI.Button (new Rect(13*(Screen.width/20), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10),"Crear"))
 			{
 				StartServer();
 			}
