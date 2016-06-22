@@ -11,17 +11,20 @@ public class Conexion : MonoBehaviour {
 	public Texture monedasTexture;
 	public Texture ayudaTexture;
 	public string numeroMonedas = "0";
-	public string textoAyuda = "Chia", mensaje = "",mensajes="";
+	public string textoAyuda = "Chia";
+	public static string mensaje = "",mensajes="";
 	public GameObject prefab;
 	public Vector3 rotacion;
 	private string idPersonaje;
 	private bool salir = false, abrirMenu = false, verChat= false;
 	private Vector2 scrollPosition;
 	private int numeroMensajes = 0;
-
+	private NetworkView nw;
 
 	void Start()
 	{
+		Conexion.mensajes = "";
+		nw = GetComponent<NetworkView> ();
 		RefreshHostList ();
 	}
 
@@ -44,6 +47,8 @@ public class Conexion : MonoBehaviour {
 		// Checking if you are connected to the server or not
 		if (Network.peerType == NetworkPeerType.Disconnected)
 		{
+			if(hayJugadores())
+				salir = true;
 			pantallaServidor();
 			if (GUI.Button (new Rect (13*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Salir")) {
 				string url = General.hosting + "logout";
@@ -92,6 +97,7 @@ public class Conexion : MonoBehaviour {
 		if(abrirMenu)
 		{
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"Menu Pausa");
+
 			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 4*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Salir")) {
 				string url = General.hosting + "logout";
 				WWWForm form = new WWWForm ();
@@ -109,24 +115,7 @@ public class Conexion : MonoBehaviour {
 		if(!abrirMenu){
 			if(verChat)
 			{
-				GUI.Box(new Rect(2*(Screen.width/3),0,Screen.width/3,Screen.height),"Chat");
-
-				scrollPosition = GUI.BeginScrollView(new Rect(2* (Screen.width/3), 0 ,Screen.width/3,11 * (Screen.height/12)), scrollPosition, new Rect(0,0,Screen.width/3, numeroMensajes*(Screen.height/16)));
-				GUI.Label(new Rect(0,0,Screen.width/3,100*Screen.height),mensajes);
-				GUI.EndScrollView();
-
-				mensaje = GUI.TextField(new Rect(2*(Screen.width/3),Screen.height - Screen.height/12, 3*(Screen.width/12) ,Screen.height/12),mensaje);
-
-				if (GUI.Button (new Rect (Screen.width - Screen.width/12 ,Screen.height - Screen.height/12, Screen.width/12,Screen.height/12), "Enviar")) {
-					Debug.Log(scrollPosition[1]);
-					scrollPosition[1] = numeroMensajes*(Screen.height/16);
-					mensajes = mensajes + "\n" + General.username + ": " + mensaje;
-					mensaje = "";
-					numeroMensajes++;
-				}
-				if (GUI.Button (new Rect (2*(Screen.width/3), Screen.height/2, Screen.width / 12, Screen.height / 12), ">")) {
-					verChat = false;
-				}
+				chatVer();
 			}else
 			{
 				if (GUI.Button (new Rect (Screen.width - Screen.width / 24, Screen.height/2, Screen.width / 24, Screen.height / 12), "<")) {
@@ -209,12 +198,6 @@ public class Conexion : MonoBehaviour {
 		//g.name = Network.player.ipAddress;
 	}
 
-	void OnPlayerDisconnected (NetworkPlayer player) {
-		Network.RemoveRPCs(player, 0);
-		Network.DestroyPlayerObjects(player);
-		General.conectado = false;
-	}
-
 	public IEnumerator desconectarUser(WWW www){
 		yield return www;
 		if(www.error == null){
@@ -223,5 +206,53 @@ public class Conexion : MonoBehaviour {
 		}else{
 			Debug.Log(www.error);
 		}
+	}
+
+	public void chatVer()
+	{
+		GUI.Box(new Rect(2*(Screen.width/3),0,Screen.width/3,Screen.height),"Chat");
+		
+		scrollPosition = GUI.BeginScrollView(new Rect(2* (Screen.width/3), 0 ,Screen.width/3,11 * (Screen.height/12)), scrollPosition, new Rect(0,0,Screen.width/3, numeroMensajes*(Screen.height/16)));
+		GUI.Label(new Rect(0,0,Screen.width/3,100*Screen.height),mensajes);
+		GUI.EndScrollView();
+		
+		mensaje = GUI.TextField(new Rect(2*(Screen.width/3),Screen.height - Screen.height/12, 3*(Screen.width/12) ,Screen.height/12),mensaje);
+		
+		if (GUI.Button (new Rect (Screen.width - Screen.width/12 ,Screen.height - Screen.height/12, Screen.width/12,Screen.height/12), "Enviar")) {
+			Debug.Log(scrollPosition[1]);
+			scrollPosition[1] = numeroMensajes*(Screen.height/16);
+			send();
+			numeroMensajes++;
+		}
+		if (GUI.Button (new Rect (2*(Screen.width/3), Screen.height/2, Screen.width / 24, Screen.height / 12), ">")) {
+			verChat = false;
+		}
+	}
+
+	public void send () 
+	{
+		if(Conexion.mensaje != "")
+		{
+			nw.RPC("recivir",RPCMode.AllBuffered,Conexion.mensaje, General.username);
+			Conexion.mensaje = "";
+		}
+	}
+
+	bool hayJugadores(){
+		bool hayjugador = false;
+		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+		foreach (GameObject player in players)
+		{
+			if(player != null)
+				hayjugador = true;
+		}
+		return hayjugador;
+	}
+
+	[RPC]
+	public void recivir(string text,string usuario)
+	{
+		Conexion.mensajes += "\n" + usuario + ": " + text;
+		
 	}
 }

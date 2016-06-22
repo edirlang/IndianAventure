@@ -13,9 +13,15 @@ public class spawn : MonoBehaviour {
 	
 	}
 
-	private void OnNetworkLoadedLevel()
+	void OnNetworkLoadedLevel()
 	{
 		GameObject g = (GameObject) Network.Instantiate (General.personaje, transform.position, transform.rotation, 0);
 		g.name = Network.player.ipAddress;
+	}
+
+	void OnPlayerDisconnected (NetworkPlayer player) {
+		Network.RemoveRPCs(player, 0);
+		Network.DestroyPlayerObjects(player);
+		General.conectado = false;
 	}
 }
