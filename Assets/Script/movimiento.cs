@@ -7,12 +7,6 @@ public class movimiento : MonoBehaviour {
 	public float jumpSpeed = 8.0F;
 	public float gravity = 20.0F;
 	private Vector3 moveDirection = Vector3.zero;
-	//public GameObject game; 
-	private float lastSynchronizationTime = 0f;
-	private float syncDelay = 0f;
-	private float syncTime = 0f;
-	private Vector3 syncStartPosition = Vector3.zero;
-	private Vector3 syncEndPosition = Vector3.zero;
 	private GameObject camara;
 	private NetworkView nw;
 	private Animator animator;
@@ -32,10 +26,6 @@ public class movimiento : MonoBehaviour {
 			camara.transform.localPosition = new Vector3(0.13f, 2.8f, -4.5f);
 			controlMovimiento ();
 		}
-		else
-		{
-			//SyncedMovement();
-		}
 	}
 	
 	void controlMovimiento()
@@ -48,12 +38,11 @@ public class movimiento : MonoBehaviour {
 			moveDirection *= speed;
 			
 			transform.Rotate(0,Input.GetAxis("Horizontal"),0);
+			/*
 			float f_hor = Input.GetAxis("Horizontal");
-			//Get Vertical move - move forward or backward
 			float f_ver = Input.GetAxis("Vertical");
-
-			//animator.SetFloat("speed", f_hor*f_hor+f_ver*f_ver);
-
+			animator.SetFloat("speed", f_hor*f_hor+f_ver*f_ver);
+			*/
 			if (Input.GetButton("Jump"))
 				moveDirection.y = jumpSpeed;
 			
@@ -61,39 +50,4 @@ public class movimiento : MonoBehaviour {
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
 	}
-	/*
-	 * 
-	private void SyncedMovement()
-	{
-		syncTime += Time.deltaTime;
-		rigidbody.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
-	}
-
-
-	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
-	{
-		Vector3 syncPosition = Vector3.zero;
-		Vector3 syncVelocity = Vector3.zero;
-		if (stream.isWriting)
-		{
-			syncPosition = rigidbody.position;
-			stream.Serialize(ref syncPosition);
-			
-			syncVelocity = rigidbody.velocity;
-			stream.Serialize(ref syncVelocity);
-		}
-		else
-		{
-			stream.Serialize(ref syncPosition);
-			stream.Serialize(ref syncVelocity);
-			
-			syncTime = 0f;
-			syncDelay = Time.time - lastSynchronizationTime;
-			lastSynchronizationTime = Time.time;
-			
-			syncEndPosition = syncPosition + syncVelocity * syncDelay;
-			syncStartPosition = rigidbody.position;
-		}
-	}
-	 */
 }

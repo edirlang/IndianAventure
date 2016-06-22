@@ -30,13 +30,7 @@ private var thisTransform : Transform;
 private var character : CharacterController;
 private var cameraVelocity : Vector3;
 private var velocity : Vector3;	
-private var nw : NetworkView;
-private var lastSynchronizationTime : float = 0f;
-private var syncDelay : float= 0f;
-private var syncTime : float= 0f;
-private var syncStartPosition : Vector3 = Vector3.zero;
-private var syncEndPosition : Vector3 = Vector3.zero;
-					// Used for continuing momentum while in air
+private var nw : NetworkView; // Used for continuing momentum while in air
 
 function Start()
 {
@@ -158,42 +152,5 @@ function Update()
 			//cameraPivot.Rotate( camRotation.y, 0, 0 );
 			
 		}
-	}else
-	{
-		//SyncedMovement();
 	}	
 }
-
-/*
-function SyncedMovement()
-{
-	syncTime += Time.deltaTime;
-	rigidbody.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
-}
-
-function OnSerializeNetworkView(stream : BitStream, info : NetworkMessageInfo)
-	{
-		var syncPosition : Vector3 = Vector3.zero;
-		var syncVelocity : Vector3 = Vector3.zero;
-		if (stream.isWriting)
-		{
-			syncPosition = rigidbody.position;
-			stream.Serialize(syncPosition);
-			
-			syncVelocity = rigidbody.velocity;
-			stream.Serialize(syncVelocity);
-		}
-		else
-		{
-			stream.Serialize( syncPosition);
-			stream.Serialize(syncVelocity);
-			
-			syncTime = 0f;
-			syncDelay = Time.time - lastSynchronizationTime;
-			lastSynchronizationTime = Time.time;
-			
-			syncEndPosition = syncPosition + syncVelocity * syncDelay;
-			syncStartPosition = rigidbody.position;
-		}
-	}
-	*/
