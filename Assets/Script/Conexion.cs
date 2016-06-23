@@ -48,7 +48,7 @@ public class Conexion : MonoBehaviour {
 		if (Network.peerType == NetworkPeerType.Disconnected)
 		{
 			if(hayJugadores())
-				salir = true;
+				Application.LoadLevel ("SelecionarPersonaje");
 			pantallaServidor();
 			if (GUI.Button (new Rect (13*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Salir")) {
 				string url = General.hosting + "logout";
