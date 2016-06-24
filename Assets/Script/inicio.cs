@@ -3,16 +3,20 @@ using System.Collections;
 
 public class inicio : MonoBehaviour {
 	public Texture BoxTexture;
+	public Material materialselecionarPersonaje, materialCargando;
 	public Texture cuadroTexture;
 	public Texture pj1Texture;
 	public Texture pj2Texture;
 	public Texture pj3Texture;
 	public GameObject pj1,pj2,pj3, objetoInstanciar;
 	private string username = General.username, nickname="", caracteristicas = "";
-	private bool continuar = false, tienePersonaje = false, correcto = false;
+	private bool continuar = false, correcto = false;
+	private int tienePersonaje = 0;
+	private Skybox skybox;
 
 	// Use this for initialization
 	void Start () {
+		skybox = GetComponent<Skybox> ();
 		if(General.username == "")
 		{
 			Application.LoadLevel("main");
@@ -35,56 +39,13 @@ public class inicio : MonoBehaviour {
 
 	}
 	void OnGUI(){
-		if (GUI.Button (new Rect (5*(Screen.width / 32),(Screen.height/16), Screen.width / 10, Screen.height/4), pj1Texture)) {
-			General.idPersonaje = 1;
-			General.personaje = pj1;
-			GameObject otro = GameObject.FindGameObjectWithTag ("Player");
-			Destroy (otro);
-			GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
-			personaje.GetComponent<movimiento>().enabled = false;
-			Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
-			Destroy(rigibodypj);
-			string url = General.hosting+"consultarPersonajeCaracteristicas";
-			WWWForm form = new WWWForm();
-			form.AddField("id", 1);
-			WWW www = new WWW(url, form);
-			StartCoroutine(consultarPersonaje(www));
+		if(tienePersonaje == 0){
+			continuar = true;
+		}else{
+			continuar = false;
 		}
 
-		if (GUI.Button (new Rect (5*(Screen.width / 32),5*(Screen.height/16), Screen.width / 10, Screen.height/4), pj2Texture)) {
-			General.idPersonaje = 2;
-			General.personaje = pj2;
-			GameObject otro = GameObject.FindGameObjectWithTag ("Player");
-			Destroy (otro);
-			GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
-			personaje.GetComponent<movimiento>().enabled = false;
-			Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
-			Destroy(rigibodypj);
-			string url = General.hosting+"consultarPersonajeCaracteristicas";
-			WWWForm form = new WWWForm();
-			form.AddField("id", 2);
-			WWW www = new WWW(url, form);
-			StartCoroutine(consultarPersonaje(www));
-		}
-
-		if (GUI.Button (new Rect (5*(Screen.width / 32),9*(Screen.height/16), Screen.width / 10, Screen.height/4), pj3Texture)) {
-			General.idPersonaje = 3;
-			General.personaje = pj3;
-			GameObject otro = GameObject.FindGameObjectWithTag ("Player");
-			Destroy (otro);
-			GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
-			personaje.GetComponent<movimiento>().enabled = false;
-			Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
-			Destroy(rigibodypj);
-			string url = General.hosting+"consultarPersonajeCaracteristicas";
-			WWWForm form = new WWWForm();
-			form.AddField("id", 3);
-			WWW www = new WWW(url, form);
-			StartCoroutine(consultarPersonaje(www));
-			System.Threading.Thread.Sleep(1000);
-		}
-
-		if (tienePersonaje || correcto)
+		if (tienePersonaje == 2 || correcto)
 		{
 			if(General.idPersonaje == 1)
 			{
@@ -103,6 +64,56 @@ public class inicio : MonoBehaviour {
 		}
 		if(!continuar)
 		{
+			if (GUI.Button (new Rect (5*(Screen.width / 32),(Screen.height/16), Screen.width / 10, Screen.height/4), pj1Texture)) {
+				General.idPersonaje = 1;
+				General.personaje = pj1;
+				GameObject otro = GameObject.FindGameObjectWithTag ("Player");
+				Destroy (otro);
+				GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+				personaje.GetComponent<movimiento>().enabled = false;
+				Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
+				Destroy(rigibodypj);
+				string url = General.hosting+"consultarPersonajeCaracteristicas";
+				WWWForm form = new WWWForm();
+				form.AddField("id", 1);
+				WWW www = new WWW(url, form);
+				StartCoroutine(consultarPersonaje(www));
+			}
+			
+			if (GUI.Button (new Rect (5*(Screen.width / 32),5*(Screen.height/16), Screen.width / 10, Screen.height/4), pj2Texture)) {
+				General.idPersonaje = 2;
+				General.personaje = pj2;
+				GameObject otro = GameObject.FindGameObjectWithTag ("Player");
+				Destroy (otro);
+				GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+				personaje.GetComponent<movimiento>().enabled = false;
+				Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
+				Destroy(rigibodypj);
+				string url = General.hosting+"consultarPersonajeCaracteristicas";
+				WWWForm form = new WWWForm();
+				form.AddField("id", 2);
+				WWW www = new WWW(url, form);
+				StartCoroutine(consultarPersonaje(www));
+			}
+			
+			if (GUI.Button (new Rect (5*(Screen.width / 32),9*(Screen.height/16), Screen.width / 10, Screen.height/4), pj3Texture)) {
+				General.idPersonaje = 3;
+				General.personaje = pj3;
+				GameObject otro = GameObject.FindGameObjectWithTag ("Player");
+				Destroy (otro);
+				GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+				personaje.GetComponent<movimiento>().enabled = false;
+				Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
+				Destroy(rigibodypj);
+				string url = General.hosting+"consultarPersonajeCaracteristicas";
+				WWWForm form = new WWWForm();
+				form.AddField("id", 3);
+				WWW www = new WWW(url, form);
+				StartCoroutine(consultarPersonaje(www));
+				System.Threading.Thread.Sleep(1000);
+			}
+
+			skybox.material = materialselecionarPersonaje;
 			GUIStyle style = new GUIStyle();
 			style.alignment = TextAnchor.MiddleCenter;
 
@@ -140,6 +151,7 @@ public class inicio : MonoBehaviour {
 				}
 			}
 		}else{
+			skybox.material = materialCargando;
 			GUI.Box(new Rect(0,0, Screen.width, Screen.height), BoxTexture);
 			GUI.Label(new Rect(Screen.width - Screen.width/4 , Screen.height-Screen.height/6, Screen.width/4, Screen.height/6),"Cargando...");
 		}
@@ -150,8 +162,9 @@ public class inicio : MonoBehaviour {
 		if(www.error == null){
 
 			if (int.Parse(www.text) ==  1) {
-				tienePersonaje = true;
+				tienePersonaje = 2;
 			} else {
+				tienePersonaje = 1;
 				Debug.Log (www.text);
 			}
 
@@ -165,8 +178,9 @@ public class inicio : MonoBehaviour {
 		if(www.error == null){
 			
 			if (int.Parse(www.text) ==  1) {
-				tienePersonaje = true;
+				tienePersonaje = 2;
 			} else {
+				tienePersonaje = 1;
 				Debug.Log (www.text);
 			}
 			
