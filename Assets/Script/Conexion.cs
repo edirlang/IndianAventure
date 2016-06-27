@@ -30,7 +30,7 @@ public class Conexion : MonoBehaviour {
 
 	void Update()
 	{
-		//Debug.Log(MasterServer.ipAddress);
+
 	}
 	void  OnGUI (){
 		GUIStyle style = new GUIStyle ();
@@ -156,9 +156,10 @@ public class Conexion : MonoBehaviour {
 			StartServer();
 		}
 	}
-		private void StartServer()
+
+	private void StartServer()
 	{
-		Network.InitializeServer(100, 25000, !Network.HavePublicAddress());
+		Network.InitializeServer(100, 25000, true);
 		MasterServer.RegisterHost(typeName, gameName);
 	}
 
@@ -210,6 +211,10 @@ public class Conexion : MonoBehaviour {
 
 	public void chatVer()
 	{
+		string[] lineas = mensajes.Split ('\n');
+		numeroMensajes = lineas.Length;
+		scrollPosition[1] = numeroMensajes*(Screen.height/16);
+
 		GUI.Box(new Rect(2*(Screen.width/3),0,Screen.width/3,Screen.height),"Chat");
 		
 		scrollPosition = GUI.BeginScrollView(new Rect(2* (Screen.width/3), 0 ,Screen.width/3,11 * (Screen.height/12)), scrollPosition, new Rect(0,0,Screen.width/3, numeroMensajes*(Screen.height/16)));
@@ -217,12 +222,8 @@ public class Conexion : MonoBehaviour {
 		GUI.EndScrollView();
 		
 		mensaje = GUI.TextField(new Rect(2*(Screen.width/3),Screen.height - Screen.height/12, 3*(Screen.width/12) ,Screen.height/12),mensaje);
-		
 		if (GUI.Button (new Rect (Screen.width - Screen.width/12 ,Screen.height - Screen.height/12, Screen.width/12,Screen.height/12), "Enviar")) {
-			Debug.Log(scrollPosition[1]);
-			scrollPosition[1] = numeroMensajes*(Screen.height/16);
 			send();
-			numeroMensajes++;
 		}
 		if (GUI.Button (new Rect (2*(Screen.width/3), Screen.height/2, Screen.width / 24, Screen.height / 12), ">")) {
 			verChat = false;
