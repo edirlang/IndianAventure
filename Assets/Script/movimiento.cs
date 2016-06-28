@@ -15,7 +15,7 @@ public class movimiento : MonoBehaviour {
 	{
 		nw = GetComponent<NetworkView> ();
 		camara = GameObject.FindGameObjectWithTag ("MainCamera");
-		//animator = GetComponent<Animator> ();
+		animator = GetComponent<Animator> ();
 	}
 	
 	void Update() {
@@ -38,11 +38,11 @@ public class movimiento : MonoBehaviour {
 			moveDirection *= speed;
 			
 			transform.Rotate(0,Input.GetAxis("Horizontal"),0);
-			/*
+
 			float f_hor = Input.GetAxis("Horizontal");
 			float f_ver = Input.GetAxis("Vertical");
 			animator.SetFloat("speed", f_hor*f_hor+f_ver*f_ver);
-			*/
+
 			if (Input.GetButton("Jump"))
 				moveDirection.y = jumpSpeed;
 			
