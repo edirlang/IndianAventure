@@ -15,10 +15,11 @@ public class movimiento : MonoBehaviour {
 	{
 		nw = GetComponent<NetworkView> ();
 		camara = GameObject.FindGameObjectWithTag ("MainCamera");
-		animator = GetComponent<Animator> ();
+
 	}
 	
 	void Update() {
+		animator = GetComponent<Animator> ();
 		nw = GetComponent<NetworkView> ();
 		if (nw.isMine)
 		{
@@ -42,6 +43,7 @@ public class movimiento : MonoBehaviour {
 			float f_hor = Input.GetAxis("Horizontal");
 			float f_ver = Input.GetAxis("Vertical");
 			animator.SetFloat("speed", f_hor*f_hor+f_ver*f_ver);
+			nw.RPC("activarCaminar",RPCMode.Others, f_hor*f_hor+f_ver*f_ver);
 
 			if (Input.GetButton("Jump"))
 				moveDirection.y = jumpSpeed;
@@ -49,5 +51,11 @@ public class movimiento : MonoBehaviour {
 		}
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
+	}
+
+	[RPC]
+	public void activarCaminar(float valor)
+	{
+		animator.SetFloat("speed", valor);
 	}
 }

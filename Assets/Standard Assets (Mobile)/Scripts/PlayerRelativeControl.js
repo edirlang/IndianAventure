@@ -31,10 +31,12 @@ private var character : CharacterController;
 private var cameraVelocity : Vector3;
 private var velocity : Vector3;	
 private var nw : NetworkView; // Used for continuing momentum while in air
+private var animator : Animator;
 
 function Start()
 {
 	nw = GetComponent(NetworkView);
+	animator = GetComponent("Animator");
 	var camara = GameObject.Find( "Main Camera" );
 	if ( camara )
 		cameraPivot = camara.transform;	
@@ -64,12 +66,19 @@ function OnEndGame()
 	this.enabled = false;
 }
 
-function Update()
+function FixedUpdate()
 {
 	if (nw.isMine)
 	{
 		var movement = thisTransform.TransformDirection( Vector3( moveJoystick.position.x, 0, moveJoystick.position.y ) );
-
+		
+		animator = GetComponent("Animator");
+		var f_hor : float = 10*moveJoystick.position.x;
+		var f_ver : float = 10*moveJoystick.position.y;
+		var movimiento : float = f_hor*f_hor+f_ver*f_ver;
+		animator.SetFloat("speed", movimiento);
+		nw.RPC("activarCaminar",RPCMode.All, movimiento);
+			
 		// We only want horizontal movement
 		movement.y = 0;
 		movement.Normalize();
@@ -153,4 +162,9 @@ function Update()
 			
 		}
 	}	
+}
+@RPC
+function activarCaminar(valor : float )
+{
+	animator.SetFloat("speed", valor);
 }
