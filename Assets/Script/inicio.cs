@@ -58,7 +58,7 @@ public class inicio : MonoBehaviour {
 
 			continuar = true;
 			if(General.personaje != null)
-				Application.LoadLevel ("level1");
+				Application.LoadLevel ("menu");
 		}
 		if(!continuar)
 		{
