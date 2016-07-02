@@ -32,12 +32,13 @@ private var cameraVelocity : Vector3;
 private var velocity : Vector3;	
 private var nw : NetworkView; // Used for continuing momentum while in air
 private var animator : Animator;
+private var camara : GameObject;
 
 function Start()
 {
 	nw = GetComponent(NetworkView);
 	animator = GetComponent("Animator");
-	var camara = GameObject.Find( "Main Camera" );
+	camara = GameObject.Find( "Main Camera" );
 	if ( camara )
 		cameraPivot = camara.transform;	
 	
@@ -66,10 +67,13 @@ function OnEndGame()
 	this.enabled = false;
 }
 
-function FixedUpdate()
+function Update()
 {
 	if (nw.isMine)
 	{
+		camara.transform.parent = transform;
+		camara.transform.localPosition = new Vector3(0.13f, 2.8f, -4.5f);
+			
 		var movement = thisTransform.TransformDirection( Vector3( moveJoystick.position.x, 0, moveJoystick.position.y ) );
 		
 		animator = GetComponent("Animator");

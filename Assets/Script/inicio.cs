@@ -12,11 +12,9 @@ public class inicio : MonoBehaviour {
 	private string username = General.username, nickname="", caracteristicas = "";
 	private bool continuar = false, correcto = false;
 	private int tienePersonaje = 0;
-	private Skybox skybox;
 
 	// Use this for initialization
 	void Start () {
-		skybox = GetComponent<Skybox> ();
 		if(General.username == "")
 		{
 			Application.LoadLevel("main");
@@ -113,7 +111,6 @@ public class inicio : MonoBehaviour {
 				System.Threading.Thread.Sleep(1000);
 			}
 
-			skybox.material = materialselecionarPersonaje;
 			GUIStyle style = new GUIStyle();
 			style.alignment = TextAnchor.MiddleCenter;
 
@@ -151,7 +148,6 @@ public class inicio : MonoBehaviour {
 				}
 			}
 		}else{
-			skybox.material = materialCargando;
 			GUI.Box(new Rect(0,0, Screen.width, Screen.height), BoxTexture);
 			GUI.Label(new Rect(Screen.width - Screen.width/4 , Screen.height-Screen.height/6, Screen.width/4, Screen.height/6),"Cargando...");
 		}
