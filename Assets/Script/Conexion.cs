@@ -50,7 +50,7 @@ public class Conexion : MonoBehaviour {
 			if(hayJugadores())
 				Application.LoadLevel ("SelecionarPersonaje");
 			pantallaServidor();
-			if (GUI.Button (new Rect (13*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Salir")) {
+			if (GUI.Button (new Rect (13*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Volver al Menu")) {
 				string url = General.hosting + "logout";
 				WWWForm form = new WWWForm ();
 				form.AddField ("username", General.username);
@@ -69,12 +69,8 @@ public class Conexion : MonoBehaviour {
 		}
 
 		if (salir) {
-			General.conectado = false;
-			General.username = null;
-			General.idPersonaje = 0;
-			General.personaje = null;
 			Network.Disconnect(200);
-			Application.LoadLevel ("main");
+			Application.LoadLevel ("menu");
 		}
 	}
 
@@ -98,7 +94,7 @@ public class Conexion : MonoBehaviour {
 		{
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"Menu Pausa");
 
-			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 4*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Salir")) {
+			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 4*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Volver a Menu")) {
 				string url = General.hosting + "logout";
 				WWWForm form = new WWWForm ();
 				form.AddField ("username", General.username);

@@ -7,7 +7,7 @@ public class General : MonoBehaviour {
 	public static string username="21313";
 	//public GameObject personajeDefault;
 	public static GameObject personaje;
-	public static int idPersonaje;
+	public static int idPersonaje = 1;
 	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
 	public static bool conectado = false;
 	// Use this for initialization
