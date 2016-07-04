@@ -7,7 +7,6 @@ public class menu : MonoBehaviour {
 	public GameObject Ubicacioncamara;
 	public Texture monedas, vidas;
 	private string[] misiones;
-	private bool continuar = false;
 	private int opciones = 0; 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +38,12 @@ public class menu : MonoBehaviour {
 		string url = General.hosting+"misiones";
 		WWW www = new WWW(url);
 		StartCoroutine(consultarMisiones(www));
+
+		url = General.hosting+"mision";
+		WWWForm form = new WWWForm();
+		form.AddField("username", General.username);
+		www = new WWW(url, form);
+		StartCoroutine(consultarMisionActual(www));
 	}
 	
 	// Update is called once per frame
@@ -91,14 +96,14 @@ public class menu : MonoBehaviour {
 		
 		GUI.Label(new Rect(2*(Screen.width /6) - Screen.width / 8,3*(Screen.height/10), Screen.width / 6, Screen.height/12), "Mision Actual");
 		
-		GUI.Label(new Rect(3*(Screen.width /12) - Screen.width / 8,4*(Screen.height/10), Screen.width / 3, Screen.height/3), "abcdefghijklmnñopqrstuvwxyza");
+		GUI.Label(new Rect(3*(Screen.width /12) - Screen.width / 8,4*(Screen.height/10), Screen.width / 3, Screen.height/3), General.misionActual[1]);
 		
 		if (GUI.Button (new Rect (2*(Screen.width /6) - Screen.width / 8,7*(Screen.height/10), Screen.width / 5, Screen.height/12), "Misiones")) {
 			opciones = 2;
 		}
 		
 		if (GUI.Button (new Rect (2*(Screen.width /6) - Screen.width / 8,8*(Screen.height/10), Screen.width / 5, Screen.height/12), "Cerrar Sesion")) {
-			continuar = true;
+			opciones = 1;
 			General.conectado = false;
 			General.username = null;
 			General.idPersonaje = 0;
@@ -115,7 +120,7 @@ public class menu : MonoBehaviour {
 		GUI.Label (new Rect (9*(Screen.width /10),(Screen.height/10), Screen.width / 10, Screen.height/12), "x "+ General.monedas + "");
 		
 		if (GUI.Button (new Rect (4*(Screen.width / 6),9*(Screen.height/10), Screen.width / 6 	, Screen.height/10), "Jugar")) {
-			continuar = true;
+			opciones = 1;
 			Application.LoadLevel ("level1");
 		}
 	}
@@ -160,6 +165,20 @@ public class menu : MonoBehaviour {
 		yield return www;
 		if(www.error == null){
 			misiones = www.text.Split('/');
+		}else{
+			Debug.Log(www.error);
+		}
+	}
+
+	public IEnumerator consultarMisionActual(WWW www){
+		yield return www;
+		if(www.error == null){
+			string[] mision = www.text.Split('*');
+
+			General.misionActual[0] = mision[0];
+			General.misionActual[1] = mision[1];
+			General.misionActual[2] = mision[2];
+			General.posicionIncial = new Vector3(float.Parse(mision[5]),float.Parse(mision[6]),float.Parse(mision[7]));
 		}else{
 			Debug.Log(www.error);
 		}

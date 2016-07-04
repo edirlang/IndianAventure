@@ -7,9 +7,11 @@ public class General : MonoBehaviour {
 	public static string username="21313",nickname="";
 	//public GameObject personajeDefault;
 	public static GameObject personaje;
+	public static Vector3 posicionIncial;
 	public static int idPersonaje = 1;
 	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
 	public static bool conectado = false;
+	public static string[] misionActual = new string[3];
 	// Use this for initialization
 	void Start () {
 		PlayerPrefs.GetInt ("salud",3);

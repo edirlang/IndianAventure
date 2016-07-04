@@ -70,7 +70,7 @@ public class interfaz_login : MonoBehaviour {
 			style = GUI.skin.GetStyle ("label");
 			style.fontSize = (int)(20.0f );
 			GUI.color = Color.red;
-			GUI.Label(new Rect(Screen.width / 4, 2*(Screen.height / 7), Screen.width / 2 + Screen.width / 4, Screen.height / 10),mensaje);
+			GUI.Label(new Rect(Screen.width / 6, 3*(Screen.height / 14), Screen.width / 2 + Screen.width / 4, Screen.height / 10),mensaje);
 			GUI.color = Color.white;
 			if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8 , 4 *(Screen.height/7), Screen.width / 4, Screen.height / 10), "Ingresar")) {
 				string url = General.hosting+"login";
