@@ -3,8 +3,8 @@ using System.Collections;
 
 public class General : MonoBehaviour {
 
-	public static int salud=3;
-	public static string username="21313";
+	public static int salud=3, monedas = 10;
+	public static string username="21313",nickname="";
 	//public GameObject personajeDefault;
 	public static GameObject personaje;
 	public static int idPersonaje = 1;

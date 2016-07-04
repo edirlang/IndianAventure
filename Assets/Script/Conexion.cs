@@ -50,7 +50,7 @@ public class Conexion : MonoBehaviour {
 			if(hayJugadores())
 				Application.LoadLevel ("SelecionarPersonaje");
 			pantallaServidor();
-			if (GUI.Button (new Rect (13*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Volver al Menu")) {
+			if (GUI.Button (new Rect (25*(Screen.width/32), 5*(Screen.height/6),Screen.width / 5, Screen.height / 10), "Volver al Menu")) {
 				string url = General.hosting + "logout";
 				WWWForm form = new WWWForm ();
 				form.AddField ("username", General.username);
@@ -144,10 +144,10 @@ public class Conexion : MonoBehaviour {
 		
 		GUI.Box(new Rect(0, Screen.height - Screen.height/3, Screen.width, Screen.height),"Crear servidor");
 		
-		GUI.Label(new Rect(Screen.width/5, 12*(Screen.height/14),Screen.width/3, Screen.height/8), "Nombre");
+		GUI.Label(new Rect(Screen.width/4, 12*(Screen.height/14),Screen.width/12, Screen.height/8), "Nombre");
 		gameName = GUI.TextField(new Rect(5*(Screen.width/17), 5*(Screen.height/6),Screen.width/3, Screen.height/10),gameName);
 		
-		if (GUI.Button (new Rect(13*(Screen.width/20), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10),"Crear"))
+		if (GUI.Button (new Rect(13*(Screen.width/20), 5*(Screen.height/6),Screen.width / 8, Screen.height / 10),"Crear"))
 		{
 			StartServer();
 		}
