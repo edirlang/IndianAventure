@@ -30,7 +30,8 @@ public class Conexion : MonoBehaviour {
 
 	void Update()
 	{
-
+		GameObject player = GameObject.Find (Network.player.ipAddress);
+		General.posicionIncial = player.transform.position;
 	}
 	void  OnGUI (){
 		GUIStyle style = new GUIStyle ();
@@ -51,11 +52,7 @@ public class Conexion : MonoBehaviour {
 				Application.LoadLevel ("SelecionarPersonaje");
 			pantallaServidor();
 			if (GUI.Button (new Rect (25*(Screen.width/32), 5*(Screen.height/6),Screen.width / 5, Screen.height / 10), "Volver al Menu")) {
-				string url = General.hosting + "logout";
-				WWWForm form = new WWWForm ();
-				form.AddField ("username", General.username);
-				WWW www = new WWW (url, form);
-				StartCoroutine (desconectarUser (www));
+				StartCoroutine (desconectarUser ());
 			}
 		}
 		else
@@ -94,15 +91,11 @@ public class Conexion : MonoBehaviour {
 		{
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"Menu Pausa");
 
-			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 4*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Volver a Menu")) {
-				string url = General.hosting + "logout";
-				WWWForm form = new WWWForm ();
-				form.AddField ("username", General.username);
-				WWW www = new WWW (url, form);
-				StartCoroutine (desconectarUser (www));
+			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 4*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Volver al Menu")) {
+				StartCoroutine (desconectarUser ());
 			}
 			
-			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 5*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Volver")) {
+			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 5*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Volver")) {
 				abrirMenu = false;
 			}
 		}
@@ -144,7 +137,7 @@ public class Conexion : MonoBehaviour {
 		
 		GUI.Box(new Rect(0, Screen.height - Screen.height/3, Screen.width, Screen.height),"Crear servidor");
 		
-		GUI.Label(new Rect(Screen.width/6, 12*(Screen.height/14),Screen.width/12, Screen.height/8), "Nombre");
+		GUI.Label(new Rect(Screen.width/6, 12*(Screen.height/14),Screen.width/8, Screen.height/8), "Nombre");
 		gameName = GUI.TextField(new Rect(5*(Screen.width/17), 5*(Screen.height/6),Screen.width/3, Screen.height/10),gameName);
 		
 		if (GUI.Button (new Rect(13*(Screen.width/20), 5*(Screen.height/6),Screen.width / 8, Screen.height / 10),"Crear"))
@@ -195,7 +188,15 @@ public class Conexion : MonoBehaviour {
 		//g.name = Network.player.ipAddress;
 	}
 
-	public IEnumerator desconectarUser(WWW www){
+	public IEnumerator desconectarUser(){
+		string url = General.hosting + "logout";
+		WWWForm form = new WWWForm ();
+		form.AddField ("username", General.username);
+		form.AddField("mision",General.misionActual[0] + "");
+		form.AddField("pos_x", General.posicionIncial.x + "");
+		form.AddField("pos_y", General.posicionIncial.y + "");
+		form.AddField("pos_z", General.posicionIncial.z + "");
+		WWW www = new WWW (url, form);
 		yield return www;
 		if(www.error == null){
 			Debug.Log(www.text);

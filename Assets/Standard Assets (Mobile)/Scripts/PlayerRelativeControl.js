@@ -163,7 +163,6 @@ function Update()
 			
 			// Rotate only the camera with y-axis input
 			//cameraPivot.Rotate( camRotation.y, 0, 0 );
-			
 		}
 	}	
 }
