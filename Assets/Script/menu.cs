@@ -132,17 +132,19 @@ public class menu : MonoBehaviour {
 		style.fontSize = (int)(25.0f );
 		style = GUI.skin.GetStyle ("label");
 		style.fontSize = (int)(25.0f );
+		style.alignment = TextAnchor.UpperLeft;
 		GUI.Box (new Rect (Screen.width /10, Screen.height/10, Screen.width - Screen.width / 6, Screen.height - Screen.height/6), "Misiones");
 
-		GUI.Label (new Rect (2*(Screen.width /10), 4*(Screen.height/20), Screen.width / 10, Screen.height/12), "ID");
-		GUI.Label (new Rect (3*(Screen.width /10), 4*(Screen.height/20), Screen.width / 3, Screen.height/12), "Nombre");
+		GUI.Label (new Rect (3*(Screen.width /20), 4*(Screen.height/20), Screen.width / 10, Screen.height/12), "ID");
+		GUI.Label (new Rect (4*(Screen.width /20), 4*(Screen.height/20), Screen.width / 3, Screen.height/12), "Nombre");
 
 		style.fontSize = (int)(18.0f );
 		for(int i = 0; i < misiones.Length - 1; i++)
 		{
 			string[] mision_array = misiones[i].Split('-');
-			GUI.Label (new Rect (2*(Screen.width /10), (i+6)*(Screen.height/20), Screen.width / 10, Screen.height/12), mision_array[0]);
-			GUI.Label (new Rect (3*(Screen.width /10), (i+6)*(Screen.height/20), Screen.width / 3, Screen.height/12), mision_array[1]);
+			GUI.Label (new Rect (3*(Screen.width /20), (i+6)*(Screen.height/20), Screen.width / 14, Screen.height/12), mision_array[0]);
+			GUI.Label (new Rect (4*(Screen.width /20), (i+6)*(Screen.height/20), Screen.width / 2, Screen.height/12), mision_array[1]);
+			GUI.Button(new Rect (8*(Screen.width /10), (i+6)*(Screen.height/20), Screen.width / 10, Screen.height/12),"Detalles");
 		}
 
 		if(GUI.Button(new Rect (7*(Screen.width /10), Screen.height - Screen.height/5, Screen.width / 6, Screen.height/10), "Volver")){

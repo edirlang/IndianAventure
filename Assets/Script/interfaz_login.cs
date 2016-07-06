@@ -61,7 +61,7 @@ public class interfaz_login : MonoBehaviour {
 				Application.Quit();
 			}
 
-			GUI.Label(new Rect (Screen.width / 4, 2*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Username:");
+			GUI.Label(new Rect (Screen.width / 4, 2*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Usuario:");
 			username = GUI.TextField(new Rect(2*(Screen.width / 4), 2*(Screen.height/7),  Screen.width / 4, Screen.height / 10),username,25);
 			
 			GUI.Label(new Rect(Screen.width / 4, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Contraseña");
@@ -102,6 +102,7 @@ public class interfaz_login : MonoBehaviour {
 
 		GUIStyle style = GUI.skin.GetStyle ("label");
 		style.fontSize = (int)(30.0f );
+		style.alignment = TextAnchor.UpperLeft;
 
 		style = GUI.skin.GetStyle ("box");
 		style.fontSize = (int)(40.0f );
@@ -117,27 +118,25 @@ public class interfaz_login : MonoBehaviour {
 
 		GUI.Box(new Rect(0,0, Screen.width, Screen.height),"Registro de Usuario");
 		if (Siguiente) {
-			GUI.Label (new Rect (Screen.width / 5, (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Nombre");
+			GUI.Label (new Rect (Screen.width / 6, (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Nombre");
 			Nombre = GUI.TextField (new Rect (2 * (Screen.width / 4), (Screen.height / 7), Screen.width / 4, Screen.height / 12), Nombre, 50);
 
-			GUI.Label (new Rect (Screen.width / 5, 2 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Apellido");
+			GUI.Label (new Rect (Screen.width / 6, 2 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Apellido");
 			Apellido = GUI.TextField (new Rect (2 * (Screen.width / 4), 2 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Apellido, 50);
-	
-			GUI.Label (new Rect (Screen.width / 5, 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Email");
-			Email = GUI.TextField (new Rect (2 * (Screen.width / 4), 3 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Email, 50);
-	
-			GUI.Label (new Rect (Screen.width / 5, 4 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Fecha de Nacimiento (aaaa-mm-dd)");
-			ano = GUI.TextField (new Rect (8 * (Screen.width / 16), 4 * (Screen.height / 7), Screen.width / 12, Screen.height / 12), ano, 4);
-			GUI.Label (new Rect (19 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
-			mes = GUI.TextField (new Rect (20 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), mes, 2);
-			GUI.Label (new Rect (22 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
-			dia = GUI.TextField (new Rect (23 * (Screen.width / 32), 4 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), dia, 2);
+		
+			GUI.Label (new Rect (Screen.width / 6, 3 * (Screen.height / 7), Screen.width / 3, 2*(Screen.height / 10)), "Fecha de Nacimiento (aaaa-mm-dd)");
+
+			ano = GUI.TextField (new Rect (8 * (Screen.width / 16), 3 * (Screen.height / 7), Screen.width / 12, Screen.height / 12), ano, 4);
+			GUI.Label (new Rect (19 * (Screen.width / 32), 3 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
+			mes = GUI.TextField (new Rect (20 * (Screen.width / 32), 3 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), mes, 2);
+			GUI.Label (new Rect (22 * (Screen.width / 32), 3 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
+			dia = GUI.TextField (new Rect (23 * (Screen.width / 32), 3 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), dia, 2);
 
 			Fecha_nacimiento = ano+"-"+mes+"-"+dia;
-			GUI.Label (new Rect (Screen.width / 5, 5 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Genero");
+			GUI.Label (new Rect (Screen.width / 6, 5 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Genero");
 			
-			Masculino = GUI.Toggle (new Rect (2 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 14), Masculino, "Masculino");
-			Femenino = GUI.Toggle (new Rect (3 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 14), Femenino, "Femenino");
+			Masculino = GUI.Toggle (new Rect (2 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), Masculino, "Masculino");
+			Femenino = GUI.Toggle (new Rect (3 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), Femenino, "Femenino");
 
 			if (GUI.Button (new Rect ((Screen.width / 14), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {
 				registrar = false;
@@ -148,10 +147,14 @@ public class interfaz_login : MonoBehaviour {
 				Siguiente = false;
 			}
 		} else {
-			GUI.Label (new Rect (Screen.width / 5, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10), "Usuario");
+			GUI.Label (new Rect (Screen.width / 6, 2 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Email");
+			Email = GUI.TextField (new Rect (2 * (Screen.width / 4), 2 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Email, 50);
+
+
+			GUI.Label (new Rect (Screen.width / 6, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10), "Usuario");
 			Usuario = GUI.TextField (new Rect (2 * (Screen.width / 4), 3*(Screen.height / 7), Screen.width / 4, Screen.height / 12), Usuario, 50);
 
-			GUI.Label (new Rect (Screen.width / 5, 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Contraseña");
+			GUI.Label (new Rect (Screen.width / 6, 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Contraseña");
 			Contraseña = GUI.PasswordField (new Rect (2 * (Screen.width / 4), 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Contraseña,"*"[0], 50);
 
 			if (GUI.Button (new Rect ((Screen.width / 14), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {

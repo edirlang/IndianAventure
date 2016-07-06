@@ -30,8 +30,11 @@ public class Conexion : MonoBehaviour {
 
 	void Update()
 	{
-		GameObject player = GameObject.Find (Network.player.ipAddress);
-		General.posicionIncial = player.transform.position;
+		if(GameObject.Find (Network.player.ipAddress))
+		{
+			GameObject player = GameObject.Find (Network.player.ipAddress);
+			General.posicionIncial = player.transform.position;
+		}
 	}
 	void  OnGUI (){
 		GUIStyle style = new GUIStyle ();

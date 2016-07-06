@@ -8,7 +8,7 @@ public class inicio : MonoBehaviour {
 	public Texture pj1Texture;
 	public Texture pj2Texture;
 	public Texture pj3Texture;
-	public GameObject pj1,pj2,pj3, objetoInstanciar;
+	public GameObject pj1,pj2,pj3, objetoInstanciar, pj1_mostar, pj2_mostar, pj3_mostar;
 	private string username = General.username, nickname="", caracteristicas = "";
 	private bool continuar = false, correcto = false;
 	private int tienePersonaje = 0;
@@ -34,7 +34,11 @@ public class inicio : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		if(GameObject.FindGameObjectWithTag ("Player"))
+		{
+			GameObject player = GameObject.FindGameObjectWithTag ("Player");
+			player.transform.Rotate(Vector3.up, Time.deltaTime * 30, Space.World);
+		}
 	}
 	void OnGUI(){
 		if(tienePersonaje == 0){
@@ -62,15 +66,15 @@ public class inicio : MonoBehaviour {
 		}
 		if(!continuar)
 		{
-			if (GUI.Button (new Rect (5*(Screen.width / 32),(Screen.height/16), Screen.width / 10, Screen.height/4), pj1Texture)) {
+			if (GUI.Button (new Rect (Screen.width / 9,(Screen.height/16), Screen.width / 10, Screen.height/4), pj1Texture)) {
 				General.idPersonaje = 1;
 				General.personaje = pj1;
 				GameObject otro = GameObject.FindGameObjectWithTag ("Player");
 				Destroy (otro);
-				GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
-				personaje.GetComponent<movimiento>().enabled = false;
-				Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
-				Destroy(rigibodypj);
+
+				GameObject personaje = Instantiate (pj1_mostar, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+				personaje.tag = "Player";
+
 				string url = General.hosting+"consultarPersonajeCaracteristicas";
 				WWWForm form = new WWWForm();
 				form.AddField("id", 1);
@@ -78,15 +82,15 @@ public class inicio : MonoBehaviour {
 				StartCoroutine(consultarPersonaje(www));
 			}
 			
-			if (GUI.Button (new Rect (5*(Screen.width / 32),5*(Screen.height/16), Screen.width / 10, Screen.height/4), pj2Texture)) {
+			if (GUI.Button (new Rect (Screen.width / 9,5*(Screen.height/16), Screen.width / 10, Screen.height/4), pj2Texture)) {
 				General.idPersonaje = 2;
 				General.personaje = pj2;
 				GameObject otro = GameObject.FindGameObjectWithTag ("Player");
 				Destroy (otro);
-				GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
-				personaje.GetComponent<movimiento>().enabled = false;
-				Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
-				Destroy(rigibodypj);
+
+				GameObject personaje = Instantiate (pj2_mostar, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+				personaje.tag = "Player";
+
 				string url = General.hosting+"consultarPersonajeCaracteristicas";
 				WWWForm form = new WWWForm();
 				form.AddField("id", 2);
@@ -94,15 +98,15 @@ public class inicio : MonoBehaviour {
 				StartCoroutine(consultarPersonaje(www));
 			}
 			
-			if (GUI.Button (new Rect (5*(Screen.width / 32),9*(Screen.height/16), Screen.width / 10, Screen.height/4), pj3Texture)) {
+			if (GUI.Button (new Rect (Screen.width / 9,9*(Screen.height/16), Screen.width / 10, Screen.height/4), pj3Texture)) {
 				General.idPersonaje = 3;
 				General.personaje = pj3;
 				GameObject otro = GameObject.FindGameObjectWithTag ("Player");
 				Destroy (otro);
-				GameObject personaje = Instantiate (General.personaje, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
-				personaje.GetComponent<movimiento>().enabled = false;
-				Rigidbody rigibodypj = personaje.GetComponent <Rigidbody> (); 
-				Destroy(rigibodypj);
+
+				GameObject personaje = Instantiate (pj3_mostar, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+				personaje.tag = "Player";
+
 				string url = General.hosting+"consultarPersonajeCaracteristicas";
 				WWWForm form = new WWWForm();
 				form.AddField("id", 3);
@@ -117,19 +121,21 @@ public class inicio : MonoBehaviour {
 			GUI.color = Color.black;
 			GUIStyle styleLabel = GUI.skin.GetStyle ("label");
 			styleLabel.fontSize = (int)(40.0f );
+			styleLabel.alignment = TextAnchor.UpperCenter;
 
-			GUI.Label(new Rect(Screen.width/2 - (Screen.width/6), Screen.height/64, 5*(Screen.width/8), Screen.height/2),"ELIGE TU PERSONAJE");
+			GUI.Label(new Rect(0, Screen.height/64, Screen.width, Screen.height/2),"ELIGE TU PERSONAJE");
 			styleLabel.fontSize = (int)(30.0f );
-			GUI.Label(new Rect(5*(Screen.width/8 - Screen.width /128), Screen.height/6, 3*(Screen.width/10), Screen.height/2),"Caracteristicas");
+			GUI.Label(new Rect(6*(Screen.width/9), Screen.height/6, 3*(Screen.width/9), Screen.height/2),"Caracteristicas");
 
 			GUI.color = Color.white;
-			GUI.Label(new Rect(5*(Screen.width/8), 2*(Screen.height/7), 5*(Screen.width/8), Screen.height/2),cuadroTexture);
+			GUI.Label(new Rect(6*(Screen.width/9), 2*(Screen.height/7), 3*(Screen.width/9), Screen.height/2),cuadroTexture);
 			GUI.color = Color.blue;
-			GUI.Label(new Rect(5*(Screen.width/8) + (Screen.width/64), 2*(Screen.height/10), 5*(Screen.width/8), Screen.height/2),caracteristicas);
+			GUI.Label(new Rect(6*(Screen.width/9), 2*(Screen.height/7), 3*(Screen.width/9), Screen.height/2),caracteristicas);
 
-			GUI.color = Color.black;
-			styleLabel.fontSize = (int)(30.0f );
+			GUI.color = Color.red;
+			styleLabel.fontSize = (int)(35.0f );
 			GUI.Label(new Rect(2*(Screen.width/12), 20 *(Screen.height/24), Screen.width/6, Screen.height/10),"Alias:");
+			GUI.color = Color.white;
 			nickname = GUI.TextField(new Rect(4*(Screen.width/12), 20 *(Screen.height/24), Screen.width/4, Screen.height/10),nickname,25);
 
 			GUI.color = Color.white;
