@@ -6,7 +6,7 @@ public class menu : MonoBehaviour {
 	public GameObject objetoInstanciar, pj1,pj2,pj3;
 	public GameObject Ubicacioncamara;
 	public Texture monedas, vidas;
-	private string[] misiones;
+	private string[] misiones, mision;
 	private int opciones = 0; 
 	// Use this for initialization
 	void Start () {
@@ -79,6 +79,9 @@ public class menu : MonoBehaviour {
 		case 2:
 			pantallaMisiones();
 			break;
+		case 3:
+			pantallaMision();
+			break;
 		}
 	}
 
@@ -144,13 +147,44 @@ public class menu : MonoBehaviour {
 			string[] mision_array = misiones[i].Split('-');
 			GUI.Label (new Rect (3*(Screen.width /20), (i+6)*(Screen.height/20), Screen.width / 14, Screen.height/12), mision_array[0]);
 			GUI.Label (new Rect (4*(Screen.width /20), (i+6)*(Screen.height/20), Screen.width / 2, Screen.height/12), mision_array[1]);
-			GUI.Button(new Rect (8*(Screen.width /10), (i+6)*(Screen.height/20), Screen.width / 10, Screen.height/12),"Detalles");
+			if(GUI.Button(new Rect (8*(Screen.width /10), (i+6)*(Screen.height/20), Screen.width / 10, Screen.height/12),"Detalles"))
+			{
+				opciones=3;
+				mision = mision_array;
+			}
 		}
 
 		if(GUI.Button(new Rect (7*(Screen.width /10), Screen.height - Screen.height/5, Screen.width / 6, Screen.height/10), "Volver")){
 			opciones = 0;
 		}
 	}
+
+	private void pantallaMision()
+	{
+		GUIStyle style = new GUIStyle ();
+		style = GUI.skin.GetStyle ("box");
+		style.fontSize = (int)(25.0f );
+		style = GUI.skin.GetStyle ("label");
+		style.fontSize = (int)(25.0f );
+		style.alignment = TextAnchor.UpperLeft;
+		GUI.Box (new Rect (Screen.width /10, Screen.height/10, Screen.width - Screen.width / 7, Screen.height - Screen.height/6), "Mision "+ mision[0]);
+
+		style.fontStyle = FontStyle.Bold;
+		GUI.Label (new Rect (3*(Screen.width /20), 4*(Screen.height/20), Screen.width / 2, Screen.height/12), "Nombre:");
+		style.fontStyle = FontStyle.Normal;
+		GUI.Label (new Rect (7*(Screen.width /20), 4*(Screen.height/20), 7*(Screen.width / 12), Screen.height/6), mision[1]);
+
+		style.fontStyle = FontStyle.Bold;
+		GUI.Label (new Rect (3*(Screen.width /20), 7*(Screen.height/20), Screen.width / 6, Screen.height/12), "Requisitos:");
+		style.fontStyle = FontStyle.Normal;
+		GUI.Label (new Rect (7*(Screen.width /20), 7*(Screen.height/20), 7*(Screen.width / 12), Screen.height/3),mision[2]);
+
+
+		if(GUI.Button(new Rect (7*(Screen.width /10), Screen.height - Screen.height/5, Screen.width / 6, Screen.height/10), "Volver")){
+			opciones = 2;
+		}
+	}
+
 	public IEnumerator consultarUsuarioPorUsername(WWW www){
 		yield return www;
 		if(www.error == null){

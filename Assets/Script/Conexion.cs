@@ -12,7 +12,8 @@ public class Conexion : MonoBehaviour {
 	public Texture ayudaTexture;
 	public string numeroMonedas = "0";
 	public string textoAyuda = "Chia";
-	public static string mensaje = "",mensajes="";
+	public static string mensaje = "";
+	private ArrayList mensajes;
 	public GameObject prefab;
 	public Vector3 rotacion;
 	private string idPersonaje;
@@ -20,10 +21,9 @@ public class Conexion : MonoBehaviour {
 	private Vector2 scrollPosition;
 	private int numeroMensajes = 0;
 	private NetworkView nw;
-
 	void Start()
 	{
-		Conexion.mensajes = "";
+		mensajes = new ArrayList();
 		nw = GetComponent<NetworkView> ();
 		RefreshHostList ();
 	}
@@ -211,17 +211,32 @@ public class Conexion : MonoBehaviour {
 
 	public void chatVer()
 	{
-		string[] lineas = mensajes.Split ('\n');
-		numeroMensajes = lineas.Length;
+		GUIStyle style = new GUIStyle ();
+		style = GUI.skin.GetStyle ("label");
+		style.alignment = TextAnchor.UpperLeft;
+
+		if (mensajes == null) {
+			mensajes = new ArrayList();
+		}
+		numeroMensajes = mensajes.Count;
 		scrollPosition[1] = numeroMensajes*(Screen.height/16);
 
 		GUI.Box(new Rect(2*(Screen.width/3),0,Screen.width/3,Screen.height),"Chat");
 		
-		scrollPosition = GUI.BeginScrollView(new Rect(2* (Screen.width/3), 0 ,Screen.width/3,11 * (Screen.height/12)), scrollPosition, new Rect(0,0,Screen.width/3, numeroMensajes*(Screen.height/16)));
-		GUI.Label(new Rect(0,0,Screen.width/3,100*Screen.height),mensajes);
+		scrollPosition = GUI.BeginScrollView(new Rect(2* (Screen.width/3), 0 ,Screen.width/3,11 * (Screen.height/12)), scrollPosition, new Rect(0,0,Screen.width, numeroMensajes*(Screen.height/12)));
+		for(int i = 0; i< numeroMensajes ; i ++)
+		{
+			string[] mensajeNuevo = (string[])mensajes[i];
+			style.fontStyle = FontStyle.Bold;
+			GUI.Label(new Rect(0,(i + 1)*(Screen.height/12),Screen.width/10,Screen.height/12),mensajeNuevo[0]+": ");
+			style.fontStyle = FontStyle.Normal;
+			GUI.Label(new Rect(Screen.width/10,(i + 1)*(Screen.height/12),Screen.width/2,(Screen.height/12)),mensajeNuevo[1]);
+		}
 		GUI.EndScrollView();
 		
 		mensaje = GUI.TextField(new Rect(2*(Screen.width/3),Screen.height - Screen.height/12, 3*(Screen.width/12) ,Screen.height/12),mensaje);
+		style.alignment = TextAnchor.UpperCenter;
+
 		if (GUI.Button (new Rect (Screen.width - Screen.width/12 ,Screen.height - Screen.height/12, Screen.width/12,Screen.height/12), "Enviar")) {
 			send();
 		}
@@ -253,7 +268,8 @@ public class Conexion : MonoBehaviour {
 	[RPC]
 	public void recivir(string text,string usuario)
 	{
-		Conexion.mensajes += "\n" + usuario + ": " + text;
-		
+		string[] mensajeNuevo = {usuario,text}; 
+		mensajes.Add (mensajeNuevo);
+		//Conexion.mensajes += "\n" + usuario + ": " + text;
 	}
 }
