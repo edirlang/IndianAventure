@@ -24,7 +24,7 @@ public class movimiento : MonoBehaviour {
 		if (nw.isMine)
 		{
 			camara.transform.parent = transform;
-			camara.transform.localPosition = new Vector3(0.13f, 2.8f, -4.5f);
+			camara.transform.localPosition = new Vector3(0.1300829f, 4.42427f, -7.354623f);
 			controlMovimiento ();
 		}
 	}

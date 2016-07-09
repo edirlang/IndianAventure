@@ -21,8 +21,10 @@ public class Conexion : MonoBehaviour {
 	private Vector2 scrollPosition;
 	private int numeroMensajes = 0;
 	private NetworkView nw;
+	private Color color;
 	void Start()
 	{
+		color = new Color (Random.value,Random.value,Random.value);
 		mensajes = new ArrayList();
 		nw = GetComponent<NetworkView> ();
 		RefreshHostList ();
@@ -110,7 +112,7 @@ public class Conexion : MonoBehaviour {
 				chatVer();
 			}else
 			{
-				if (GUI.Button (new Rect (Screen.width - Screen.width / 24, Screen.height/2, Screen.width / 24, Screen.height / 12), "<")) {
+				if (GUI.Button (new Rect (13*(Screen.width/16), 4*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Chat")) {
 					verChat = true;
 				}
 			}
@@ -213,7 +215,8 @@ public class Conexion : MonoBehaviour {
 	{
 		GUIStyle style = new GUIStyle ();
 		style = GUI.skin.GetStyle ("label");
-		style.alignment = TextAnchor.UpperLeft;
+		style.fontSize = (int)(25.0f);
+		style.alignment = TextAnchor.LowerLeft;
 
 		if (mensajes == null) {
 			mensajes = new ArrayList();
@@ -224,14 +227,15 @@ public class Conexion : MonoBehaviour {
 		GUI.Box(new Rect(2*(Screen.width/3),0,Screen.width/3,Screen.height),"Chat");
 		
 		scrollPosition = GUI.BeginScrollView(new Rect(2* (Screen.width/3), 0 ,Screen.width/3,11 * (Screen.height/12)), scrollPosition, new Rect(0,0,Screen.width, numeroMensajes*(Screen.height/12)));
+
 		for(int i = 0; i< numeroMensajes ; i ++)
 		{
 			string[] mensajeNuevo = (string[])mensajes[i];
-			style.fontStyle = FontStyle.Bold;
-			GUI.Label(new Rect(0,(i + 1)*(Screen.height/12),Screen.width/10,Screen.height/12),mensajeNuevo[0]+": ");
-			style.fontStyle = FontStyle.Normal;
-			GUI.Label(new Rect(Screen.width/10,(i + 1)*(Screen.height/12),Screen.width/2,(Screen.height/12)),mensajeNuevo[1]);
+			string[] colorRGB = mensajeNuevo[2].Split(',');
+			GUI.color = new Color(float.Parse(colorRGB[0]),float.Parse(colorRGB[1]),float.Parse(colorRGB[2]));
+			GUI.Label(new Rect (0,(i + 1)*(Screen.height/16),Screen.width,Screen.height/16),mensajeNuevo[0]+": "+ mensajeNuevo[1]);
 		}
+		GUI.color = Color.white;
 		GUI.EndScrollView();
 		
 		mensaje = GUI.TextField(new Rect(2*(Screen.width/3),Screen.height - Screen.height/12, 3*(Screen.width/12) ,Screen.height/12),mensaje);
@@ -240,16 +244,17 @@ public class Conexion : MonoBehaviour {
 		if (GUI.Button (new Rect (Screen.width - Screen.width/12 ,Screen.height - Screen.height/12, Screen.width/12,Screen.height/12), "Enviar")) {
 			send();
 		}
-		if (GUI.Button (new Rect (2*(Screen.width/3), Screen.height/2, Screen.width / 24, Screen.height / 12), ">")) {
+		if (GUI.Button (new Rect (Screen.width - Screen.width / 6	, 0, Screen.width / 6, Screen.height / 12), "OCULTAR")) {
 			verChat = false;
 		}
 	}
 
 	public void send () 
 	{
-		if(Conexion.mensaje != "")
+		int numeroCaracteres = Conexion.mensaje.Length;
+		if(Conexion.mensaje != "" && numeroCaracteres <=60)
 		{
-			nw.RPC("recivir",RPCMode.AllBuffered,Conexion.mensaje, General.username);
+			nw.RPC("recivir",RPCMode.AllBuffered,Conexion.mensaje, General.username,color.r + "," + color.g + "," + color.b);
 			Conexion.mensaje = "";
 		}
 	}
@@ -266,9 +271,9 @@ public class Conexion : MonoBehaviour {
 	}
 
 	[RPC]
-	public void recivir(string text,string usuario)
+	public void recivir(string text,string usuario, string color)
 	{
-		string[] mensajeNuevo = {usuario,text}; 
+		string[] mensajeNuevo = {usuario,text, color}; 
 		mensajes.Add (mensajeNuevo);
 		//Conexion.mensajes += "\n" + usuario + ": " + text;
 	}
