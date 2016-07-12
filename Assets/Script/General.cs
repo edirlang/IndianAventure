@@ -3,7 +3,7 @@ using System.Collections;
 
 public class General : MonoBehaviour {
 
-	public static int salud=3, monedas = 10;
+	public static int salud, monedas;
 	public static string username="dioxide",nickname="";
 	//public GameObject personajeDefault;
 	public static GameObject personaje;

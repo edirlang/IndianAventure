@@ -10,7 +10,6 @@ public class Conexion : MonoBehaviour {
 	public Texture corazonTexture;
 	public Texture monedasTexture;
 	public Texture ayudaTexture;
-	public string numeroMonedas = "0";
 	public string textoAyuda = "Chia";
 	public static string mensaje = "";
 	private ArrayList mensajes;
@@ -79,14 +78,16 @@ public class Conexion : MonoBehaviour {
 	private void pantallaJuego()
 	{
 		GUIStyle style = new GUIStyle ();
-		style.alignment = TextAnchor.MiddleLeft;
+		style = GUI.skin.GetStyle ("label");
+		style.fontSize = (int)(25.0f);
+		style.alignment = TextAnchor.LowerLeft;
 		// Vidas
-		GUI.Box (new Rect (0, 10, Screen.width / 10, Screen.height / 10), corazonTexture, style);
-		GUI.Label (new Rect (0  + Screen.width / 10, 10, Screen.width / 10, Screen.height / 10), "x "+General.salud+"" );
+		GUI.Box (new Rect (0, 10, Screen.width / 10, Screen.height / 9), corazonTexture, style);
+		GUI.Label (new Rect (Screen.width / 10, 10, Screen.width / 10, Screen.height / 9), "x "+General.salud+"" );
 
 		//Monedas
-		GUI.Box (new Rect (Screen.width - Screen.width / 8, 10, Screen.width / 10, Screen.height / 9), monedasTexture, style);
-		GUI.Label (new Rect (Screen.width - Screen.width / 14, 10, Screen.width / 10, Screen.height / 9), numeroMonedas);
+		GUI.Box (new Rect (Screen.width - 3*(Screen.width / 20), 10, Screen.width / 10, Screen.height / 9), monedasTexture, style);
+		GUI.Label (new Rect (Screen.width - 2*(Screen.width / 20), 10, Screen.width / 10, Screen.height / 9),"x "+General.monedas);
 		
 		// Ayuda
 		GUI.Box (new Rect (Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 4, Screen.width / 6, Screen.height / 4), ayudaTexture, style);
@@ -201,6 +202,8 @@ public class Conexion : MonoBehaviour {
 		form.AddField("pos_x", General.posicionIncial.x + "");
 		form.AddField("pos_y", General.posicionIncial.y + "");
 		form.AddField("pos_z", General.posicionIncial.z + "");
+		form.AddField("vidas", General.salud + "");
+		form.AddField("monedas", General.monedas + "");
 		WWW www = new WWW (url, form);
 		yield return www;
 		if(www.error == null){
