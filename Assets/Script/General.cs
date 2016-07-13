@@ -8,9 +8,9 @@ public class General : MonoBehaviour {
 	//public GameObject personajeDefault;
 	public static GameObject personaje;
 	public static Vector3 posicionIncial;
-	public static int idPersonaje = 1;
+	public static int idPersonaje = 1, paso_mision=1;
 	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
-	public static bool conectado = false;
+	public static bool conectado = false, bono=false;
 	public static string[] misionActual = new string[3];
 	// Use this for initialization
 	void Start () {

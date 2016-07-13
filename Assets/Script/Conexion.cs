@@ -204,6 +204,8 @@ public class Conexion : MonoBehaviour {
 		form.AddField("pos_z", General.posicionIncial.z + "");
 		form.AddField("vidas", General.salud + "");
 		form.AddField("monedas", General.monedas + "");
+		form.AddField("bono", General.bono + "");
+		form.AddField("paso", General.paso_mision + "");
 		WWW www = new WWW (url, form);
 		yield return www;
 		if(www.error == null){

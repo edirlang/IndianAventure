@@ -214,6 +214,14 @@ public class menu : MonoBehaviour {
 			General.misionActual[0] = mision[0];
 			General.misionActual[1] = mision[1];
 			General.misionActual[2] = mision[2];
+			Debug.Log("estado "+mision[10]);
+			if(mision[10] == "0"){
+				General.bono = false;
+			}else{
+				General.bono = true;
+			}
+
+			General.paso_mision= int.Parse(mision[9]);
 			General.posicionIncial = new Vector3(float.Parse(mision[5]),float.Parse(mision[6]),float.Parse(mision[7]));
 		}else{
 			Debug.Log(www.error);

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Bonos : MonoBehaviour {
-	float minutos=0, segundos=0;
+	float minutos=0, segundos=0, tiempoMensaje=20;
 	bool tieneBono = false;
 	GameObject bono, cofre;
 	int bonoJugador, opciones = 0;
@@ -23,7 +23,17 @@ public class Bonos : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		Debug.Log (General.bono);
+		if(!General.bono)
+		{
+			tieneBono = false;
+			if(minutos > 0)
+				opciones =5;
+			else
+				opciones = 1;
+		}else{
+			opciones = 0;
+		}
 
 		if(tieneBono){
 			segundos -= Time.deltaTime;
@@ -50,6 +60,8 @@ public class Bonos : MonoBehaviour {
 			opciones = 5;
 			tieneBono = false;
 		}
+		if (tiempoMensaje < 0)
+			opciones = 5;
 		switch(opciones)
 		{
 			case 0:
@@ -67,6 +79,7 @@ public class Bonos : MonoBehaviour {
 				style.alignment = TextAnchor.UpperLeft;
 				break;
 			case 1:
+				tiempoMensaje -= Time.deltaTime;
 				style = GUI.skin.GetStyle ("label");
 				style.fontSize = (int)(20.0f );
 				style.alignment = TextAnchor.UpperCenter;
@@ -103,6 +116,7 @@ public class Bonos : MonoBehaviour {
 	{
 		if (collider.gameObject.name == Network.player.ipAddress) {
 			Debug.Log("Tomaste el bono");
+			General.bono = false;
 			switch(bonoJugador)
 			{
 			case 1:
@@ -140,6 +154,8 @@ public class Bonos : MonoBehaviour {
 		form.AddField("pos_z", General.posicionIncial.z + "");
 		form.AddField("vidas", General.salud + "");
 		form.AddField("monedas", General.monedas + "");
+		form.AddField("bono", General.bono + "");
+		form.AddField("paso", General.paso_mision + "");
 		WWW www = new WWW (url, form);
 		yield return www;
 		if(www.error == null){
