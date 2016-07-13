@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Bonos : MonoBehaviour {
-	float minutos=0, segundos=0, tiempoMensaje=20;
+	float minutos=-1, segundos=0, tiempoMensaje=20;
 	bool tieneBono = false;
 	GameObject bono, cofre;
 	int bonoJugador, opciones = 0;
