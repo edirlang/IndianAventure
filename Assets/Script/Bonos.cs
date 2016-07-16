@@ -23,7 +23,6 @@ public class Bonos : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (General.bono);
 		if(!General.bono)
 		{
 			tieneBono = false;
@@ -115,7 +114,6 @@ public class Bonos : MonoBehaviour {
 	void OnTriggerEnter(Collider collider)
 	{
 		if (collider.gameObject.name == Network.player.ipAddress) {
-			Debug.Log("Tomaste el bono");
 			General.bono = false;
 			switch(bonoJugador)
 			{
@@ -137,7 +135,7 @@ public class Bonos : MonoBehaviour {
 				bonoTexto = "SuperBono /n 1 vida, 5 Monedas";
 				break;
 			}
-			StartCoroutine (actualizarUser ());
+			StartCoroutine (General.actualizarUser ());
 			tieneBono = false;
 			minutos = segundos = 0;
 			opciones = 1;

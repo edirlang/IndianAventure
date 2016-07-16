@@ -71,6 +71,7 @@ public class Conexion : MonoBehaviour {
 
 		if (salir) {
 			Network.Disconnect(200);
+			StartCoroutine(General.actualizarUser());
 			Application.LoadLevel ("menu");
 		}
 	}

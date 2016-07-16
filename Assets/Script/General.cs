@@ -34,4 +34,25 @@ public class General : MonoBehaviour {
 			Debug.Log(www.error);
 		}
 	}
+
+	public static IEnumerator actualizarUser(){
+		string url = General.hosting + "logout";
+		WWWForm form = new WWWForm ();
+		form.AddField ("username", General.username);
+		form.AddField("mision",General.misionActual[0] + "");
+		form.AddField("pos_x", General.posicionIncial.x + "");
+		form.AddField("pos_y", General.posicionIncial.y + "");
+		form.AddField("pos_z", General.posicionIncial.z + "");
+		form.AddField("vidas", General.salud + "");
+		form.AddField("monedas", General.monedas + "");
+		form.AddField("bono", General.bono + "");
+		form.AddField("paso", General.paso_mision + "");
+		WWW www = new WWW (url, form);
+		yield return www;
+		if(www.error == null){
+			Debug.Log(www.text);
+		}else{
+			Debug.Log(www.error);
+		}
+	}
 }
