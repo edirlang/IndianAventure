@@ -26,6 +26,9 @@ ModelImporter:
     100040: Pierna_derecha
     100042: Pierna_izquierda
     100044: Tronco
+    100046: Armature_001
+    100048: Armature_002
+    100050: Cadera
     400000: antebrazo_derecho
     400002: antebrazo_izquierdo
     400004: Armature
@@ -49,6 +52,9 @@ ModelImporter:
     400040: Pierna_derecha
     400042: Pierna_izquierda
     400044: Tronco
+    400046: Armature_001
+    400048: Armature_002
+    400050: Cadera
     4300000: Pantalon_001
     7400000: Default Take
     9500000: //RootNode

@@ -72,7 +72,7 @@ function Update()
 	if (nw.isMine)
 	{
 		camara.transform.parent = transform;
-		camara.transform.localPosition = new Vector3(0.1300829f, 4.42427f, -7.354623f);
+		camara.transform.localPosition = new Vector3(-0.01339699f, 3.32726f, -7.790852f);
 			
 		var movement = thisTransform.TransformDirection( Vector3( moveJoystick.position.x, 0, moveJoystick.position.y ) );
 		

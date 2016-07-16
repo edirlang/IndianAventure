@@ -13,7 +13,7 @@ public class Conexion : MonoBehaviour {
 	public string textoAyuda = "Chia";
 	public static string mensaje = "";
 	private ArrayList mensajes;
-	public GameObject prefab;
+	public GameObject prefab, chia;
 	public Vector3 rotacion;
 	private string idPersonaje;
 	private bool salir = false, abrirMenu = false, verChat= false;
@@ -91,7 +91,12 @@ public class Conexion : MonoBehaviour {
 		GUI.Label (new Rect (Screen.width - 2*(Screen.width / 20), 10, Screen.width / 10, Screen.height / 9),"x "+General.monedas);
 		
 		// Ayuda
-		GUI.Box (new Rect (Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 4, Screen.width / 6, Screen.height / 4), ayudaTexture, style);
+		if(GUI.Button(new Rect(Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 12, Screen.width / 12, Screen.height / 6),ayudaTexture))
+		{
+			GameObject player = GameObject.Find(Network.player.ipAddress);
+			GameObject ayudaPersonaje = Instantiate (chia,  player.transform.position, player.transform.rotation) as GameObject;
+
+		}
 		GUI.Label (new Rect (Screen.width - Screen.width / 10, Screen.height / 2, Screen.width / 12, Screen.height / 9), textoAyuda);
 
 		if(abrirMenu)
