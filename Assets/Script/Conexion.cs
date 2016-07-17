@@ -94,8 +94,7 @@ public class Conexion : MonoBehaviour {
 		if(GUI.Button(new Rect(Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 12, Screen.width / 12, Screen.height / 6),ayudaTexture))
 		{
 			GameObject player = GameObject.Find(Network.player.ipAddress);
-			GameObject ayudaPersonaje = Instantiate (chia,  player.transform.position, player.transform.rotation) as GameObject;
-
+			GameObject ayudaPersonaje = Instantiate (chia,  new Vector3(player.transform.position.x + 40,player.transform.position.y + 20,player.transform.position.z + 40), player.transform.rotation) as GameObject;
 		}
 		GUI.Label (new Rect (Screen.width - Screen.width / 10, Screen.height / 2, Screen.width / 12, Screen.height / 9), textoAyuda);
 
