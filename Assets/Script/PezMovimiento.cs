@@ -18,7 +18,7 @@ public class PezMovimiento : MonoBehaviour {
 		if(nw.isMine)
 		{
 			if(Vector3.Distance(lago.position,transform.position) > 5){
-				speed = Random.Range (0.1f, 10.0f);
+				speed = Random.Range (0.1f, 5.0f);
 				int numeroLago = Random.Range (1, 3);
 				string lagoBuscar = "Lago" + numeroLago;
 				lago = GameObject.Find (lagoBuscar).transform;
