@@ -20,11 +20,14 @@ public class ChiaPerseguir : MonoBehaviour {
 	void Update () {
 
 		if(Vector3.Distance(target.transform.position,transform.position) > 10){
+			Camera.main.GetComponent<AudioSource>().enabled = true;
+
 			Quaternion rotacion = Quaternion.LookRotation (target.transform.position - transform.position);
 			transform.rotation = Quaternion.Slerp(transform.rotation, rotacion, 6.0f * Time.deltaTime);
 			transform.Translate(0,0,12.0f * Time.deltaTime);
 		}else{
 			llegoChia = true;
+			Camera.main.GetComponent<AudioSource>().enabled = false;
 			Destroy(gameObject,General.timepoChia);
 		}
 	}
