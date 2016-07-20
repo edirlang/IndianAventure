@@ -16,13 +16,14 @@ var FarClipPlane : int;
 function Start () {
 	tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
 	matrice = new Vector2(0,0);
-
-	WaterCam = new GameObject("RefractCamera");
-	WaterCam.AddComponent("Camera");
-	WaterCam.camera.enabled = true;
-	WaterCam.camera.farClipPlane = camera.farClipPlane;
-	WaterCam.camera.depth = camera.depth-1;
-	WaterCam.camera.cullingMask = 1 + 0;
+	if (refraction){
+		WaterCam = new GameObject("RefractCamera");
+		WaterCam.AddComponent("Camera");
+		WaterCam.camera.enabled = true;
+		WaterCam.camera.farClipPlane = camera.farClipPlane;
+		WaterCam.camera.depth = camera.depth-1;
+		WaterCam.camera.cullingMask = 1 + 0;
+	}
 }
 
 function Update () {

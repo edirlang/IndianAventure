@@ -40,7 +40,6 @@ public class Bonos : MonoBehaviour {
 			{
 				minutos --;
 				segundos = 59;
-				System.Threading.Thread.Sleep(100);
 			}
 			gameObject.GetComponent<BoxCollider>().enabled = true;
 			bono.SetActive(true);
