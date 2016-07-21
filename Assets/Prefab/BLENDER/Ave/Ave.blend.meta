@@ -83,6 +83,8 @@ ModelImporter:
     4300002: Cube
     7400000: Default Take
     9500000: //RootNode
+    13700000: Cube
+    13700002: Sphere
   materials:
     importMaterials: 1
     materialName: 0
