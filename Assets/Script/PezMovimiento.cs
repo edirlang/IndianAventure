@@ -15,7 +15,7 @@ public class PezMovimiento : MonoBehaviour {
 	void Update () {
 		if(Vector3.Distance(lago.position,transform.position) > 5 && tiempo < 0){
 			speed = Random.Range (0.1f, 5.0f);
-			int numeroLago = Random.Range (1, 6);
+			int numeroLago = Random.Range (1, 3);
 			string lagoBuscar = "Lago" + numeroLago;
 			lago = GameObject.Find (lagoBuscar).transform;
 			Quaternion rotacion = Quaternion.LookRotation (lago.position - transform.position);
