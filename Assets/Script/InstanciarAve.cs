@@ -4,7 +4,7 @@ using System.Collections;
 public class InstanciarAve : MonoBehaviour {
 	
 	public GameObject ave;
-	public float tiempo=76;
+	public float tiempo=90;
 	// Use this for initialization
 	void Start () {
 		for( int i = 0; i < 3; i++)
@@ -21,7 +21,7 @@ public class InstanciarAve : MonoBehaviour {
 		tiempo -= Time.deltaTime;
 		if(tiempo < 0)
 		{
-			tiempo = 76;
+			tiempo = 90;
 			for( int i = 0; i < 3; i++)
 			{
 				Quaternion rotacionRandon = Random.rotation;

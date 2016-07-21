@@ -4,8 +4,9 @@ using System.Collections;
 public class CaidaRio : MonoBehaviour {
 
 	bool perdioVida=false;
-	float tiempo=5;
 	CharacterController controller;
+	public Texture perdrVidaAgua;
+	public GameObject chiaPrefab;
 	// Use this for initialization
 	void Start () {
 	
@@ -13,25 +14,16 @@ public class CaidaRio : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-	}
-
-	void OnGUI()
-	{
-		GUIStyle style = new GUIStyle ();
-		style = GUI.skin.GetStyle ("box");
 		if(perdioVida)
 		{
-			tiempo -= Time.deltaTime;
-			style.alignment = TextAnchor.UpperCenter;
-			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"Has perdido una vida por caer al rio");
-			GUI.Label (new Rect(0, (Screen.height/16),Screen.width,Screen.height),"");
-			style.alignment = TextAnchor.UpperLeft;
-		}
-		if(tiempo <= 0)
-		{
+			General.timepoChia = 10;
+			GameObject player = GameObject.Find(Network.player.ipAddress);
+			GameObject chia = Instantiate (chiaPrefab,  player.transform.position, player.transform.rotation) as GameObject;
+			chia.GetComponent<ChiaPerseguir>().mensajeChia = "Haz perdido una vida \nTen cuidado la proxima vez";
+			chia.transform.parent = player.transform;
+			chia.transform.localPosition = new Vector3(0f, 5f,11f);
+
 			perdioVida = false;
-			tiempo = 5;
 		}
 	}
 

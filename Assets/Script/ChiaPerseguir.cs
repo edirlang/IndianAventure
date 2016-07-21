@@ -6,14 +6,14 @@ public class ChiaPerseguir : MonoBehaviour {
 	GameObject target;
 	Light luz;
 	bool llegoChia;
-	string mensajeChia;
-	int contador = 0;
+	public string mensajeChia;
+	private Animator animator;
 	// Use this for initialization
 	void Start () {
 		target = GameObject.Find (Network.player.ipAddress);
 		luz = GameObject.Find ("Luz").GetComponent<Light> ();
 		llegoChia = false;
-		mensajeChia = "Hola, soy chia";
+		animator = GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -26,6 +26,7 @@ public class ChiaPerseguir : MonoBehaviour {
 			transform.rotation = Quaternion.Slerp(transform.rotation, rotacion, 6.0f * Time.deltaTime);
 			transform.Translate(0,0,12.0f * Time.deltaTime);
 		}else{
+			animator.SetBool("hablar", true);
 			llegoChia = true;
 			Camera.main.GetComponent<AudioSource>().enabled = false;
 			Destroy(gameObject,General.timepoChia);

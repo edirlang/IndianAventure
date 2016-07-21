@@ -83,6 +83,7 @@ ModelImporter:
     4300002: Cube
     7400000: Default Take
     9500000: //RootNode
+    11100000: //RootNode
     13700000: Cube
     13700002: Sphere
   materials:
@@ -94,7 +95,7 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
