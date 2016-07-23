@@ -17,7 +17,6 @@ public class AveMovimiento : MonoBehaviour {
 		moveDirection = new Vector3(1, 0, 0);
 		moveDirection = transform.TransformDirection(moveDirection);
 		moveDirection *= speed;
-		transform.Rotate(0,Input.GetAxis("Horizontal"),0);
 		controller.Move(moveDirection * Time.deltaTime);
 
 	}

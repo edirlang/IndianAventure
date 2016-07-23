@@ -19,7 +19,7 @@ public class ActivateTrigger : MonoBehaviour {
 	public int triggerCount = 1;///
 	public bool repeatTrigger = false;
 	
-	void DoActivateTrigger () {
+	void DoActivateTrigger (Collider other) {
 		triggerCount--;
 
 		if (triggerCount == 0 || repeatTrigger) {
@@ -31,7 +31,7 @@ public class ActivateTrigger : MonoBehaviour {
 		
 			switch (action) {
 				case Mode.Trigger:
-					targetGameObject.BroadcastMessage ("DoActivateTrigger");
+					targetGameObject.BroadcastMessage ("DoActivateTrigger",other.gameObject);
 					break;
 				case Mode.Replace:
 					if (source != null) {
@@ -57,6 +57,12 @@ public class ActivateTrigger : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other) {
-		DoActivateTrigger ();
+		DoActivateTrigger (other);
+	}
+
+	void OnTriggerExit (Collider other) {
+		Object currentTarget = target != null ? target : gameObject;
+		GameObject targetGameObject = currentTarget as GameObject;
+		targetGameObject.BroadcastMessage ("DoDesactiveTrigger");
 	}
 }
