@@ -27,14 +27,14 @@ public class Caida : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		GameObject objeto =  collision.gameObject;
-		if(collision.gameObject.name == "Cofre")
+		if(objeto.name == "Cofre")
 		{
 			velocidad = 0;
 			Destroy(cofre.GetComponent<Rigidbody>());
 			cofre.transform.position = new Vector3(cofre.transform.position.x,cofre.transform.position.y + 1,cofre.transform.position.z); 
 			cofre.transform.Rotate(Vector3.zero);
 		}
-		if (collision.gameObject.name == "AvePrefab(Clone)")
+		if (objeto.name == "AvePrefab(Clone)")
 		{
 			CharacterController controller = collision.gameObject.GetComponent<CharacterController>();
 			moveDirection = new Vector3(0,2,0);
@@ -47,11 +47,11 @@ public class Caida : MonoBehaviour {
 
 	void OnCollisionStay(Collision collision) {
 		GameObject objeto =  collision.gameObject;
-		if (collision.gameObject.name == "AvePrefab(Clone)")
+		if (objeto.name == "AvePrefab(Clone)")
 		{
-			CharacterController controller = collision.gameObject.GetComponent<CharacterController>();
+			CharacterController controller = objeto.GetComponent<CharacterController>();
 			moveDirection = new Vector3(0,2,0);
-			moveDirection = collision.gameObject.transform.TransformDirection(moveDirection);
+			moveDirection = objeto.transform.TransformDirection(moveDirection);
 			moveDirection *= 10f;
 			
 			controller.Move(moveDirection * Time.deltaTime);

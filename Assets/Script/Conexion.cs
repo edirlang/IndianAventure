@@ -97,7 +97,7 @@ public class Conexion : MonoBehaviour {
 			{
 				General.timepoChia = 15;
 				GameObject player = GameObject.Find(Network.player.ipAddress);
-				GameObject ayudaPersonaje = Instantiate (chia,  new Vector3(player.transform.localPosition.x + 40,player.transform.position.y + 20,player.transform.position.z), player.transform.rotation) as GameObject;
+				GameObject ayudaPersonaje = Instantiate (General.chia,  new Vector3(player.transform.localPosition.x + 40,player.transform.position.y + 20,player.transform.position.z), player.transform.rotation) as GameObject;
 				ayudaPersonaje.transform.parent = transform;
 				ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = "Hola, soy chia";
 				ayudaPersonaje.transform.localPosition = new Vector3(0f, 20f,60f);

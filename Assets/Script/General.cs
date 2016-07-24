@@ -5,7 +5,8 @@ public class General : MonoBehaviour {
 
 	public static int salud, monedas;
 	public static string username="dioxide",nickname="";
-	//public GameObject personajeDefault;
+	public static GameObject chia;
+	public GameObject chiaPrefab;
 	public static GameObject personaje;
 	public static Vector3 posicionIncial;
 	public static int idPersonaje = 1, paso_mision=1;
@@ -15,6 +16,7 @@ public class General : MonoBehaviour {
 	public static float timepoChia=10;
 	// Use this for initialization
 	void Start () {
+		chia = chiaPrefab;
 		PlayerPrefs.GetInt ("salud",3);
 		//personaje = personajeDefault;
 		DontDestroyOnLoad (this);

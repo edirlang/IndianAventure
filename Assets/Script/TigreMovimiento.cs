@@ -3,9 +3,11 @@ using System.Collections;
 
 public class TigreMovimiento : MonoBehaviour {
 	GameObject personaje;
-	private int estado = 0, moveDir = 1, moveSpeed = 6;
-	public float gravity = 9.0F, RotSpeed=6, VelMov= 6, DistEnemAtaque = 0.5f, DistEnem = 20f, contador=5, speed, tiempo,tiempo2,tiempo3;
+	private int estado = 0, numeroAtaques=0;
+	public int moveDir = 1, moveSpeed = 6, speed=6, VelMov= 6;
+	public float gravity = 9.0F, RotSpeed=6, DistEnemAtaque = 0.5f, DistEnem = 20f, contador=5, tiempo,tiempo2,tiempo3;
 	CharacterController controller;
+	private Vector3 moveDirection = Vector3.zero;
 	bool Walk = false;
 	// Use this for initialization
 	void Start () {
@@ -13,6 +15,7 @@ public class TigreMovimiento : MonoBehaviour {
 		tiempo = Random.Range(0, 1000);
 		tiempo2 = Random.Range(0, 1000);
 		tiempo3 = Random.Range(0, 1000);
+		numeroAtaques = 0;
 	}
 	
 	// Update is called once per frame
@@ -56,12 +59,7 @@ public class TigreMovimiento : MonoBehaviour {
 			break;
 
 		case 3:
-			if (Time.time > contador)
-			{
-				Debug.Log("Ataque");
-				estado = 2;
-				//animation.CrossFade(GuardAnim.name, 2.0f);
-			}
+			tigreAtaque();
 			break;
 		}
 	}
@@ -70,10 +68,18 @@ public class TigreMovimiento : MonoBehaviour {
 	{
 		if(!Physics.Raycast(transform.position, transform.forward, 5))
 		{
-			transform.Translate(Vector3.forward * moveSpeed * Time.smoothDeltaTime);
+			Debug.Log("caminando");
+			moveDirection = new Vector3(0, 0, 1);
+			moveDirection = transform.TransformDirection(moveDirection);
+			moveDirection *= moveSpeed;
+
+			//transform.Translate(Vector3.forward * moveSpeed * Time.smoothDeltaTime);
+			moveDirection.y -= gravity * Time.deltaTime;
+			controller.Move(moveDirection * Time.deltaTime);
 		}
 		else
 		{
+			Debug.Log("rotando");
 			if(Physics.Raycast(transform.position, - transform.right, 1))
 			{
 				moveDir = 1;
@@ -103,7 +109,7 @@ public class TigreMovimiento : MonoBehaviour {
 		
 		if (tiempo > 500){
 			Walk = true;
-			moveSpeed = 2;
+			moveSpeed = VelMov-5;
 		}
 		if (tiempo < 300){
 			Walk = false;
@@ -119,12 +125,40 @@ public class TigreMovimiento : MonoBehaviour {
 
 	}
 
+	void tigreAtaque(){
+
+		if (Time.time > contador)
+		{
+			numeroAtaques++;
+			Debug.Log("Ataque " + numeroAtaques);
+			estado = 2;
+			//animation.CrossFade(GuardAnim.name, 2.0f);
+		}
+		if(numeroAtaques >=5){
+			personaje.transform.position = new Vector3(0,0,0);
+			CharacterController controllerpersonaje = personaje.GetComponent<CharacterController>();
+			controllerpersonaje.enabled = false;
+			personaje.transform.position = new Vector3(-259f,4f,-14f);
+			controllerpersonaje.enabled = true;
+
+			General.salud--;
+			StartCoroutine(General.actualizarUser());
+
+			General.timepoChia = 10;
+			GameObject chia = Instantiate (General.chia,  personaje.transform.position, personaje.transform.rotation) as GameObject;
+			chia.GetComponent<ChiaPerseguir>().mensajeChia = "Haz perdido una vida \nTen cuidado la proxima vez";
+			chia.transform.parent = personaje.transform;
+			chia.transform.localPosition = new Vector3(0f, 5f,11f);
+		}
+	}
+
 	void DoActivateTrigger(GameObject player) {
 
 		if(player.tag == "Player")
 		{
 			estado = 1;
 			personaje = player;
+			numeroAtaques=0;
 		}
 	}
 
