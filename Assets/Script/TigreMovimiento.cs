@@ -30,20 +30,25 @@ public class TigreMovimiento : MonoBehaviour {
 				float DistanciaCont = Vector3.Distance(personaje.transform.position, transform.position);
 
 				if(DistanciaCont <= DistEnem && DistanciaCont >= DistEnem/2)
-					speed = VelMov;
+				speed = VelMov;
 				else
-					speed = VelMov*2;
+				speed = VelMov + VelMov/2;
 
 				Quaternion rotacion = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(personaje.transform.position - transform.position), RotSpeed * Time.deltaTime);
 				transform.rotation = new Quaternion(transform.rotation.x,rotacion.y,transform.rotation.z,rotacion.w);
-				controller.Move(transform.forward * speed * Time.deltaTime);
+				controller.Move(transform.forward * RotSpeed * Time.deltaTime);
 				controller.Move(transform.up * -gravity * Time.deltaTime);
 				
+				moveDirection.y -= gravity * Time.deltaTime;
 				if (DistanciaCont <= DistEnemAtaque)
 				{
 					estado = 2;
 					//animation.CrossFade(GuardAnim.name);
 				}
+				
+				if(DistanciaCont > DistEnem*1.5)
+					estado = 0;
+				
 				break;
 		case 2: 
 			DistanciaCont = Vector3.Distance(personaje.transform.position, transform.position);
@@ -68,7 +73,6 @@ public class TigreMovimiento : MonoBehaviour {
 	{
 		if(!Physics.Raycast(transform.position, transform.forward, 5))
 		{
-			Debug.Log("caminando");
 			moveDirection = new Vector3(0, 0, 1);
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= moveSpeed;
@@ -79,7 +83,6 @@ public class TigreMovimiento : MonoBehaviour {
 		}
 		else
 		{
-			Debug.Log("rotando");
 			if(Physics.Raycast(transform.position, - transform.right, 1))
 			{
 				moveDir = 1;
