@@ -26,10 +26,11 @@ public class ChiaPerseguir : MonoBehaviour {
 			transform.rotation = Quaternion.Slerp(transform.rotation, rotacion, 6.0f * Time.deltaTime);
 			transform.Translate(0,0,12.0f * Time.deltaTime);
 		}else{
+			Destroy(gameObject,General.timepoChia);
 			animator.SetBool("hablar", true);
 			llegoChia = true;
 			Camera.main.GetComponent<AudioSource>().enabled = false;
-			Destroy(gameObject,General.timepoChia);
+			General.timepo -= Time.deltaTime;
 		}
 	}
 

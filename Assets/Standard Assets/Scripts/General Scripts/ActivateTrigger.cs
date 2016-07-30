@@ -31,7 +31,8 @@ public class ActivateTrigger : MonoBehaviour {
 		
 			switch (action) {
 				case Mode.Trigger:
-					targetGameObject.BroadcastMessage ("DoActivateTrigger",other.gameObject);
+					string name = other.gameObject.name;
+					targetGameObject.SendMessage("DoActivateTrigger",name);
 					break;
 				case Mode.Replace:
 					if (source != null) {

@@ -155,8 +155,8 @@ public class TigreMovimiento : MonoBehaviour {
 		}
 	}
 
-	void DoActivateTrigger(GameObject player) {
-
+	void DoActivateTrigger(string playerName) {
+		GameObject player = GameObject.Find (playerName);
 		if(player.tag == "Player")
 		{
 			estado = 1;

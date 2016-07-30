@@ -93,18 +93,7 @@ public class Conexion : MonoBehaviour {
 		// Ayuda
 		if(GUI.Button(new Rect(Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 12, Screen.width / 12, Screen.height / 6),ayudaTexture))
 		{
-			if(!GameObject.Find("Chia(Clone)"))
-			{
-				General.timepoChia = 15;
-				GameObject player = GameObject.Find(Network.player.ipAddress);
-				GameObject ayudaPersonaje = Instantiate (General.chia,  new Vector3(player.transform.localPosition.x + 40,player.transform.position.y + 20,player.transform.position.z), player.transform.rotation) as GameObject;
-				ayudaPersonaje.transform.parent = transform;
-				ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = "Hola, soy chia";
-				ayudaPersonaje.transform.localPosition = new Vector3(0f, 20f,60f);
-			}else
-			{
-				Camera.main.GetComponent<AudioSource>().enabled = false;
-			}
+			Misiones.instanciar = true;
 		}
 		GUI.Label (new Rect (Screen.width - Screen.width / 10, Screen.height / 2, Screen.width / 12, Screen.height / 9), textoAyuda);
 
