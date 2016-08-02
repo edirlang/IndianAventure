@@ -4,8 +4,8 @@ using System.Collections;
 public class TigreMovimiento : MonoBehaviour {
 	GameObject personaje;
 	private int estado = 0, numeroAtaques=0;
-	public int moveDir = 1, moveSpeed = 6, speed=6, VelMov= 6;
-	public float gravity = 9.0F, RotSpeed=6, DistEnemAtaque = 0.5f, DistEnem = 20f, contador=5, tiempo,tiempo2,tiempo3;
+	public int moveDir = 1, speed=6, VelMov= 6;
+	public float gravity = 9.8F, RotSpeed=10, DistEnemAtaque = 0.5f, DistEnem = 20f, contador=5, tiempo,tiempo2,tiempo3, moveSpeed = 6.0f;
 	CharacterController controller;
 	private Vector3 moveDirection = Vector3.zero;
 	bool Walk = false;
@@ -73,13 +73,13 @@ public class TigreMovimiento : MonoBehaviour {
 	{
 		if(!Physics.Raycast(transform.position, transform.forward, 5))
 		{
-			moveDirection = new Vector3(0, 0, 1);
+			moveDirection = new Vector3(0, 0, moveSpeed);
 			moveDirection = transform.TransformDirection(moveDirection);
-			moveDirection *= moveSpeed;
+			moveDirection *= speed;
 
 			//transform.Translate(Vector3.forward * moveSpeed * Time.smoothDeltaTime);
 			moveDirection.y -= gravity * Time.deltaTime;
-			controller.Move(moveDirection * Time.deltaTime);
+
 		}
 		else
 		{
@@ -91,9 +91,10 @@ public class TigreMovimiento : MonoBehaviour {
 			{
 				moveDir = -1;
 			}
-			transform.Rotate(Vector3.up, 90 * moveSpeed * Time.smoothDeltaTime * moveDir);
+			moveDirection.y = 0.5f;
+			transform.Rotate(Vector3.up, 90 * RotSpeed * Time.smoothDeltaTime * moveDir);
 		}
-
+		controller.Move(moveDirection * Time.deltaTime);
 		tiempo -= Time.deltaTime * 1;
 		tiempo2 -= Time.deltaTime * 1;
 		tiempo3 -= Time.deltaTime * 1;
@@ -105,25 +106,27 @@ public class TigreMovimiento : MonoBehaviour {
 		if (tiempo2 <= 0){
 			tiempo2 = Random.Range(0, 1000);
 		}
-		
+
 		if (tiempo3 <= 0){
 			tiempo3 = Random.Range(0, 1000);
 		}
-		
+
 		if (tiempo > 500){
 			Walk = true;
-			moveSpeed = VelMov-5;
+			moveSpeed = 0.2f;
 		}
 		if (tiempo < 300){
 			Walk = false;
 			moveSpeed = 0;
 		}
-		
+
 		if (tiempo2 < 75 && Walk == true){
 			transform.Rotate(Vector3.up, 90 * moveSpeed * Time.smoothDeltaTime * moveDir);
+			tiempo2 = Random.Range(0, 1000);
 		}
 		if (tiempo2 > 925 && Walk == true){
 			transform.Rotate(Vector3.up, -90 * moveSpeed * Time.smoothDeltaTime * moveDir);
+			tiempo2 = Random.Range(0, 1000);
 		}
 
 	}
