@@ -6,8 +6,10 @@ public class TigreMovimiento : MonoBehaviour {
 	private int estado = 0, numeroAtaques=0;
 	public int moveDir = 1, speed=6, VelMov= 6;
 	public float gravity = 9.8F, RotSpeed=10, DistEnemAtaque = 0.5f, DistEnem = 20f, contador=5, tiempo,tiempo2,tiempo3, moveSpeed = 6.0f;
+	public GameObject sensorDelantero;
 	CharacterController controller;
 	private Vector3 moveDirection = Vector3.zero;
+	Animator animator;
 	bool Walk = false;
 	// Use this for initialization
 	void Start () {
@@ -16,6 +18,7 @@ public class TigreMovimiento : MonoBehaviour {
 		tiempo2 = Random.Range(0, 1000);
 		tiempo3 = Random.Range(0, 1000);
 		numeroAtaques = 0;
+		animator = GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -27,6 +30,7 @@ public class TigreMovimiento : MonoBehaviour {
 				tigreEsperando();
 				break;
 			case 1:
+				animator.SetInteger("estate", 2);
 				float DistanciaCont = Vector3.Distance(personaje.transform.position, transform.position);
 
 				if(DistanciaCont <= DistEnem && DistanciaCont >= DistEnem/2)
@@ -43,6 +47,7 @@ public class TigreMovimiento : MonoBehaviour {
 				if (DistanciaCont <= DistEnemAtaque)
 				{
 					estado = 2;
+					
 					//animation.CrossFade(GuardAnim.name);
 				}
 				
@@ -55,11 +60,11 @@ public class TigreMovimiento : MonoBehaviour {
 			if (DistanciaCont > DistEnemAtaque)
 			{ 
 				estado = 1; //Pasa al estado de perseguir.
-				//animation.CrossFade(RunAnim.name);
+				animator.SetInteger("estate", 2);
 			}else{
 				estado = 3;//Pasa al estado de Atacar.
 				contador = Time.time + 1;//(animation[AttackAnim.name].clip.length * 1.2);
-				//animation.Play(AttackAnim.name);		 
+				animator.SetInteger("estate", 3);		 
 			}
 			break;
 
@@ -70,7 +75,7 @@ public class TigreMovimiento : MonoBehaviour {
 	}
 
 	void tigreEsperando()
-	{
+	{	
 		if(!Physics.Raycast(transform.position, transform.forward, 5))
 		{
 			moveDirection = new Vector3(0, 0, moveSpeed);
@@ -91,8 +96,8 @@ public class TigreMovimiento : MonoBehaviour {
 			{
 				moveDir = -1;
 			}
-			moveDirection.y = 0.5f;
-			transform.Rotate(Vector3.up, 90 * RotSpeed * Time.smoothDeltaTime * moveDir);
+			moveDirection.y = 4f;
+			transform.Rotate(Vector3.up, 45 * RotSpeed * Time.smoothDeltaTime * moveDir);
 		}
 		controller.Move(moveDirection * Time.deltaTime);
 		tiempo -= Time.deltaTime * 1;
@@ -120,12 +125,19 @@ public class TigreMovimiento : MonoBehaviour {
 			moveSpeed = 0;
 		}
 
+		if(moveSpeed > 0)
+		{
+			animator.SetInteger("estate", 2);
+		}else
+		{
+			animator.SetInteger("estate", 1);
+		}
 		if (tiempo2 < 75 && Walk == true){
-			transform.Rotate(Vector3.up, 90 * moveSpeed * Time.smoothDeltaTime * moveDir);
+			transform.Rotate(Vector3.up, 45 * moveSpeed * Time.smoothDeltaTime * moveDir);
 			tiempo2 = Random.Range(0, 1000);
 		}
 		if (tiempo2 > 925 && Walk == true){
-			transform.Rotate(Vector3.up, -90 * moveSpeed * Time.smoothDeltaTime * moveDir);
+			transform.Rotate(Vector3.up, -45 * moveSpeed * Time.smoothDeltaTime * moveDir);
 			tiempo2 = Random.Range(0, 1000);
 		}
 
@@ -138,7 +150,7 @@ public class TigreMovimiento : MonoBehaviour {
 			numeroAtaques++;
 			Debug.Log("Ataque " + numeroAtaques);
 			estado = 2;
-			//animation.CrossFade(GuardAnim.name, 2.0f);
+			animator.SetInteger("estate", 2);
 		}
 		if(numeroAtaques >=5){
 			personaje.transform.position = new Vector3(0,0,0);
@@ -160,6 +172,7 @@ public class TigreMovimiento : MonoBehaviour {
 
 	void DoActivateTrigger(string playerName) {
 		GameObject player = GameObject.Find (playerName);
+
 		if(player.tag == "Player")
 		{
 			estado = 1;
