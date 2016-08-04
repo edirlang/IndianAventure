@@ -15,8 +15,6 @@ public class PezMovimiento : MonoBehaviour {
 	void Update () {
 		float distancia = Vector3.Distance(lago.position,transform.position);
 		Vector3 direccion = lago.position - transform.position;
-		Ray ray = new Ray(lago.position, transform.position);
-		Debug.DrawRay(ray.origin, direccion * 1.0f,Color.red);
 
 		if(distancia > 5){
 			speed = Random.Range (0.1f, 5.0f);

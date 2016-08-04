@@ -50,7 +50,7 @@ public class interfaz_login : MonoBehaviour {
 			
 			GUI.Box(new Rect(1,1, Screen.width, Screen.height), BoxTexture, style);
 			
-			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Bienvenidos a Indian Adventure");
+			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Bienvenidos a Natives");
 
 			if (GUI.Button (new Rect (5*(Screen.width / 8), 6 *(Screen.height/8), Screen.width / 4, Screen.height / 10), "Salir")) {
 				Application.Quit();
