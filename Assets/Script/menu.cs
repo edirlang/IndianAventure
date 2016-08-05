@@ -95,7 +95,6 @@ public class menu : MonoBehaviour {
 		style.fontSize = (int)(20.0f );
 		
 		GUI.Box(new Rect(2*(Screen.width /6) - Screen.width / 8,7*(Screen.height/40), Screen.width / 6, Screen.height/48),"");
-		GUI.Label(new Rect(2*(Screen.width /6) - Screen.width / 8,8*(Screen.height/40), Screen.width / 6, Screen.height/12),General.nickname);
 		
 		GUI.Label(new Rect(2*(Screen.width /6) - Screen.width / 8,3*(Screen.height/10), Screen.width / 6, Screen.height/12), "Mision Actual");
 		
@@ -189,9 +188,8 @@ public class menu : MonoBehaviour {
 		yield return www;
 		if(www.error == null){
 			string[] usuario = www.text.Split('-');
-			General.salud = int.Parse(usuario[6]);
-			General.monedas = int.Parse(usuario[7]);
-			General.nickname= usuario[5];
+			General.salud = int.Parse(usuario[5]);
+			General.monedas = int.Parse(usuario[6]);
 		}else{
 			Debug.Log(www.error);
 		}

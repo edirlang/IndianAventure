@@ -4,12 +4,12 @@ using System.Collections;
 public class General : MonoBehaviour {
 
 	public static int salud, monedas;
-	public static string username="dioxide",nickname="";
+	public static string username="",nickname="";
 	public static GameObject chia;
 	public GameObject chiaPrefab;
 	public static GameObject personaje;
 	public static Vector3 posicionIncial;
-	public static int idPersonaje = 1, paso_mision=1;
+	public static int idPersonaje, paso_mision=1;
 	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
 	public static bool conectado = false, bono=false;
 	public static string[] misionActual = new string[3];
