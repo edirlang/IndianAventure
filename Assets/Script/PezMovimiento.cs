@@ -13,14 +13,18 @@ public class PezMovimiento : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Vector3.Distance(lago.position,transform.position) > 5 && tiempo < 0){
+		float distancia = Vector3.Distance(lago.position,transform.position);
+		Vector3 direccion = lago.position - transform.position;
+
+		if(distancia > 5){
 			speed = Random.Range (0.1f, 5.0f);
-			int numeroLago = Random.Range (1, 3);
-			string lagoBuscar = "Lago" + numeroLago;
-			lago = GameObject.Find (lagoBuscar).transform;
 			Quaternion rotacion = Quaternion.LookRotation (lago.position - transform.position);
 			transform.rotation = Quaternion.Slerp(transform.rotation, rotacion, speed * Time.deltaTime);
 			tiempo = 1;
+		}else{
+			int numeroLago = Random.Range (1, 3);
+			string lagoBuscar = "Lago" + numeroLago;
+			lago = GameObject.Find (lagoBuscar).transform;
 		}
 		transform.Translate (0,0,speed * Time.deltaTime);
 		tiempo -= Time.deltaTime;

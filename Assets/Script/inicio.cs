@@ -9,7 +9,7 @@ public class inicio : MonoBehaviour {
 	public Texture pj2Texture;
 	public Texture pj3Texture;
 	public GameObject pj1,pj2,pj3, objetoInstanciar, pj1_mostar, pj2_mostar, pj3_mostar;
-	private string username = General.username, nickname="", caracteristicas = "";
+	private string username = General.username, caracteristicas = "";
 	private bool continuar = false, correcto = false;
 	private int tienePersonaje = 0;
 
@@ -132,23 +132,17 @@ public class inicio : MonoBehaviour {
 			GUI.color = Color.blue;
 			GUI.Label(new Rect(6*(Screen.width/9), 2*(Screen.height/7), 3*(Screen.width/9), Screen.height/2),caracteristicas);
 
-			GUI.color = Color.red;
-			styleLabel.fontSize = (int)(35.0f );
-			GUI.Label(new Rect(2*(Screen.width/12), 20 *(Screen.height/24), Screen.width/6, Screen.height/10),"Alias:");
-			GUI.color = Color.white;
-			nickname = GUI.TextField(new Rect(4*(Screen.width/12), 20 *(Screen.height/24), Screen.width/4, Screen.height/10),nickname,25);
 
 			GUI.color = Color.white;
 			GUIStyle styleButton = GUI.skin.GetStyle ("Button");
 			styleButton.fontSize = (int)(30.0f );
-			if (GUI.Button (new Rect (5*(Screen.width / 8), 20 *(Screen.height/24), Screen.width / 5, Screen.height/12), "Crear")) {
+			if (GUI.Button (new Rect (3*(Screen.width / 8), 20 *(Screen.height/24), Screen.width / 5, Screen.height/12), "Crear")) {
 				if(validarPersonaje())
 				{
 					string url = General.hosting+"crearPersonaje";
 					WWWForm form = new WWWForm();
 					form.AddField("username", General.username);
 					form.AddField("id", General.idPersonaje);
-					form.AddField("nickname", nickname);
 					WWW www = new WWW(url, form);
 					StartCoroutine(crearPersonaje(www));
 				}
@@ -214,8 +208,6 @@ public class inicio : MonoBehaviour {
 	private bool validarPersonaje()
 	{
 		if (General.idPersonaje == 0)
-			return false;
-		else if (nickname == "")
 			return false;
 		else
 			return true;

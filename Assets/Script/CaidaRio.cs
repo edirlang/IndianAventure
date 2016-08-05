@@ -5,7 +5,6 @@ public class CaidaRio : MonoBehaviour {
 
 	bool perdioVida=false;
 	CharacterController controller;
-	public Texture perdrVidaAgua;
 	public GameObject chiaPrefab;
 	// Use this for initialization
 	void Start () {

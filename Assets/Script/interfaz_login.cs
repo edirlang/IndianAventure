@@ -5,17 +5,11 @@ public class interfaz_login : MonoBehaviour {
 
 	public Texture BoxTexture;
 	private string username = "";
-	private string password = "";
 	private string Usuario = "";
-	private string Contraseña = "";
 	private bool resultado = false;
 	private string mensaje;
 	private bool registrar = false;
-	private bool Siguiente = true;
-	private string Nombre="", Apellido="", Email="", Fecha_nacimiento="", ano = "",mes="",dia="";
-
-	private bool Masculino = false;
-	private bool Femenino = false;
+	private string Nombre="", Apellido="";
 
 	// Use this for initialization
 	void Start () {
@@ -37,12 +31,13 @@ public class interfaz_login : MonoBehaviour {
 
 	public void login(){
 		Nombre = "";
-		Fecha_nacimiento = Email = Usuario = Contraseña = Apellido = Nombre;
 		GUIStyle style = GUI.skin.GetStyle ("label");
 		style.fontSize = (int)(30.0f );
+		style.alignment = TextAnchor.MiddleCenter;
 		
 		style = GUI.skin.GetStyle ("box");
 		style.fontSize = (int)(30.0f );
+		style.alignment = TextAnchor.UpperCenter;
 		
 		style = GUI.skin.GetStyle ("button");
 		style.fontSize = (int)(30.0f );
@@ -55,17 +50,14 @@ public class interfaz_login : MonoBehaviour {
 			
 			GUI.Box(new Rect(1,1, Screen.width, Screen.height), BoxTexture, style);
 			
-			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Bienvenidos a Indian Adventure");
+			GUI.Box (new Rect (Screen.width / 10, Screen.height/10, Screen.width - 2*(Screen.width/10) ,Screen.height - 2*(Screen.height/10)), "Bienvenidos a Natives");
 
 			if (GUI.Button (new Rect (5*(Screen.width / 8), 6 *(Screen.height/8), Screen.width / 4, Screen.height / 10), "Salir")) {
 				Application.Quit();
 			}
 
-			GUI.Label(new Rect (Screen.width / 4, 2*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Usuario:");
-			username = GUI.TextField(new Rect(2*(Screen.width / 4), 2*(Screen.height/7),  Screen.width / 4, Screen.height / 10),username,25);
-			
-			GUI.Label(new Rect(Screen.width / 4, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Contraseña");
-			password =  GUI.PasswordField(new Rect(2*(Screen.width / 4), 3*(Screen.height/7),  Screen.width / 4, Screen.height / 10),password,"*"[0],50);
+			GUI.Label(new Rect (Screen.width / 4, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10),"Usuario:");
+			username = GUI.TextField(new Rect(2*(Screen.width / 4), 3*(Screen.height/7),  Screen.width / 4, Screen.height / 10),username,25);
 
 			style = GUI.skin.GetStyle ("label");
 			style.fontSize = (int)(20.0f );
@@ -76,7 +68,6 @@ public class interfaz_login : MonoBehaviour {
 				string url = General.hosting+"login";
 				WWWForm form = new WWWForm();
 				form.AddField("username", username);
-				form.AddField("contrasena", password);
 				WWW www = new WWW(url, form);
 				StartCoroutine(comprobarUser(www));
 			}
@@ -117,69 +108,30 @@ public class interfaz_login : MonoBehaviour {
 		style.fontSize = (int)(30.0f );
 
 		GUI.Box(new Rect(0,0, Screen.width, Screen.height),"Registro de Usuario");
-		if (Siguiente) {
-			GUI.Label (new Rect (Screen.width / 6, (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Nombre");
-			Nombre = GUI.TextField (new Rect (2 * (Screen.width / 4), (Screen.height / 7), Screen.width / 4, Screen.height / 12), Nombre, 50);
 
-			GUI.Label (new Rect (Screen.width / 6, 2 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Apellido");
-			Apellido = GUI.TextField (new Rect (2 * (Screen.width / 4), 2 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Apellido, 50);
+		GUI.Label (new Rect (Screen.width / 6, (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Nombre");
+		Nombre = GUI.TextField (new Rect (2 * (Screen.width / 4), (Screen.height / 7), Screen.width / 4, Screen.height / 12), Nombre, 50);
+
+		GUI.Label (new Rect (Screen.width / 6, 2 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Apellido");
+		Apellido = GUI.TextField (new Rect (2 * (Screen.width / 4), 2 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Apellido, 50);
 		
-			GUI.Label (new Rect (Screen.width / 6, 3 * (Screen.height / 7), Screen.width / 3, 2*(Screen.height / 10)), "Fecha de Nacimiento (aaaa-mm-dd)");
+		GUI.Label (new Rect (Screen.width / 6, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10), "Usuario");
+		Usuario = GUI.TextField (new Rect (2 * (Screen.width / 4), 3*(Screen.height / 7), Screen.width / 4, Screen.height / 12), Usuario, 50);
 
-			ano = GUI.TextField (new Rect (8 * (Screen.width / 16), 3 * (Screen.height / 7), Screen.width / 12, Screen.height / 12), ano, 4);
-			GUI.Label (new Rect (19 * (Screen.width / 32), 3 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
-			mes = GUI.TextField (new Rect (20 * (Screen.width / 32), 3 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), mes, 2);
-			GUI.Label (new Rect (22 * (Screen.width / 32), 3 * (Screen.height / 7), Screen.width / 32, Screen.height / 12), "-");
-			dia = GUI.TextField (new Rect (23 * (Screen.width / 32), 3 * (Screen.height / 7), Screen.width / 16, Screen.height / 12), dia, 2);
+		if (GUI.Button (new Rect (Screen.width / 6, 5*(Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {
+			registrar = false;
+			mensaje = "";
+		}
 
-			Fecha_nacimiento = ano+"-"+mes+"-"+dia;
-			GUI.Label (new Rect (Screen.width / 6, 5 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Genero");
-			
-			Masculino = GUI.Toggle (new Rect (2 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), Masculino, "Masculino");
-			Femenino = GUI.Toggle (new Rect (3 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), Femenino, "Femenino");
-
-			if (GUI.Button (new Rect ((Screen.width / 14), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {
-				registrar = false;
-				mensaje = "";
-			}
-
-			if (GUI.Button (new Rect (Screen.width - (Screen.width / 4), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Siguiente")) {
-				Siguiente = false;
-			}
-		} else {
-			GUI.Label (new Rect (Screen.width / 6, 2 * (Screen.height / 7), Screen.width / 3, Screen.height / 10), "Email");
-			Email = GUI.TextField (new Rect (2 * (Screen.width / 4), 2 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Email, 50);
-
-
-			GUI.Label (new Rect (Screen.width / 6, 3*(Screen.height / 7), Screen.width / 4, Screen.height / 10), "Usuario");
-			Usuario = GUI.TextField (new Rect (2 * (Screen.width / 4), 3*(Screen.height / 7), Screen.width / 4, Screen.height / 12), Usuario, 50);
-
-			GUI.Label (new Rect (Screen.width / 6, 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 10), "Contraseña");
-			Contraseña = GUI.PasswordField (new Rect (2 * (Screen.width / 4), 4 * (Screen.height / 7), Screen.width / 4, Screen.height / 12), Contraseña,"*"[0], 50);
-
-			if (GUI.Button (new Rect ((Screen.width / 14), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Atras")) {
-				Siguiente = true;
-			}
-
-			if (GUI.Button (new Rect (Screen.width - (Screen.width / 4), Screen.height - (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Guardar")) {
-				if(validarusuario()){
-					string url = General.hosting+"registrar";
-					WWWForm form = new WWWForm();
-					form.AddField("username", Usuario);
-					form.AddField("nombre", Nombre);
-					form.AddField("apellido", Apellido);
-					form.AddField("fecha", Fecha_nacimiento);
-					form.AddField("email", Email);
-					if(Masculino){
-						form.AddField("genero", "M");
-					}else{
-						form.AddField("genero", "F");
-					}
-					form.AddField("contrasena", Contraseña);
-
-					WWW www = new WWW(url, form);
-					StartCoroutine(registrarUser(www));
-				}
+		if (GUI.Button (new Rect (2*(Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Guardar")) {
+			if(validarusuario()){
+				string url = General.hosting+"registrar";
+				WWWForm form = new WWWForm();
+				form.AddField("username", Usuario);
+				form.AddField("nombre", Nombre);
+				form.AddField("apellido", Apellido);
+				WWW www = new WWW(url, form);
+				StartCoroutine(registrarUser(www));
 			}
 		}
 	}
@@ -220,7 +172,7 @@ public class interfaz_login : MonoBehaviour {
 	}
 
 	private bool validarusuario(){
-		int i = 0;
+
 		if (Nombre == "")
 		{
 			mensaje ="Por favor escribe tu Nombre";
@@ -230,32 +182,13 @@ public class interfaz_login : MonoBehaviour {
 		{
 			mensaje ="Por favor escribe tu Apellido";
 			return false;
-		}
-		else if (Email == "")
-		{
-			mensaje ="Por favor escribe tu E-mail";
-			return false;
-		}
-		else if (Fecha_nacimiento == "")
-		{
-			mensaje ="Por favor escribe tu Fecha de Nacimiento";
-			return false;
-		}
-		else if (Usuario == ""){
+		}else if (Usuario == ""){
 			mensaje ="Por favor escribe tu Nomnbre de Usuario (username)";
 			return false;
 		}
-		else if (Contraseña == "")
-		{
-			mensaje ="Por favor escribe tu contraseña";
-			return false;
-		}
-		else if (int.TryParse (ano, out i) && int.TryParse (mes, out i) && int.TryParse (dia, out i)) {
+		else {
 			mensaje = "";	
 			return true;
-		}else {
-			mensaje = "La fecha de nacimiento tiene un formato de aaaa-mm-dd";
-			return false;
 		}
 	}
 }
