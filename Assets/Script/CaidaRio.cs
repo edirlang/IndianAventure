@@ -20,7 +20,7 @@ public class CaidaRio : MonoBehaviour {
 			GameObject chia = Instantiate (chiaPrefab,  player.transform.position, player.transform.rotation) as GameObject;
 			chia.GetComponent<ChiaPerseguir>().mensajeChia = "Haz perdido una vida \nTen cuidado la proxima vez";
 			chia.transform.parent = player.transform;
-			chia.transform.localPosition = new Vector3(0f, 5f,11f);
+			chia.transform.localPosition = new Vector3(0f, 8f,25f);
 
 			perdioVida = false;
 		}
@@ -34,7 +34,8 @@ public class CaidaRio : MonoBehaviour {
 			collider.gameObject.transform.position = new Vector3(0,0,0);
 			controller = collider.gameObject.GetComponent<CharacterController>();
 			controller.enabled = false;
-			collider.gameObject.transform.position = new Vector3(-259f,4f,-14f);
+			GameObject objetoAparecer = GameObject.Find("PlayerJuego");
+			collider.gameObject.transform.position = objetoAparecer.transform.position;
 			controller.enabled = true;
 			perdioVida = true;
 			General.salud--;
