@@ -18,7 +18,7 @@ public class Bonos : MonoBehaviour {
 		WWW www2 = new WWW(url2, form2);
 		StartCoroutine(consultarBono(www2));
 		bono = GameObject.Find ("Bono");
-		gameObject.transform.position = new Vector3 (Random.Range(-1100,83),40,Random.Range(-1500,47));
+		gameObject.transform.position = new Vector3 (Random.Range(10,2800),100,Random.Range(10,1800));
 	}
 	
 	// Update is called once per frame
