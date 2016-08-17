@@ -19,7 +19,7 @@ public class ChiaPerseguir : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(Vector3.Distance(target.transform.position,transform.position) > 10){
+		if(Vector3.Distance(target.transform.position,transform.position) > 1){
 			Camera.main.GetComponent<AudioSource>().enabled = true;
 
 			Quaternion rotacion = Quaternion.LookRotation (target.transform.position - transform.position);

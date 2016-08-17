@@ -40,6 +40,13 @@ ModelImporter:
     100068: PieIzq
     100070: TobilloDer
     100072: TobilloIzq
+    100074: AntBrazoDer
+    100076: AntBrazoIzq
+    100078: Cubo
+    100080: MuzloDer
+    100082: MuzloIzq
+    100084: PiernaDer
+    100086: PiernaIzq
     400000: antebrazo_derecho
     400002: antebrazo_izquierdo
     400004: Armature
@@ -77,6 +84,13 @@ ModelImporter:
     400068: PieIzq
     400070: TobilloDer
     400072: TobilloIzq
+    400074: AntBrazoDer
+    400076: AntBrazoIzq
+    400078: Cubo
+    400080: MuzloDer
+    400082: MuzloIzq
+    400084: PiernaDer
+    400086: PiernaIzq
     2300000: Esfera_002
     2300002: Esfera_003
     2300004: Plano_001
@@ -87,14 +101,16 @@ ModelImporter:
     4300002: Esfera_003
     4300004: Plano_001
     4300006: Cube
+    4300008: Cubo
     7400000: Default Take
     9500000: //RootNode
     13700000: Cube
     13700002: Esfera_002
     13700004: Esfera_003
+    13700006: Cubo
   materials:
     importMaterials: 1
-    materialName: 0
+    materialName: 1
     materialSearch: 1
   animations:
     legacyGenerateAnimations: 4

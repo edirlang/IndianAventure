@@ -101,10 +101,15 @@ public class Conexion : MonoBehaviour {
 		{
 			GUI.Box(new Rect(0,0,Screen.width,Screen.height),"Menu Pausa");
 
-			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 4*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Volver al Menu")) {
+			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 3*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Volver al Menu")) {
 				StartCoroutine (desconectarUser ());
 			}
-			
+
+			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 4*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Maleta")) {
+				GetComponent<Maleta>().enabled = true;
+				abrirMenu = false;
+			}
+
 			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 5*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Volver")) {
 				abrirMenu = false;
 			}

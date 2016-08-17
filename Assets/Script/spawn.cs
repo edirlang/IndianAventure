@@ -15,7 +15,7 @@ public class spawn : MonoBehaviour {
 	void OnNetworkLoadedLevel()
 	{
 		GameObject g = (GameObject) Network.Instantiate (General.personaje, General.posicionIncial, transform.rotation, 0);
-		g.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
+
 		g.name = Network.player.ipAddress;
 	}
 

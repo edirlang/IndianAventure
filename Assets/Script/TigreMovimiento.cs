@@ -156,7 +156,7 @@ public class TigreMovimiento : MonoBehaviour {
 			personaje.transform.position = new Vector3(0,0,0);
 			CharacterController controllerpersonaje = personaje.GetComponent<CharacterController>();
 			controllerpersonaje.enabled = false;
-			personaje.transform.position = new Vector3(-259f,4f,-14f);
+			personaje.transform.position = new Vector3(1881.998f,265.3758f,1146.519f);
 			controllerpersonaje.enabled = true;
 
 			General.salud--;

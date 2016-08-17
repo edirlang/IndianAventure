@@ -16,11 +16,10 @@ public class Misiones : MonoBehaviour {
 		mision1 = new Mision();
 		string[] pasos = new string[5];
 		mision1.nombre = "Construir una choza para vivir";
-		pasos[0] = "Conseguir madera";
-		pasos[1] = "Conseguir madera";
-		pasos[2] = "Conseguir linas";
-		pasos[3] = "Conseguir Martillo";
-		pasos[4] = "Consntrulle tu choza";
+		pasos[0] = "Debes Conseguir madera en el bosque";
+		pasos[1] = "Bsuca hojas de la plama de Boba y trae 20 para cinstruir tu casa";
+		pasos[2] = "Toma una vasija y trea barro, junto al lago la encontraras";
+		pasos[4] = "Unicate en fusagasuga nuestra aldea y contrulle tu choza";
 		mision1.pasos = pasos;
 
 		mision2 = new Mision();
