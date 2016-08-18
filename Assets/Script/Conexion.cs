@@ -106,7 +106,9 @@ public class Conexion : MonoBehaviour {
 			}
 
 			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 4*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Maleta")) {
-				GetComponent<Maleta>().enabled = true;
+				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
+				maleta.mostarMaleta = true;
+
 				abrirMenu = false;
 			}
 

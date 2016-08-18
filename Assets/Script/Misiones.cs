@@ -5,7 +5,7 @@ public class Misiones : MonoBehaviour {
 	public static bool instanciar = false;
 	Mision mision1, mision2;
 	GameObject ayudaPersonaje;
-
+	private int numeroMaderas=0;
 	struct Mision{
 		public string nombre;
 		public string[] pasos;
@@ -15,11 +15,11 @@ public class Misiones : MonoBehaviour {
 	{
 		mision1 = new Mision();
 		string[] pasos = new string[5];
-		mision1.nombre = "Construir una choza para vivir";
-		pasos[0] = "Debes Conseguir madera en el bosque";
-		pasos[1] = "Bsuca hojas de la plama de Boba y trae 20 para cinstruir tu casa";
-		pasos[2] = "Toma una vasija y trea barro, junto al lago la encontraras";
-		pasos[4] = "Unicate en fusagasuga nuestra aldea y contrulle tu choza";
+		mision1.nombre = "construir una choza para vivir";
+		pasos[0] = "debes conseguir madera en el bosque";
+		pasos[1] = "bsuca hojas de la plama de Boba y trae 20 para cinstruir tu casa";
+		pasos[2] = "toma una vasija y trea barro, junto al lago la encontraras";
+		pasos[4] = "ubicate en fusagasuga nuestra aldea y contrulle tu choza";
 		mision1.pasos = pasos;
 
 		mision2 = new Mision();
@@ -81,6 +81,20 @@ public class Misiones : MonoBehaviour {
 		}
 		else{
 			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = "Debes "+mision1.pasos[General.paso_mision - 1 ];
+		}
+	}
+
+	public void procesoMision1(int paso){
+		switch(paso)
+		{
+			case 1:
+				numeroMaderas+=1;
+				if(numeroMaderas <= 6)
+				{
+					General.paso_mision = 2;
+					StartCoroutine(General.actualizarUser());
+				}
+			break;
 		}
 	}
 }
