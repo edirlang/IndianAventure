@@ -21,6 +21,7 @@ public class Conexion : MonoBehaviour {
 	private int numeroMensajes = 0;
 	private NetworkView nw;
 	private Color color;
+	private float tiempo=15;
 	void Start()
 	{
 		color = new Color (Random.value,Random.value,Random.value);
@@ -38,6 +39,7 @@ public class Conexion : MonoBehaviour {
 		}
 	}
 	void  OnGUI (){
+
 		GUIStyle style = new GUIStyle ();
 		style.alignment = TextAnchor.MiddleLeft;
 		style = GUI.skin.GetStyle ("label");
@@ -121,6 +123,8 @@ public class Conexion : MonoBehaviour {
 		if(!abrirMenu){
 			if(verChat)
 			{
+				style = GUI.skin.GetStyle ("label");
+				style.fontSize = (int)(15.0f);
 				chatVer();
 			}else
 			{
@@ -129,6 +133,9 @@ public class Conexion : MonoBehaviour {
 				}
 			}
 		}
+		style = GUI.skin.GetStyle ("label");
+		style.fontSize = (int)(20.0f);
+		mensajesEnviados ();
 	}
 
 	private void pantallaServidor()
@@ -234,45 +241,54 @@ public class Conexion : MonoBehaviour {
 		style.fontSize = (int)(25.0f);
 		style.alignment = TextAnchor.LowerLeft;
 
+
+
 		if (mensajes == null) {
 			mensajes = new ArrayList();
 		}
 		numeroMensajes = mensajes.Count;
-		scrollPosition[1] = numeroMensajes*(Screen.height/16);
+		scrollPosition[1] = 20*(Screen.height/16);
 
 		GUI.Box(new Rect(2*(Screen.width/3),0,Screen.width/3,Screen.height),"Chat");
-		
-		scrollPosition = GUI.BeginScrollView(new Rect(2* (Screen.width/3), 0 ,Screen.width/3,11 * (Screen.height/12)), scrollPosition, new Rect(0,0,Screen.width, numeroMensajes*(Screen.height/12)));
-
-		for(int i = 0; i< numeroMensajes ; i ++)
-		{
-			string[] mensajeNuevo = (string[])mensajes[i];
-			string[] colorRGB = mensajeNuevo[2].Split(',');
-			GUI.color = new Color(float.Parse(colorRGB[0]),float.Parse(colorRGB[1]),float.Parse(colorRGB[2]));
-			GUI.Label(new Rect (0,(i + 1)*(Screen.height/16),Screen.width,Screen.height/16),mensajeNuevo[0]+": "+ mensajeNuevo[1]);
-		}
-		GUI.color = Color.white;
+		string mensaje = "";
+		scrollPosition = GUI.BeginScrollView(new Rect(2* (Screen.width/3), 0 ,Screen.width/3,Screen.height), scrollPosition, new Rect(0,0,Screen.width, Screen.height));
+		mensaje = cargarMensajes ();
 		GUI.EndScrollView();
-		
-		mensaje = GUI.TextField(new Rect(2*(Screen.width/3),Screen.height - Screen.height/12, 3*(Screen.width/12) ,Screen.height/12),mensaje);
-		style.alignment = TextAnchor.UpperCenter;
 
-		if (GUI.Button (new Rect (Screen.width - Screen.width/12 ,Screen.height - Screen.height/12, Screen.width/12,Screen.height/12), "Enviar")) {
-			send();
-		}
-		if (GUI.Button (new Rect (Screen.width - Screen.width / 6	, 0, Screen.width / 6, Screen.height / 12), "OCULTAR")) {
+		if (GUI.Button (new Rect (Screen.width - Screen.width/12 ,Screen.height - Screen.height/12, Screen.width/12,Screen.height/12), "OCULTAR")) {
 			verChat = false;
 		}
+		if(mensaje != "")
+			send (mensaje);
 	}
 
-	public void send () 
+	void mensajesEnviados()
 	{
-		int numeroCaracteres = Conexion.mensaje.Length;
-		if(Conexion.mensaje != "" && numeroCaracteres <=60)
+		if(mensajes.Count > 0)
 		{
-			nw.RPC("recivir",RPCMode.AllBuffered,Conexion.mensaje, General.username,color.r + "," + color.g + "," + color.b);
-			Conexion.mensaje = "";
+			tiempo -= Time.deltaTime;
+			numeroMensajes = mensajes.Count;
+			if(numeroMensajes >= 3){
+				numeroMensajes = 3;
+			}
+			for(int i = 0; i < numeroMensajes ; i ++)
+			{
+				string[] mensajeNuevo = (string[])mensajes[i];
+				string[] colorRGB = mensajeNuevo[2].Split(',');
+				GUI.color = new Color(float.Parse(colorRGB[0]),float.Parse(colorRGB[1]),float.Parse(colorRGB[2]));
+				GUI.Label(new Rect (Screen.width/12,(numeroMensajes - i)*(Screen.height/10), 2*Screen.width, Screen.height/10),mensajeNuevo[0]+": "+ mensajeNuevo[1]);
+			}
+
+			GUI.color = Color.white;
+			if(tiempo <=0){
+				mensajes.RemoveAt(0);
+				tiempo=15;
+			}
 		}
+	}
+	public void send (string mensaje) 
+	{
+		nw.RPC("recivir",RPCMode.AllBuffered,mensaje, General.username,color.r + "," + color.g + "," + color.b);
 	}
 
 	bool hayJugadores(){
@@ -286,11 +302,39 @@ public class Conexion : MonoBehaviour {
 		return hayjugador;
 	}
 
+	string cargarMensajes()
+	{
+		string mensaje = "";
+		if(GUI.Button(new Rect(0,(Screen.height/16),Screen.width/3,Screen.height/16),"Hola, Suerte"))
+		{
+			mensaje = "Hola, Suerte";
+			verChat = false;
+		}
+		
+		if(GUI.Button(new Rect(0,2*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Donde consigo Madera?"))
+		{
+			mensaje = "¿Donde consigo Madera?";
+			verChat = false;
+		}
+		
+		if(GUI.Button(new Rect(0,3*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Donde consigo arcilla?"))
+		{
+			mensaje = "¿Donde consigo arcilla?";
+			verChat = false;
+		}
+		
+		if(GUI.Button(new Rect(0,4*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Donde consigo Hojas de Palma boba?"))
+		{
+			mensaje = "¿Donde consigo Hojas de Palma boba?";
+			verChat = false;
+		}
+
+		return mensaje;
+	}
 	[RPC]
 	public void recivir(string text,string usuario, string color)
 	{
 		string[] mensajeNuevo = {usuario,text, color}; 
 		mensajes.Add (mensajeNuevo);
-		//Conexion.mensajes += "\n" + usuario + ": " + text;
 	}
 }

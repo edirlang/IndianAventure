@@ -13,6 +13,12 @@ public class Madera : MonoBehaviour {
 		if(General.misionActual[0] != "1"){
 			Destroy(gameObject);
 		}
+
+		if(General.misionActual[0] == "1" && General.paso_mision != 1){
+			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
+			for(int i = 0; i<6;i++)
+				maleta.agregarTextura(madera);
+		}
 	}
 
 	public void OnTriggerEnter(Collider colision){
