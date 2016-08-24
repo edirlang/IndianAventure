@@ -3,6 +3,11 @@ using System.Collections;
 
 public class Madera : MonoBehaviour {
 	public Texture madera;
+	public bool tomaMadera=false;
+	public float tiempo = 0;
+	public AnimationClip recojerAnimacion;
+	Animator playerAnimator;
+	float tiempoAnimacion;
 	// Use this for initialization
 	void Start () {
 	
@@ -10,19 +15,45 @@ public class Madera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(General.misionActual[0] != "1"){
+		tiempo -= Time.deltaTime;
+		tiempoAnimacion -= Time.deltaTime;
+		if(tiempo < 0){
+			tomaMadera =false;
+		}
+		if (tiempoAnimacion < 0) {
+			if(playerAnimator != null){
+				playerAnimator.SetBool("recojer",false);
+				transform.position = new Vector3(-10,-10,-10);
+			}
+		}
+		if(General.misionActual[0] == "1" && General.paso_mision == 1){
+
+		} else{
+			if(General.paso_mision != 1){
+				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
+				maleta.agregarTextura(madera);
+			}
 			Destroy(gameObject);
 		}
 
-		if(General.misionActual[0] == "1" && General.paso_mision != 1){
-			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
-			for(int i = 0; i<6;i++)
-				maleta.agregarTextura(madera);
+	}
+
+	void OnGUI(){
+		if (tomaMadera) {
+			GUIStyle style = new GUIStyle ();
+			style.alignment = TextAnchor.MiddleCenter;
+			style = GUI.skin.GetStyle ("label");
+			style.fontSize = (int)(20.0f );
+			GUI.Label(new Rect(0,7*(Screen.height/8),Screen.width,Screen.height/16),"Has recojido 1 trozo de madera");		
 		}
 	}
 
 	public void OnTriggerEnter(Collider colision){
 		if (colision.tag == "Player") {
+			playerAnimator = colision.gameObject.GetComponent<Animator>();
+			playerAnimator.SetBool("recojer",true);
+			tiempoAnimacion = recojerAnimacion.length;
+
 			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 			maleta.agregarTextura(madera);
 
@@ -30,7 +61,10 @@ public class Madera : MonoBehaviour {
 				Misiones mision = Camera.main.gameObject.GetComponent<Misiones>();
 				mision.procesoMision1(General.paso_mision);
 			}
-			Destroy(gameObject);		
+			Destroy(gameObject,10);		
+			tiempo = 10;
+
+			tomaMadera = true;
 		}
 	}
 }

@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Conexion : MonoBehaviour {
 
-	private HostData[] hostList;
-	private const string typeName = "IndianAventure-v1.0";
-	private string gameName = "";
+	private const string typeName = "Natives-v1.0";
+	private string gameName = "", ipServer="", remoteIp="", remotePort="25000";
 
+	public static bool cambioCamara = false;
 	public Texture corazonTexture;
 	public Texture monedasTexture;
 	public Texture ayudaTexture;
@@ -22,12 +22,16 @@ public class Conexion : MonoBehaviour {
 	private NetworkView nw;
 	private Color color;
 	private float tiempo=15;
+
 	void Start()
 	{
+		if (General.username == "") {
+			Application.LoadLevel("main");
+		}
 		color = new Color (Random.value,Random.value,Random.value);
 		mensajes = new ArrayList();
 		nw = GetComponent<NetworkView> ();
-		RefreshHostList ();
+
 	}
 
 	void Update()
@@ -36,8 +40,18 @@ public class Conexion : MonoBehaviour {
 		{
 			GameObject player = GameObject.Find (Network.player.ipAddress);
 			General.posicionIncial = player.transform.position;
+			nw = player.GetComponent<NetworkView> ();
+
+			if (nw.isMine && !cambioCamara)
+			{
+				GameObject camara = GameObject.FindGameObjectWithTag ("MainCamera");
+				camara.transform.parent = player.transform;
+				camara.transform.localRotation = new Quaternion();
+				camara.transform.localPosition = new Vector3(-0.01983187f, 0.8075533f, -2.989917f);
+			}
 		}
 	}
+
 	void  OnGUI (){
 
 		GUIStyle style = new GUIStyle ();
@@ -82,6 +96,11 @@ public class Conexion : MonoBehaviour {
 	{
 		GUIStyle style = new GUIStyle ();
 		style = GUI.skin.GetStyle ("label");
+		if(Network.isServer){
+			GUI.Label (new Rect (3*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"TU IP: " + Network.player.ipAddress );
+			GUI.Label (new Rect (8*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"Puerto: " + Network.player.port.ToString() );
+		}
+
 		style.fontSize = (int)(25.0f);
 		style.alignment = TextAnchor.LowerLeft;
 		// Vidas
@@ -90,6 +109,7 @@ public class Conexion : MonoBehaviour {
 
 		//Monedas
 		GUI.Box (new Rect (Screen.width - 3*(Screen.width / 20), 10, Screen.width / 10, Screen.height / 9), monedasTexture, style);
+
 		GUI.Label (new Rect (Screen.width - 2*(Screen.width / 20), 10, Screen.width / 10, Screen.height / 9),"x "+General.monedas);
 		
 		// Ayuda
@@ -140,61 +160,44 @@ public class Conexion : MonoBehaviour {
 
 	private void pantallaServidor()
 	{
-		GUI.Box(new Rect(0, 0, Screen.width, 2*(Screen.height/3)),"Servidores");
-		
-		if (GUI.Button(new Rect(13*(Screen.width/16) , 21*(Screen.height/36), Screen.width/6, Screen.height/10), "Actualizar"))
-			RefreshHostList();
-		
-		if (hostList != null)
-		{
-			for (int i = 0; i < hostList.Length; i++)
+		GUI.Box(new Rect(0, 0, Screen.width, (Screen.height)),"Bienvenido a Natives");
+
+		if (Network.peerType == NetworkPeerType.Disconnected){
+			GUI.Label (new Rect(Screen.width/24, 2*(Screen.height/10), 2*(Screen.width/3), (Screen.height/10)),"Deseas ser el anfitrion de tus amigos");
+
+			if (GUI.Button (new Rect(2*(Screen.width/3), 2*(Screen.height/10), (Screen.width/6), (Screen.height/10)),"Crear Sala"))
 			{
-				if(i>8){
-					break;
-				}
-				GUI.Label (new Rect (Screen.width/16, (i+1)*(Screen.height/11), 2*(Screen.width / 3), Screen.height /11), hostList[i].gameName+"("+hostList[i].ip[0] + ")");
-				
-				if (GUI.Button(new Rect(13*(Screen.width/16), (i+1)*(Screen.height/11),Screen.width / 6, Screen.height / 12), "Conectar"))
-					JoinServer(hostList[i]);
+				StartServer();
 			}
-		}
-		
-		GUI.Box(new Rect(0, Screen.height - Screen.height/3, Screen.width, Screen.height),"Crear servidor");
-		
-		GUI.Label(new Rect(Screen.width/6, 12*(Screen.height/14),Screen.width/8, Screen.height/8), "Nombre");
-		gameName = GUI.TextField(new Rect(5*(Screen.width/17), 5*(Screen.height/6),Screen.width/3, Screen.height/10),gameName);
-		
-		if (GUI.Button (new Rect(13*(Screen.width/20), 5*(Screen.height/6),Screen.width / 8, Screen.height / 10),"Crear"))
-		{
-			StartServer();
+			GUI.Label (new Rect(Screen.width/24, 3*(Screen.height/10), Screen.width, (Screen.height/10)),"Deseas conectarte a una sala");
+
+			GUI.Label (new Rect(Screen.width/24, 4*(Screen.height/10), 2*(Screen.width/3), (Screen.height/10)),"Escribe el numero Ip de tu amigo");
+			remoteIp = GUI.TextField(new Rect(7*(Screen.width/12), 4*(Screen.height/10), Screen.width/4,(Screen.height/10)),remoteIp);
+			GUI.Label (new Rect(Screen.width/24, 6*(Screen.height/10), 2*(Screen.width/3), 5*(Screen.height/10)),"Escribe el numero del puerto de tu amigo");
+			remotePort = GUI.TextField(new Rect(7*(Screen.width/12), 6*(Screen.height/10), Screen.width/4, (Screen.height/10)),remotePort);
+
+			if (GUI.Button (new Rect(7*(Screen.width / 12), 5*(Screen.height/6), Screen.width / 6, Screen.height / 10),"Conectar"))
+			{
+				JoinServer();
+			}
 		}
 	}
 
 	private void StartServer()
 	{
-		Network.InitializeServer(100, 25000, true);
-		MasterServer.RegisterHost(typeName, gameName);
+		Network.InitializeServer(100, 25000, false);
+		ipServer = Network.player.ipAddress;
+		//SpawnPlayer ();
 	}
 
 	void OnServerInitialized()
 	{
 		SpawnPlayer();
 	}
-
-	private void RefreshHostList()
-	{
-		MasterServer.RequestHostList(typeName);
-	}
 	
-	void OnMasterServerEvent(MasterServerEvent msEvent)
+	private void JoinServer()
 	{
-		if (msEvent == MasterServerEvent.HostListReceived)
-			hostList = MasterServer.PollHostList();
-	}
-
-	private void JoinServer(HostData hostData)
-	{
-		Network.Connect(hostData);
+		Network.Connect(remoteIp, int.Parse(remotePort));
 	}
 
 

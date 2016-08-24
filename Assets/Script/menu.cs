@@ -8,6 +8,8 @@ public class menu : MonoBehaviour {
 	public Texture monedas, vidas;
 	private string[] misiones, mision;
 	private int opciones = 0; 
+	string porcentaje;
+	WWW www, www1, www2;
 	// Use this for initialization
 	void Start () {
 
@@ -32,22 +34,24 @@ public class menu : MonoBehaviour {
 		string url2 = General.hosting+"usuario";
 		WWWForm form2 = new WWWForm();
 		form2.AddField("username", General.username);
-		WWW www2 = new WWW(url2, form2);
-		StartCoroutine(consultarUsuarioPorUsername(www2));
+		www = new WWW(url2, form2);
+		StartCoroutine(consultarUsuarioPorUsername(www));
 
 		string url = General.hosting+"misiones";
-		WWW www = new WWW(url);
-		StartCoroutine(consultarMisiones(www));
+		www1 = new WWW(url);
+		StartCoroutine(consultarMisiones(www1));
 
 		url = General.hosting+"mision";
 		WWWForm form = new WWWForm();
 		form.AddField("username", General.username);
-		www = new WWW(url, form);
-		StartCoroutine(consultarMisionActual(www));
+		www2 = new WWW(url, form);
+		StartCoroutine(consultarMisionActual(www2));
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		float porcentajeConsultas = (www.progress + www1.progress + www2.progress)/3;
+		porcentaje = porcentajeConsultas.ToString("00%");
 		if(opciones != 1)
 		{
 			GameObject jugador = GameObject.FindGameObjectWithTag ("Player");
@@ -56,6 +60,7 @@ public class menu : MonoBehaviour {
 	}
 
 	void OnGUI(){
+
 		GUIStyle style = new GUIStyle ();
 
 		style = GUI.skin.GetStyle ("label");
@@ -90,7 +95,9 @@ public class menu : MonoBehaviour {
 		GUI.Box(new Rect(Screen.width/12, Screen.height/24,5*(Screen.width/12),23*(Screen.height/24)),"");
 		
 		GUI.Label(new Rect(2*(Screen.width /6) - Screen.width / 8,(Screen.height/10), Screen.width / 6, Screen.height/12), General.username);
-		
+		if(porcentaje != "100%")
+			GUI.Label(new Rect(Screen.width - Screen.width / 8, 9*(Screen.height/10), Screen.width / 8, Screen.height/10), porcentaje);
+
 		style = GUI.skin.GetStyle ("label");
 		style.fontSize = (int)(20.0f );
 		
@@ -120,11 +127,10 @@ public class menu : MonoBehaviour {
 		
 		GUI.Box (new Rect (9*(Screen.width /10) - Screen.width / 16,(Screen.height/10), Screen.width / 12, Screen.height/12), monedas, style);
 		GUI.Label (new Rect (9*(Screen.width /10),(Screen.height/10), Screen.width / 10, Screen.height/12), "x "+ General.monedas + "");
-		
-		if (GUI.Button (new Rect (4*(Screen.width / 6),9*(Screen.height/10), Screen.width / 6 	, Screen.height/10), "Jugar")) {
-			opciones = 1;
-			Application.LoadLevel ("level1");
-		}
+		if (porcentaje == "100%" && GUI.Button (new Rect (4*(Screen.width / 6),9*(Screen.height/10), Screen.width / 6 	, Screen.height/10), "Jugar")) {
+				opciones = 1;
+				Application.LoadLevel ("level1");
+			}
 	}
 
 	private void pantallaMisiones()

@@ -5,7 +5,7 @@ public class Misiones : MonoBehaviour {
 	public static bool instanciar = false;
 	Mision mision1, mision2;
 	GameObject ayudaPersonaje;
-	private int numeroMaderas=0;
+	private int numeroMaderas = 0, numerohojas = 0;
 	struct Mision{
 		public string nombre;
 		public string[] pasos;
@@ -17,9 +17,9 @@ public class Misiones : MonoBehaviour {
 		string[] pasos = new string[5];
 		mision1.nombre = "construir una choza para vivir";
 		pasos[0] = "debes conseguir madera en el bosque";
-		pasos[1] = "bsuca hojas de la plama de Boba y trae 20 para cinstruir tu casa";
-		pasos[2] = "toma una vasija y trea barro, junto al lago la encontraras";
-		pasos[4] = "ubicate en fusagasuga nuestra aldea y contrulle tu choza";
+		pasos[1] = "bsuca hojas de la plama de Boba y consige 20 para construir tu casa";
+		pasos[2] = "toma una vasija y trae barro, junto al lago la encontraras";
+		pasos[3] = "ubicate en fusagasuga donde esta nuestra aldea y cosntrulle tu choza";
 		mision1.pasos = pasos;
 
 		mision2 = new Mision();
@@ -39,6 +39,10 @@ public class Misiones : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(instanciar)
+		{
+			chiaInstanciar();
+		}
 		if(General.timepo > 0)
 		{
 			switch(General.misionActual[0])
@@ -47,10 +51,6 @@ public class Misiones : MonoBehaviour {
 				Mision1();
 				break;
 			}
-		}
-		if(instanciar)
-		{
-			chiaInstanciar();
 		}
 	}
 
@@ -61,9 +61,9 @@ public class Misiones : MonoBehaviour {
 			General.timepo = 15;
 			General.timepoChia = 15;
 			GameObject player = GameObject.Find(Network.player.ipAddress);
-			ayudaPersonaje = Instantiate (General.chia,  new Vector3(player.transform.localPosition.x + 40,player.transform.position.y + 20,player.transform.position.z), player.transform.rotation) as GameObject;
+			ayudaPersonaje = Instantiate (General.chia,  new Vector3(player.transform.localPosition.x + 0,player.transform.position.y + 20,player.transform.position.z), player.transform.rotation) as GameObject;
 			ayudaPersonaje.transform.parent = player.transform;
-			ayudaPersonaje.transform.localPosition = new Vector3(0f, 20f,60f);
+			ayudaPersonaje.transform.localPosition = new Vector3(0f, 10f,30f);
 			instanciar = false;
 		}else
 		{
@@ -73,14 +73,18 @@ public class Misiones : MonoBehaviour {
 
 	private void Mision1(){
 		ayudaPersonaje.transform.parent = transform;
+		string saludo = "Hola, soy chia";
+		if(General.paso_mision != 1){
+			saludo = "Felicitaciones, continuemos";
+		}
 		if(General.timepo > 12){
-			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = "Hola, soy chia";
+			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = saludo;
 		}
 		else if( General.timepo > 7){
 			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = "Tu mision es "+mision1.nombre;
 		}
 		else{
-			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = "Debes "+mision1.pasos[General.paso_mision - 1 ];
+			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = mision1.pasos[General.paso_mision - 1 ];
 		}
 	}
 
@@ -89,12 +93,34 @@ public class Misiones : MonoBehaviour {
 		{
 			case 1:
 				numeroMaderas+=1;
-				if(numeroMaderas <= 6)
+				if(numeroMaderas >= 6)
 				{
+					instanciar = true;
 					General.paso_mision = 2;
 					StartCoroutine(General.actualizarUser());
 				}
 			break;
+		case 2:
+			numerohojas+=2;
+			if(numerohojas >= 20)
+			{
+				instanciar = true;
+				General.paso_mision = 3;
+				StartCoroutine(General.actualizarUser());
+			}
+			break;
+		case 3:
+			instanciar = true;
+			General.paso_mision = 4;
+			StartCoroutine(General.actualizarUser());
+			break;
+		case 4:
+			instanciar = true;
+			General.paso_mision = 1;
+			General.misionActual[0] = "2";
+			StartCoroutine(General.actualizarUser());
+			break;
 		}
+
 	}
 }

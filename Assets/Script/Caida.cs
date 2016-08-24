@@ -23,7 +23,23 @@ public class Caida : MonoBehaviour {
 				cofre.transform.rotation = Quaternion.Euler(Vector3.zero);
 			}
 		}
+
+		if (Input.GetMouseButton(0)) {
+			
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                                            
+			
+			//Hace tranza una linea desde el lugar la camara hasta la poscion del raton.
+			if (Physics.Raycast(ray, out hit)){       
+				if (hit.rigidbody != null){                                                                       
+					//Si el objeto con el que colisiona es de tipo rigidbody
+					movimiento.posicion = hit.point;                                                           
+					//Cambia la variable posicion de la clase Movimiento Continuo
+				}
+			}
+		}
 	}
+
 
 	void OnCollisionEnter(Collision collision) {
 		GameObject objeto =  collision.gameObject;

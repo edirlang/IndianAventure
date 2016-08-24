@@ -10,11 +10,14 @@ public class movimiento : MonoBehaviour {
 	private GameObject camara;
 	private NetworkView nw;
 	private Animator animator;
+	public static Vector3 posicion = General.posicionIncial;
+
+	public Vector3 posicionInicial;  
+	bool inicio = true;
 
 	void Start()
 	{
 		nw = GetComponent<NetworkView> ();
-		camara = GameObject.FindGameObjectWithTag ("MainCamera");
 
 	}
 	
@@ -23,9 +26,8 @@ public class movimiento : MonoBehaviour {
 		nw = GetComponent<NetworkView> ();
 		if (nw.isMine)
 		{
-			camara.transform.parent = transform;
-			camara.transform.localPosition = new Vector3(-0.01983187f, 0.8075533f, -2.989917f);
 			controlMovimiento ();
+			//moverClic();
 		}
 	}
 	
@@ -50,6 +52,17 @@ public class movimiento : MonoBehaviour {
 		}
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
+	}
+
+	void moverClic (){
+
+		Debug.Log (Vector3.Distance (posicion, transform.position));
+		if(Vector3.Distance(posicion,transform.position) > 10){
+
+			Quaternion rotacion = Quaternion.LookRotation (posicion - transform.position);
+			transform.rotation = Quaternion.Slerp(transform.rotation, rotacion, 6.0f * Time.deltaTime);
+			transform.Translate(0,0,speed * Time.deltaTime);
+		}
 	}
 
 	[RPC]
