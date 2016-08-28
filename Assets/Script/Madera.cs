@@ -10,7 +10,6 @@ public class Madera : MonoBehaviour {
 	float tiempoAnimacion;
 	// Use this for initialization
 	void Start () {
-	
 	}
 	
 	// Update is called once per frame
@@ -26,6 +25,7 @@ public class Madera : MonoBehaviour {
 				transform.position = new Vector3(-10,-10,-10);
 			}
 		}
+
 		if(General.misionActual[0] == "1" && General.paso_mision == 1){
 
 		} else{
@@ -35,7 +35,6 @@ public class Madera : MonoBehaviour {
 			}
 			Destroy(gameObject);
 		}
-
 	}
 
 	void OnGUI(){
@@ -45,11 +44,14 @@ public class Madera : MonoBehaviour {
 			style = GUI.skin.GetStyle ("label");
 			style.fontSize = (int)(20.0f );
 			GUI.Label(new Rect(0,7*(Screen.height/8),Screen.width,Screen.height/16),"Has recojido 1 trozo de madera");		
+			Debug.Log("dejarSeguir");
+			MoverMouse.movimiento = true;
 		}
 	}
 
 	public void OnTriggerEnter(Collider colision){
 		if (colision.tag == "Player") {
+
 			playerAnimator = colision.gameObject.GetComponent<Animator>();
 			playerAnimator.SetBool("recojer",true);
 			tiempoAnimacion = recojerAnimacion.length;

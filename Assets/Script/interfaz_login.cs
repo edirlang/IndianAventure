@@ -138,11 +138,9 @@ public class interfaz_login : MonoBehaviour {
 
 	public IEnumerator comprobarUser(WWW www){
 		yield return www;
-		Debug.Log (www.text);
 		if(www.error == null){
 			if (www.text.Length == 2 || www.text.Length == 1) {
 				resultado = true;
-				Debug.Log (resultado);
 			} else {
 				mensaje = www.text;
 				Debug.Log ("nombre de usuario o contraseña no son correctas");		

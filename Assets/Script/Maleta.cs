@@ -40,6 +40,7 @@ public class Maleta : MonoBehaviour {
 			
 			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 5*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Volver")) {
 				mostarMaleta = false;
+				MoverMouse.movimiento = true;
 			}
 		}
 	}

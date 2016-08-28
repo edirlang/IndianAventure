@@ -13,7 +13,6 @@ public class movimiento : MonoBehaviour {
 	public static Vector3 posicion = General.posicionIncial;
 
 	public Vector3 posicionInicial;  
-	bool inicio = true;
 
 	void Start()
 	{

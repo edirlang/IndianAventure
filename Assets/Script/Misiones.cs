@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class Misiones : MonoBehaviour {
-	public static bool instanciar = false;
+	public static bool instanciar = false, cambio_mapa = false	;
+	bool terminoMision = false;
 	Mision mision1, mision2;
 	GameObject ayudaPersonaje;
 	private int numeroMaderas = 0, numerohojas = 0;
@@ -17,9 +18,9 @@ public class Misiones : MonoBehaviour {
 		string[] pasos = new string[5];
 		mision1.nombre = "construir una choza para vivir";
 		pasos[0] = "debes conseguir madera en el bosque";
-		pasos[1] = "bsuca hojas de la plama de Boba y consige 20 para construir tu casa";
+		pasos[1] = "busca hojas de la plama de Boba, consige 20 para construir tu casa";
 		pasos[2] = "toma una vasija y trae barro, junto al lago la encontraras";
-		pasos[3] = "ubicate en fusagasuga donde esta nuestra aldea y cosntrulle tu choza";
+		pasos[3] = "ubicate en fusagasuga donde esta nuestra aldea y construlle tu choza";
 		mision1.pasos = pasos;
 
 		mision2 = new Mision();
@@ -45,12 +46,39 @@ public class Misiones : MonoBehaviour {
 		}
 		if(General.timepo > 0)
 		{
-			switch(General.misionActual[0])
+			if(terminoMision)
 			{
-			case "1":
-				Mision1();
-				break;
+				completarMision();
+			}else{
+				switch(General.misionActual[0])
+				{
+				case "1":
+					Mision1();
+					break;
+				case "2":
+					Mision1();
+					break;
+				}
 			}
+
+		}
+
+		if(General.misionActual[0] == "2" && Network.peerType != NetworkPeerType.Disconnected){
+			if(GameObject.Find("chozas") && !GameObject.Find("Chia(clone)")){
+				Application.LoadLevelAdditive("level2");
+				Destroy(GameObject.Find("Escenario"));
+				Destroy(GameObject.Find("fogata"));
+				Destroy(GameObject.Find("micos"));
+				Destroy(GameObject.Find("chozas"));
+
+				Misiones.cambio_mapa = true;
+			}
+		}
+
+		if(cambio_mapa && GameObject.Find("PlayerJuego2")){
+			Destroy(GameObject.Find("LuzTest"));
+			GameObject.Find(Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego2").transform.position;
+			cambio_mapa = false;
 		}
 	}
 
@@ -116,11 +144,27 @@ public class Misiones : MonoBehaviour {
 			break;
 		case 4:
 			instanciar = true;
+			terminoMision = true;
 			General.paso_mision = 1;
 			General.misionActual[0] = "2";
-			StartCoroutine(General.actualizarUser());
+			StartCoroutine(General.cambiarMision());
+			if(GameObject.Find("chozas")){
+				NetworkView nw = Camera.main.GetComponent<NetworkView>();
+				Color color = Color.red;
+				nw.RPC("recibir",RPCMode.AllBuffered, "He sibido de nivel", General.username,color.r + "," + color.g + "," + color.b);
+			}
 			break;
 		}
+	}
 
+	void completarMision(){
+		ayudaPersonaje.transform.parent = transform;
+		string mensaje;
+		if(General.timepo > 10){
+			mensaje = "Felicitaciones haz completado la mision "+General.misionActual[0]+"\n"+General.misionActual[1];
+		}else{
+			mensaje = "Has subido de nivel";
+		}
+		ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = mensaje;
 	}
 }

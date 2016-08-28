@@ -96,7 +96,6 @@ public class Bonos : MonoBehaviour {
 	public IEnumerator consultarBono(WWW www){
 		yield return www;
 		if(www.error == null){
-			Debug.Log(www.text);
 			int tiempo = int.Parse(www.text);
 			if(tiempo <= 30){
 				minutos = 29 - tiempo;

@@ -31,7 +31,6 @@ public class General : MonoBehaviour {
 	public static IEnumerator consultarPersonajeUsername(WWW www){
 		yield return www;
 		if(www.error == null){
-			Debug.Log(www.text);
 			General.idPersonaje = int.Parse(www.text);
 		}else{
 			Debug.Log(www.error);
@@ -54,6 +53,23 @@ public class General : MonoBehaviour {
 		yield return www;
 		if(www.error == null){
 			Debug.Log(www.text);
+		}else{
+			Debug.Log(www.error);
+		}
+	}
+
+	public static IEnumerator cambiarMision(){
+		string url = General.hosting + "subirLevel";
+		WWWForm form = new WWWForm ();
+		form.AddField ("username", General.username);
+		form.AddField("mision",General.misionActual[0] + "");
+		form.AddField("x", General.posicionIncial.x + "");
+		form.AddField("y", General.posicionIncial.y + "");
+		form.AddField("z", General.posicionIncial.z + "");
+		WWW www = new WWW (url, form);
+		yield return www;
+		if(www.error == null){
+			Misiones.cambio_mapa = true;
 		}else{
 			Debug.Log(www.error);
 		}

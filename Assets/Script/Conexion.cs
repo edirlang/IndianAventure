@@ -4,9 +4,8 @@ using System.Collections;
 public class Conexion : MonoBehaviour {
 
 	private const string typeName = "Natives-v1.0";
-	private string gameName = "", ipServer="", remoteIp="", remotePort="25000";
-
-	public static bool cambioCamara = false;
+	private string ipServer="", remoteIp="", remotePort="25000";
+	public GameObject chozaFinal;
 	public Texture corazonTexture;
 	public Texture monedasTexture;
 	public Texture ayudaTexture;
@@ -28,27 +27,17 @@ public class Conexion : MonoBehaviour {
 		if (General.username == "") {
 			Application.LoadLevel("main");
 		}
-		color = new Color (Random.value,Random.value,Random.value);
+		color = new Color (Random.Range(0.0f,0.7f),Random.Range(0.0f,0.7f),Random.Range(0.0f,0.7f));
 		mensajes = new ArrayList();
 		nw = GetComponent<NetworkView> ();
+
 
 	}
 
 	void Update()
 	{
-		if(GameObject.Find (Network.player.ipAddress))
-		{
-			GameObject player = GameObject.Find (Network.player.ipAddress);
-			General.posicionIncial = player.transform.position;
-			nw = player.GetComponent<NetworkView> ();
-
-			if (nw.isMine && !cambioCamara)
-			{
-				GameObject camara = GameObject.FindGameObjectWithTag ("MainCamera");
-				camara.transform.parent = player.transform;
-				camara.transform.localRotation = new Quaternion();
-				camara.transform.localPosition = new Vector3(-0.01983187f, 0.8075533f, -2.989917f);
-			}
+		if(GameObject.Find("MainCamera2")){
+			Destroy(GameObject.Find("MainCamera2"));
 		}
 	}
 
@@ -81,6 +70,7 @@ public class Conexion : MonoBehaviour {
 			if(!abrirMenu && !verChat){
 				if (GUI.Button (new Rect (13*(Screen.width/16), 5*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Menu")) {
 					abrirMenu = true;
+					MoverMouse.movimiento = false;
 				}
 			}
 		}
@@ -97,8 +87,8 @@ public class Conexion : MonoBehaviour {
 		GUIStyle style = new GUIStyle ();
 		style = GUI.skin.GetStyle ("label");
 		if(Network.isServer){
-			GUI.Label (new Rect (3*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"TU IP: " + Network.player.ipAddress );
-			GUI.Label (new Rect (8*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"Puerto: " + Network.player.port.ToString() );
+			GUI.Label (new Rect (2*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"TU IP: " + Network.player.ipAddress );
+			GUI.Label (new Rect (7*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"Puerto: " + Network.player.port.ToString() );
 		}
 
 		style.fontSize = (int)(25.0f);
@@ -116,6 +106,7 @@ public class Conexion : MonoBehaviour {
 		if(GUI.Button(new Rect(Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 12, Screen.width / 12, Screen.height / 6),ayudaTexture))
 		{
 			Misiones.instanciar = true;
+			MoverMouse.movimiento = false;
 		}
 		GUI.Label (new Rect (Screen.width - Screen.width / 10, Screen.height / 2, Screen.width / 12, Screen.height / 9), textoAyuda);
 
@@ -136,6 +127,7 @@ public class Conexion : MonoBehaviour {
 
 			if (GUI.Button (new Rect (Screen.width/2 - Screen.width / 12, 5*(Screen.height/6),Screen.width / 4, Screen.height / 10), "Volver")) {
 				abrirMenu = false;
+				MoverMouse.movimiento = true;
 			}
 		}
 
@@ -150,6 +142,7 @@ public class Conexion : MonoBehaviour {
 			{
 				if (GUI.Button (new Rect (13*(Screen.width/16), 4*(Screen.height/6),Screen.width / 6, Screen.height / 10), "Chat")) {
 					verChat = true;
+					MoverMouse.movimiento = false;
 				}
 			}
 		}
@@ -169,12 +162,13 @@ public class Conexion : MonoBehaviour {
 			{
 				StartServer();
 			}
-			GUI.Label (new Rect(Screen.width/24, 3*(Screen.height/10), Screen.width, (Screen.height/10)),"Deseas conectarte a una sala");
 
-			GUI.Label (new Rect(Screen.width/24, 4*(Screen.height/10), 2*(Screen.width/3), (Screen.height/10)),"Escribe el numero Ip de tu amigo");
-			remoteIp = GUI.TextField(new Rect(7*(Screen.width/12), 4*(Screen.height/10), Screen.width/4,(Screen.height/10)),remoteIp);
-			GUI.Label (new Rect(Screen.width/24, 6*(Screen.height/10), 2*(Screen.width/3), 5*(Screen.height/10)),"Escribe el numero del puerto de tu amigo");
-			remotePort = GUI.TextField(new Rect(7*(Screen.width/12), 6*(Screen.height/10), Screen.width/4, (Screen.height/10)),remotePort);
+			GUI.Label (new Rect(Screen.width/24, 4*(Screen.height/10), Screen.width, (Screen.height/10)),"Deseas conectarte a una sala");
+
+			GUI.Label (new Rect(Screen.width/24, 5*(Screen.height/10), 2*(Screen.width/3), (Screen.height/10)),"Escribe el numero Ip de tu amigo");
+			remoteIp = GUI.TextField(new Rect(7*(Screen.width/12), 5*(Screen.height/10), Screen.width/4,(Screen.height/10)),remoteIp);
+			//GUI.Label (new Rect(Screen.width/24, 6*(Screen.height/10), 2*(Screen.width/3), 5*(Screen.height/10)),"Escribe el numero del puerto de tu amigo");
+			//remotePort = GUI.TextField(new Rect(7*(Screen.width/12), 6*(Screen.height/10), Screen.width/4, (Screen.height/10)),remotePort);
 
 			if (GUI.Button (new Rect(7*(Screen.width / 12), 5*(Screen.height/6), Screen.width / 6, Screen.height / 10),"Conectar"))
 			{
@@ -185,7 +179,7 @@ public class Conexion : MonoBehaviour {
 
 	private void StartServer()
 	{
-		Network.InitializeServer(100, 25000, false);
+		Network.InitializeServer(20, 25000, false);
 		ipServer = Network.player.ipAddress;
 		//SpawnPlayer ();
 	}
@@ -258,9 +252,6 @@ public class Conexion : MonoBehaviour {
 		mensaje = cargarMensajes ();
 		GUI.EndScrollView();
 
-		if (GUI.Button (new Rect (Screen.width - Screen.width/12 ,Screen.height - Screen.height/12, Screen.width/12,Screen.height/12), "OCULTAR")) {
-			verChat = false;
-		}
 		if(mensaje != "")
 			send (mensaje);
 	}
@@ -291,7 +282,8 @@ public class Conexion : MonoBehaviour {
 	}
 	public void send (string mensaje) 
 	{
-		nw.RPC("recivir",RPCMode.AllBuffered,mensaje, General.username,color.r + "," + color.g + "," + color.b);
+		MoverMouse.movimiento = true;
+		nw.RPC("recibir",RPCMode.AllBuffered,mensaje, General.username,color.r + "," + color.g + "," + color.b);
 	}
 
 	bool hayJugadores(){
@@ -313,31 +305,42 @@ public class Conexion : MonoBehaviour {
 			mensaje = "Hola, Suerte";
 			verChat = false;
 		}
-		
-		if(GUI.Button(new Rect(0,2*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Donde consigo Madera?"))
-		{
-			mensaje = "¿Donde consigo Madera?";
-			verChat = false;
-		}
-		
-		if(GUI.Button(new Rect(0,3*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Donde consigo arcilla?"))
-		{
-			mensaje = "¿Donde consigo arcilla?";
-			verChat = false;
-		}
-		
-		if(GUI.Button(new Rect(0,4*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Donde consigo Hojas de Palma boba?"))
-		{
-			mensaje = "¿Donde consigo Hojas de Palma boba?";
-			verChat = false;
-		}
+		if(General.misionActual[0] == "1"){
+			if(GUI.Button(new Rect(0,2*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Dónde consigo Madera?"))
+			{
+				mensaje = "¿Dónde consigo Madera?";
+				verChat = false;
+			}
+			
+			if(GUI.Button(new Rect(0,3*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Dónde consigo arcilla?"))
+			{
+				mensaje = "¿Dónde consigo arcilla?";
+				verChat = false;
+			}
+			
+			if(GUI.Button(new Rect(0,4*(Screen.height/16),Screen.width/3,2*(Screen.height/16)),"¿Dónde consigo Hojas de \n Palma boba?"))
+			{
+				mensaje = "¿Dónde consigo Hojas de Palma boba?";
+				verChat = false;
+			}
+		}else if(General.misionActual[0] == "2"){
 
+		}
 		return mensaje;
 	}
+
 	[RPC]
-	public void recivir(string text,string usuario, string color)
+	public void recibir(string text,string usuario, string color)
 	{
 		string[] mensajeNuevo = {usuario,text, color}; 
 		mensajes.Add (mensajeNuevo);
+	}
+
+	[RPC]
+	public void crearChozaMultiplayer(string usuario, Vector3 posicionInstanciar, int nivel ){
+		Debug.Log ("Choza de " + usuario);
+		GameObject chozaLevel = (GameObject) Instantiate (chozaFinal, new Vector3 (posicionInstanciar.x, posicionInstanciar.y - 2, posicionInstanciar.z - 5), new Quaternion ()); 
+		chozaLevel.transform.localScale = new Vector3(1.0f,2.0f,1.0f);
+		chozaLevel.name = "choza-" + usuario;
 	}
 }

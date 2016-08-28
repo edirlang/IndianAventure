@@ -19,7 +19,7 @@ public class ChiaPerseguir : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(Vector3.Distance(target.transform.position,transform.position) > 1){
+		if(Vector3.Distance(target.transform.position,transform.position) > 2){
 			Camera.main.GetComponent<AudioSource>().enabled = true;
 
 			Quaternion rotacion = Quaternion.LookRotation (target.transform.position - transform.position);
@@ -39,6 +39,7 @@ public class ChiaPerseguir : MonoBehaviour {
 		{
 			luz.intensity = 0.5f;
 			GUI.Box(new Rect(0,3*Screen.height/4, Screen.width,Screen.height/4),mensajeChia);
+			MoverMouse.movimiento = true;
 		}else{
 			luz.intensity = 0;
 		}
