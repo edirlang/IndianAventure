@@ -33,6 +33,10 @@ public class Madera : MonoBehaviour {
 				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 				maleta.agregarTextura(madera);
 			}
+			if(playerAnimator != null){
+				playerAnimator.SetBool("recojer",false);
+			}
+
 			Destroy(gameObject);
 		}
 	}

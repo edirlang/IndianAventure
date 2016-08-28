@@ -29,32 +29,31 @@ public class Choza : MonoBehaviour {
 			if(tiempo > 18 && tiempo < 19)
 			{
 				chozaLevel = GameObject.Find("choza1");
-				chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  + 1, posicionInstanciar.position.y, posicionInstanciar.position.z);
+				chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 1, posicionInstanciar.position.y, posicionInstanciar.position.z);
 			}else if (tiempo > 10 && tiempo < 11){
 				Destroy(GameObject.Find("choza1"));
 				chozaLevel = GameObject.Find("choza2");
-				chozaLevel.transform.position = chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  + 4, posicionInstanciar.position.y, posicionInstanciar.position.z);
+				chozaLevel.transform.position = chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 4, posicionInstanciar.position.y, posicionInstanciar.position.z);
 
 			}else if(tiempo > 2 && tiempo < 3){
 				Destroy(GameObject.Find("choza2"));
 				chozaLevel = GameObject.Find("choza3");
-				chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  + 4, posicionInstanciar.position.y - 2, posicionInstanciar.position.z);
+				chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 4, posicionInstanciar.position.y - 2, posicionInstanciar.position.z);
 
 				if(crearChozaMulti){
 					NetworkView nw = Camera.main.GetComponent<NetworkView>();
 					nw.RPC("crearChozaMultiplayer",RPCMode.OthersBuffered, player.name, posicionInstanciar.position, 2);
 					crearChozaMulti = false;
+					playerAnimator.SetBool("recojer",false);
+					MoverMouse.cambioCamara = false;
 				}
 			}
 		}
 
-		if(tiempo < 3){
+		if(tiempo < 0){
 			if(cosntrullendo){
 				Misiones mision = Camera.main.gameObject.GetComponent<Misiones>();
-				Debug.Log("Mision actual " +General.misionActual[0]);
 				mision.procesoMision1(General.paso_mision);
-				playerAnimator.SetBool("recojer",false);
-				MoverMouse.cambioCamara = false;
 				MoverMouse.movimiento = true;
 				Camera.main.transform.rotation = camaraOriginal.rotation;
 			}

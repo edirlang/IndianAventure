@@ -11,7 +11,7 @@ public class InstanciarAve : MonoBehaviour {
 		{
 			Quaternion rotacionRandon = Random.rotation;
 			Quaternion rotacion = new Quaternion(transform.rotation.x ,rotacionRandon.y ,transform.rotation.z,rotacionRandon.w);
-			Vector3 posicion = new Vector3(transform.position.x,Random.Range(10,50),transform.position.z); 
+			Vector3 posicion = new Vector3(transform.position.x, transform.position.y + Random.Range(-10f,10f),transform.position.z); 
 			Instantiate(ave, posicion,rotacion );
 		}
 	}
@@ -26,7 +26,7 @@ public class InstanciarAve : MonoBehaviour {
 			{
 				Quaternion rotacionRandon = Random.rotation;
 				Quaternion rotacion = new Quaternion(transform.rotation.x,rotacionRandon.y,transform.rotation.z,rotacionRandon.w);
-				Vector3 posicion = new Vector3(transform.position.x,Random.Range(5,15),transform.position.z); 
+				Vector3 posicion = new Vector3(transform.position.x,transform.position.y + Random.Range(-10f,10f),transform.position.z); 
 				Instantiate(ave, posicion,rotacion );
 			}
 		}

@@ -14,6 +14,9 @@ public class MoverMouse : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		if(General.paso_mision==1){
+			Misiones.instanciar = true;
+		}
 		movimiento = true;
 		nw = GetComponent<NetworkView> ();
 		posicion = transform.position;
@@ -55,7 +58,7 @@ public class MoverMouse : MonoBehaviour {
 	}
 
 	private void mover(Vector3 target){
-		float distaciapunto = 2f;
+		float distaciapunto = 0.5f;
 
 		CharacterController controller = GetComponent<CharacterController>();
 

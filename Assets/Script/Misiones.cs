@@ -126,6 +126,8 @@ public class Misiones : MonoBehaviour {
 					instanciar = true;
 					General.paso_mision = 2;
 					StartCoroutine(General.actualizarUser());
+					GameObject[] hojas = GameObject.FindGameObjectsWithTag("Hojas");
+					
 				}
 			break;
 		case 2:

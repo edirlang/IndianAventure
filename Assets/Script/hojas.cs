@@ -28,14 +28,19 @@ public class hojas : MonoBehaviour {
 			tomaHojas =false;
 		}
 		if(General.misionActual[0] == "1" && General.paso_mision == 2){
-			gameObject.SetActive(true);
+			gameObject.GetComponent<MeshRenderer>().enabled = true;
+			gameObject.GetComponent<LensFlare>().enabled = true;
 		} else if(General.paso_mision > 2 && General.misionActual[0] == "1"){
+			if(playerAnimator != null){
+				playerAnimator.SetBool("recojer",false);
+			}
 			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 			maleta.agregarTextura(hoja);
 			maleta.agregarTextura(hoja);
 			Destroy(gameObject);
 		}else if(General.paso_mision == 1 && General.misionActual[0] == "1"){
-			gameObject.SetActive(false);
+			gameObject.GetComponent<MeshRenderer>().enabled = false;
+			gameObject.GetComponent<LensFlare>().enabled = false;
 		}
 	}
 
