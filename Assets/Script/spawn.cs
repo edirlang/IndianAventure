@@ -9,7 +9,9 @@ public class spawn : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (General.username == "") {
+			Application.LoadLevel("main");
+		}
 	}
 
 	void OnNetworkLoadedLevel()

@@ -29,7 +29,7 @@ public class Madera : MonoBehaviour {
 		if(General.misionActual[0] == "1" && General.paso_mision == 1){
 
 		} else{
-			if(General.paso_mision != 1){
+			if(General.paso_mision != 1 && General.misionActual[0] == "1"){
 				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 				maleta.agregarTextura(madera);
 			}

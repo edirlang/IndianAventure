@@ -30,8 +30,6 @@ public class Conexion : MonoBehaviour {
 		color = new Color (Random.Range(0.0f,0.7f),Random.Range(0.0f,0.7f),Random.Range(0.0f,0.7f));
 		mensajes = new ArrayList();
 		nw = GetComponent<NetworkView> ();
-
-
 	}
 
 	void Update()
@@ -85,10 +83,10 @@ public class Conexion : MonoBehaviour {
 	private void pantallaJuego()
 	{
 		GUIStyle style = new GUIStyle ();
-		style = GUI.skin.GetStyle ("label");
+
 		if(Network.isServer){
-			GUI.Label (new Rect (2*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"TU IP: " + Network.player.ipAddress );
-			GUI.Label (new Rect (7*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"Puerto: " + Network.player.port.ToString() );
+			GUI.Label (new Rect (2*(Screen.width / 10), Screen.height - Screen.height / 12, Screen.width / 4, Screen.height / 12),"TU IP: " + Network.player.ipAddress );
+			//GUI.Label (new Rect (7*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"Puerto: " + Network.player.port.ToString() );
 		}
 
 		style.fontSize = (int)(25.0f);
@@ -108,6 +106,7 @@ public class Conexion : MonoBehaviour {
 			Misiones.instanciar = true;
 			MoverMouse.movimiento = false;
 		}
+
 		GUI.Label (new Rect (Screen.width - Screen.width / 10, Screen.height / 2, Screen.width / 12, Screen.height / 9), textoAyuda);
 
 		if(abrirMenu)
@@ -324,7 +323,23 @@ public class Conexion : MonoBehaviour {
 				verChat = false;
 			}
 		}else if(General.misionActual[0] == "2"){
-
+			if(GUI.Button(new Rect(0,2*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Dónde esta Nuestra señora de Altagracia?"))
+			{
+				mensaje = "¿Dónde esta Nuestra señora de Altagracia?";
+				verChat = false;
+			}
+			
+			if(GUI.Button(new Rect(0,3*(Screen.height/16),Screen.width/3,Screen.height/16),"Estoy en Altagracia"))
+			{
+				mensaje = "Estoy en Altagracia";
+				verChat = false;
+			}
+			
+			if(GUI.Button(new Rect(0,4*(Screen.height/16),Screen.width/3,2*(Screen.height/16)),"¿Necesito un equipo?"))
+			{
+				mensaje = "¿Necesito un equipo?";
+				verChat = false;
+			}
 		}
 		return mensaje;
 	}

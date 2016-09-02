@@ -4,8 +4,10 @@ using System.Collections;
 public class barro : MonoBehaviour {
 	public Texture contenidobarro;
 	public bool tomabarro=false, instanciarVasija=false;
-	public float tiempo = 10;
+	public float tiempo = 5;
 	public GameObject vasija;
+	public AnimationClip recojer;
+	Animator playerAnimator;
 	GameObject player;
 	// Use this for initialization
 	void Start () {
@@ -17,19 +19,20 @@ public class barro : MonoBehaviour {
 		if(instanciarVasija){
 			GameObject vasijaIns = (GameObject) Instantiate(vasija, player.transform.position,transform.rotation);
 			vasijaIns.transform.parent = player.transform;
-			vasijaIns.transform.Translate(Vector3.zero);
+			vasijaIns.transform.Translate(-0.1532699f,-0.3859406f,0f);
 			vasijaIns.transform.rotation = new Quaternion();
 			vasijaIns.transform.Rotate(270f,0f,0f);
-			Destroy(vasijaIns,tiempo);
 			instanciarVasija = false;
 		}
 		tiempo -= Time.deltaTime;
 		if(tiempo < 0){
 			if(GameObject.Find("Vasija(Clone)"))
 			{
-
+				playerAnimator.SetBool("recojer",false);
+				Destroy(GameObject.Find("Vasija(Clone)"));
 			}
 			tomabarro =false;
+
 		}
 	}
 
@@ -45,6 +48,8 @@ public class barro : MonoBehaviour {
 	public void OnTriggerEnter(Collider colision){
 		if (colision.tag == "Player") {
 			player = colision.gameObject;
+			playerAnimator = colision.gameObject.GetComponent<Animator>();
+			playerAnimator.SetBool("recojer",true);
 			tiempo = 10;
 			instanciarVasija = true;
 			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();

@@ -18,19 +18,18 @@ public class Misiones : MonoBehaviour {
 		string[] pasos = new string[5];
 		mision1.nombre = "construir una choza para vivir";
 		pasos[0] = "debes conseguir madera en el bosque";
-		pasos[1] = "busca hojas de la plama de Boba, consige 20 para construir tu casa";
+		pasos[1] = "busca hojas de la plama de Boba, \n consige 20 para construir tu casa";
 		pasos[2] = "toma una vasija y trae barro, junto al lago la encontraras";
-		pasos[3] = "ubicate en fusagasuga donde esta nuestra aldea y construlle tu choza";
+		pasos[3] = "ubicate en fusagasuga donde esta nuestra aldea \n y construye tu choza";
 		mision1.pasos = pasos;
 
 		mision2 = new Mision();
-		pasos = new string[5];
-		mision1.nombre = "Construir una choza para vivir";
-		pasos[0] = "Conseguir madera";
-		pasos[1] = "Conseguir madera";
-		pasos[2] = "Conseguir linas";
-		pasos[3] = "Conseguir Martillo";
-		pasos[4] = "Consntrulle tu choza";
+		pasos = new string[4];
+		mision2.nombre = "Creacion del nuevo pueblo";
+		pasos[0] = "Visita al Virey en Nuestra señora \n de Altagracia";
+		pasos[1] = "Uneta a 2 compañeros para conseguir el permiso";
+		pasos[2] = "Vuelva a fusagasuga con tus compañeros \n busca a Bernandino";
+		pasos[3] = "Agradece lo obtenido en la iglecia";
 		mision2.pasos = pasos;
 	}
 
@@ -43,6 +42,8 @@ public class Misiones : MonoBehaviour {
 		if(instanciar)
 		{
 			chiaInstanciar();
+			General.timepo = 15;
+			General.timepoChia = 15;
 		}
 		if(General.timepo > 0)
 		{
@@ -56,14 +57,14 @@ public class Misiones : MonoBehaviour {
 					Mision1();
 					break;
 				case "2":
-					Mision1();
+					Mision2();
 					break;
 				}
 			}
 
 		}
 
-		if(General.misionActual[0] == "2" && Network.peerType != NetworkPeerType.Disconnected){
+		if(General.misionActual[0] == "2" && Network.peerType != NetworkPeerType.Disconnected && General.timepo <= 0 ){
 			if(GameObject.Find("chozas") && !GameObject.Find("Chia(clone)")){
 				Application.LoadLevelAdditive("level2");
 				Destroy(GameObject.Find("Escenario"));
@@ -77,8 +78,14 @@ public class Misiones : MonoBehaviour {
 
 		if(cambio_mapa && GameObject.Find("PlayerJuego2")){
 			Destroy(GameObject.Find("LuzTest"));
-			GameObject.Find(Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego2").transform.position;
+			if(General.paso_mision == 1)
+				GameObject.Find(Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego2").transform.position;
 			cambio_mapa = false;
+		}
+
+		if(terminoMision && General.timepo < 0){
+			instanciar = true;
+			terminoMision = false;
 		}
 	}
 
@@ -86,8 +93,6 @@ public class Misiones : MonoBehaviour {
 	{
 		if(!GameObject.Find("Chia(Clone)"))
 		{
-			General.timepo = 15;
-			General.timepoChia = 15;
 			GameObject player = GameObject.Find(Network.player.ipAddress);
 			ayudaPersonaje = Instantiate (General.chia,  new Vector3(player.transform.localPosition.x + 0,player.transform.position.y + 20,player.transform.position.z), player.transform.rotation) as GameObject;
 			ayudaPersonaje.transform.parent = player.transform;
@@ -117,6 +122,8 @@ public class Misiones : MonoBehaviour {
 	}
 
 	public void procesoMision1(int paso){
+		General.timepo = 15;
+		General.timepoChia = 15;
 		switch(paso)
 		{
 			case 1:
@@ -145,6 +152,8 @@ public class Misiones : MonoBehaviour {
 			StartCoroutine(General.actualizarUser());
 			break;
 		case 4:
+			General.timepo = 30f;
+			General.timepoChia = 30f;
 			instanciar = true;
 			terminoMision = true;
 			General.paso_mision = 1;
@@ -153,19 +162,66 @@ public class Misiones : MonoBehaviour {
 			if(GameObject.Find("chozas")){
 				NetworkView nw = Camera.main.GetComponent<NetworkView>();
 				Color color = Color.red;
-				nw.RPC("recibir",RPCMode.AllBuffered, "He sibido de nivel", General.username,color.r + "," + color.g + "," + color.b);
+				nw.RPC("recibir",RPCMode.AllBuffered, "He subido de nivel", General.username,color.r + "," + color.g + "," + color.b);
 			}
 			break;
 		}
 	}
 
+	private void Mision2(){
+
+		//ayudaPersonaje.transform.parent = transform;
+		string saludo = "Hola,";
+		if(General.paso_mision != 1){
+			saludo = "Felicitaciones, continuemos";
+		}
+		if(General.timepo > 12){
+			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = saludo;
+		}
+		else if( General.timepo > 7){
+			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = "Tu mision es "+mision2.nombre;
+		}
+		else{
+			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = mision2.pasos[General.paso_mision - 1 ];
+		}
+	}
+
+	public void procesoMision2(int paso){
+		General.timepo = 15;
+		General.timepoChia = 15;
+		switch(paso)
+		{
+		case 1:
+			//instanciar = true;
+			General.paso_mision = 2;
+			StartCoroutine(General.actualizarUser());
+			break;
+		case 2:
+			instanciar = true;
+			General.paso_mision = 3;
+			StartCoroutine(General.actualizarUser());
+			break;
+		case 3:
+			instanciar = true;
+			General.paso_mision = 4;
+			StartCoroutine(General.actualizarUser());
+			break;
+		}
+	}
+
 	void completarMision(){
-		ayudaPersonaje.transform.parent = transform;
-		string mensaje;
-		if(General.timepo > 10){
-			mensaje = "Felicitaciones haz completado la mision "+General.misionActual[0]+"\n"+General.misionActual[1];
-		}else{
+		//ayudaPersonaje.transform.parent = transform;
+			
+		string mensaje="";
+		if(General.timepo > 25){
+			int idmision = int.Parse(General.misionActual[0]) - 1;
+			mensaje = "Felicitaciones haz completado la mision "+idmision+"\n"+General.misionActual[1];
+		}else if(General.timepo > 20){
 			mensaje = "Has subido de nivel";
+		}else if(General.timepo > 10){
+			mensaje = "Tus antepasados 'Sutagaos', habitaron \n esta zona viviendo en casas como la que construiste";
+		}else{
+			mensaje = "Pronto llegan los españoles en 1539 \n con el conquistador Gonzalo Jimenez de Quesada";
 		}
 		ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = mensaje;
 	}

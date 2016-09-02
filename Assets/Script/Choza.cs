@@ -54,7 +54,6 @@ public class Choza : MonoBehaviour {
 			if(cosntrullendo){
 				Misiones mision = Camera.main.gameObject.GetComponent<Misiones>();
 				mision.procesoMision1(General.paso_mision);
-				MoverMouse.movimiento = true;
 				Camera.main.transform.rotation = camaraOriginal.rotation;
 			}
 			cosntrullendo = false;

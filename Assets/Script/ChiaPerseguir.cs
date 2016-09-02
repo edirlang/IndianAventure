@@ -35,6 +35,10 @@ public class ChiaPerseguir : MonoBehaviour {
 	}
 
 	void OnGUI(){
+		GUIStyle style = new GUIStyle ();
+		style.alignment = TextAnchor.MiddleCenter;
+		style = GUI.skin.GetStyle ("Box");
+		style.fontSize = (int)(20.0f );
 		if(llegoChia)
 		{
 			luz.intensity = 0.5f;
