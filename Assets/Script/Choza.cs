@@ -26,16 +26,16 @@ public class Choza : MonoBehaviour {
 			Camera.main.transform.rotation = new Quaternion();
 			Camera.main.transform.Rotate(50.517f,265.809f,14.878f);
 			GameObject chozaLevel;
-			if(tiempo > 18 && tiempo < 19)
+			if(tiempo > 28 && tiempo < 39)
 			{
 				chozaLevel = GameObject.Find("choza1");
 				chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 1, posicionInstanciar.position.y, posicionInstanciar.position.z);
-			}else if (tiempo > 10 && tiempo < 11){
+			}else if (tiempo > 20 && tiempo < 21){
 				Destroy(GameObject.Find("choza1"));
 				chozaLevel = GameObject.Find("choza2");
 				chozaLevel.transform.position = chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 4, posicionInstanciar.position.y, posicionInstanciar.position.z);
 
-			}else if(tiempo > 2 && tiempo < 3){
+			}else if(tiempo > 12 && tiempo < 13){
 				Destroy(GameObject.Find("choza2"));
 				chozaLevel = GameObject.Find("choza3");
 				chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 4, posicionInstanciar.position.y - 2, posicionInstanciar.position.z);
@@ -43,9 +43,11 @@ public class Choza : MonoBehaviour {
 				if(crearChozaMulti){
 					NetworkView nw = Camera.main.GetComponent<NetworkView>();
 					nw.RPC("crearChozaMultiplayer",RPCMode.OthersBuffered, player.name, posicionInstanciar.position, 2);
-					crearChozaMulti = false;
 					playerAnimator.SetBool("recojer",false);
 					MoverMouse.cambioCamara = false;
+					MoverMouse.movimiento = true;
+					crearChozaMulti = false;
+
 				}
 			}
 		}
@@ -65,7 +67,7 @@ public class Choza : MonoBehaviour {
 			if(GUI.Button(new Rect(Screen.width/2 - Screen.width/16, Screen.height/2 - Screen.height/32,Screen.width/8,Screen.height/16),"Construir")){
 				cosntrullendo = true;
 				crearChozaMulti = true;
-				tiempo = 20;
+				tiempo = 30;
 				camaraOriginal = Camera.main.transform;
 				MoverMouse.cambioCamara = true;
 				MoverMouse.movimiento = false;

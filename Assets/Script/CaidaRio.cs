@@ -34,7 +34,11 @@ public class CaidaRio : MonoBehaviour {
 			collider.gameObject.transform.position = new Vector3(0,0,0);
 			controller = collider.gameObject.GetComponent<CharacterController>();
 			controller.enabled = false;
-			GameObject objetoAparecer = GameObject.Find("PlayerJuego");
+			GameObject objetoAparecer;
+			if(GameObject.Find("PlayerJuego"))
+				objetoAparecer = GameObject.Find("PlayerJuego");
+			else
+				objetoAparecer = GameObject.Find("PlayerJuego2");
 			collider.gameObject.transform.position = objetoAparecer.transform.position;
 			controller.enabled = true;
 			perdioVida = true;

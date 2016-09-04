@@ -20,7 +20,7 @@ public class Conexion : MonoBehaviour {
 	private int numeroMensajes = 0;
 	private NetworkView nw;
 	private Color color;
-	private float tiempo=15;
+	private float tiempo=30;
 
 	void Start()
 	{
@@ -83,6 +83,9 @@ public class Conexion : MonoBehaviour {
 	private void pantallaJuego()
 	{
 		GUIStyle style = new GUIStyle ();
+		style = GUI.skin.GetStyle ("label");
+		style.fontSize = (int)(20.0f);
+		mensajesEnviados ();
 
 		if(Network.isServer){
 			GUI.Label (new Rect (2*(Screen.width / 10), Screen.height - Screen.height / 12, Screen.width / 4, Screen.height / 12),"TU IP: " + Network.player.ipAddress );
@@ -145,9 +148,6 @@ public class Conexion : MonoBehaviour {
 				}
 			}
 		}
-		style = GUI.skin.GetStyle ("label");
-		style.fontSize = (int)(20.0f);
-		mensajesEnviados ();
 	}
 
 	private void pantallaServidor()
@@ -195,6 +195,7 @@ public class Conexion : MonoBehaviour {
 
 
 	void  OnConnectedToServer (){
+		Network.isMessageQueueRunning = false;
 		SpawnPlayer();
 	}
 
@@ -268,14 +269,26 @@ public class Conexion : MonoBehaviour {
 			{
 				string[] mensajeNuevo = (string[])mensajes[i];
 				string[] colorRGB = mensajeNuevo[2].Split(',');
+
+				string[] mensajeConcatenado = mensajeNuevo[1].Split('[');
 				GUI.color = new Color(float.Parse(colorRGB[0]),float.Parse(colorRGB[1]),float.Parse(colorRGB[2]));
-				GUI.Label(new Rect (Screen.width/12,(numeroMensajes - i)*(Screen.height/10), 2*Screen.width, Screen.height/10),mensajeNuevo[0]+": "+ mensajeNuevo[1]);
+				if(mensajeConcatenado.Length > 1){
+					GUI.Label(new Rect (Screen.width/12,(numeroMensajes - i)*(Screen.height/10), 2*Screen.width, Screen.height/10),mensajeNuevo[0]+": "+ mensajeConcatenado[0]);
+					if(mensajeConcatenado[1] != General.username)
+						if(GUI.Button(new Rect (Screen.width/12 + Screen.width/2,(numeroMensajes - i)*(Screen.height/10), Screen.width/3, Screen.height/10),"Unirme")){
+							nw.RPC("agregarEquipo",RPCMode.AllBuffered,mensajeConcatenado[1], General.username);
+							mensajes.Remove(mensajes[i]);
+						}
+				}else{
+					GUI.Label(new Rect (Screen.width/12,(numeroMensajes - i)*(Screen.height/10), 2*Screen.width, Screen.height/10),mensajeNuevo[0]+": "+ mensajeNuevo[1]);
+				}
+
 			}
 
 			GUI.color = Color.white;
 			if(tiempo <=0){
 				mensajes.RemoveAt(0);
-				tiempo=15;
+				tiempo=30;
 			}
 		}
 	}
@@ -323,21 +336,28 @@ public class Conexion : MonoBehaviour {
 				verChat = false;
 			}
 		}else if(General.misionActual[0] == "2"){
-			if(GUI.Button(new Rect(0,2*(Screen.height/16),Screen.width/3,Screen.height/16),"¿Dónde esta Nuestra señora de Altagracia?"))
+			if(GUI.Button(new Rect(0,2*(Screen.height/16),Screen.width/3, 2*(Screen.height/16)),"¿Dónde esta Nuestra \n señora de Altagracia?"))
 			{
 				mensaje = "¿Dónde esta Nuestra señora de Altagracia?";
 				verChat = false;
 			}
 			
-			if(GUI.Button(new Rect(0,3*(Screen.height/16),Screen.width/3,Screen.height/16),"Estoy en Altagracia"))
+			if(GUI.Button(new Rect(0,4*(Screen.height/16),Screen.width/3,2*(Screen.height/16)),"¿Necesito un equipo?"))
+			{
+				mensaje = "¿Necesito un equipo?.["+ General.username;
+				MoverMouse.jugadoresEquipo[0] = General.username;
+				verChat = false;
+			}
+
+			if(GUI.Button(new Rect(0,6*(Screen.height/16),Screen.width/3,2 * (Screen.height/16)),"Estoy en Altagracia"))
 			{
 				mensaje = "Estoy en Altagracia";
 				verChat = false;
 			}
-			
-			if(GUI.Button(new Rect(0,4*(Screen.height/16),Screen.width/3,2*(Screen.height/16)),"¿Necesito un equipo?"))
+
+			if(GUI.Button(new Rect(0,8*(Screen.height/16),Screen.width/3,2 * (Screen.height/16)),"Estoy en Fusagasuga"))
 			{
-				mensaje = "¿Necesito un equipo?";
+				mensaje = "Estoy en Fusagasuga";
 				verChat = false;
 			}
 		}
@@ -357,5 +377,32 @@ public class Conexion : MonoBehaviour {
 		GameObject chozaLevel = (GameObject) Instantiate (chozaFinal, new Vector3 (posicionInstanciar.x, posicionInstanciar.y - 2, posicionInstanciar.z - 5), new Quaternion ()); 
 		chozaLevel.transform.localScale = new Vector3(1.0f,2.0f,1.0f);
 		chozaLevel.name = "choza-" + usuario;
+	}
+
+	[RPC]
+	public void agregarEquipo(string usuarioLider, string usuarioAgregar ){
+		if(usuarioLider == General.username){
+			if(MoverMouse.jugadoresEquipo[1] == null){
+				MoverMouse.jugadoresEquipo[1] = usuarioAgregar;
+			}else if(MoverMouse.jugadoresEquipo[2] == null){
+				Debug.Log(usuarioAgregar);
+				MoverMouse.jugadoresEquipo[2] = usuarioAgregar;
+			}
+
+			if(MoverMouse.jugadoresEquipo[2] == null){
+				MoverMouse.jugadoresEquipo[2] = "";
+			}
+
+			nw.RPC("unirseEquipo",RPCMode.All, MoverMouse.jugadoresEquipo[0], MoverMouse.jugadoresEquipo[1],MoverMouse.jugadoresEquipo[2]);		
+		}
+	}
+
+	[RPC]
+	public void unirseEquipo(string usuario1, string usuario2, string usuario3){
+		if(usuario2 == General.username || usuario3 == General.username){
+			MoverMouse.jugadoresEquipo[0] = usuario1;
+			MoverMouse.jugadoresEquipo[1] = usuario2;
+			MoverMouse.jugadoresEquipo[2] = usuario3;
+		}
 	}
 }

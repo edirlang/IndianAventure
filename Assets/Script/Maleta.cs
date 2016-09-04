@@ -14,7 +14,9 @@ public class Maleta : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(General.misionActual[0]=="2"){
+
+		}
 	}
 
 	void OnGUI(){
