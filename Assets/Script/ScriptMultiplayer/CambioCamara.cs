@@ -16,7 +16,7 @@ public class CambioCamara : MonoBehaviour {
 
 	void OnTriggerEnter()
 	{
-		if (collider.gameObject.name == Network.player.ipAddress) {
+		if (GetComponent<Collider>().gameObject.name == Network.player.ipAddress) {
 
 		}
 	}

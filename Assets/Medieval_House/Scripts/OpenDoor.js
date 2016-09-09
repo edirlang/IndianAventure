@@ -11,7 +11,7 @@ function Update () {
 
 function OnTriggerEnter(other:Collider){
 	if (openedDoor){
-		doorObject.animation.Play();
+		doorObject.GetComponent.<Animation>().Play();
 		openedDoor=false;
 		Debug.Log("open");
 	}

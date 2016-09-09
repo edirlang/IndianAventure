@@ -98,7 +98,7 @@ public class Misiones : MonoBehaviour {
 				}
 				
 				g.transform.localScale = new Vector3 (2, 2, 2);
-				g.AddComponent("BoxCollider");
+				g.AddComponent<BoxCollider>();
 				g.GetComponent<BoxCollider> ().size = new Vector3(0.1f,0.1f,0.1f);
 				g.name = Network.player.ipAddress;
 				Misiones.cambio_mapa = true;

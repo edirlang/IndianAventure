@@ -18,7 +18,7 @@ public class spawn : MonoBehaviour {
 	{
 		GameObject g = (GameObject) Network.Instantiate (General.personaje, General.posicionIncial, transform.rotation, 0);
 		g.transform.localScale = new Vector3 (2, 2, 2);
-		g.AddComponent("BoxCollider");
+		g.AddComponent<BoxCollider>();
 		g.GetComponent<BoxCollider> ().size = new Vector3(0.1f,0.1f,0.1f);
 
 		g.name = Network.player.ipAddress;

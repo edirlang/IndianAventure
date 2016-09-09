@@ -15,12 +15,13 @@ public class Trasportador : MonoBehaviour {
 	void Update () {
 		tiempo -= Time.deltaTime;
 		if(tiempo < 0 && inciarTiempo){
-			GameObject.Find(Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego2").transform.position;
-			Destroy(gameObject);
 			if(scena != "level1"){
+				GameObject.Find(Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego2").transform.position;
+				Destroy(gameObject);
 				Destroy(GameObject.Find("Main Camera2"));
 				Destroy(GameObject.Find("Luz2"));
 			}else{
+				GameObject.Find(Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego").transform.position;
 				Destroy(GameObject.Find("Main Camera"));
 			}
 			MoverMouse.movimiento = true;
