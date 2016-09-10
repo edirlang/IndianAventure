@@ -82,18 +82,19 @@ public class Misiones : MonoBehaviour {
 					Destroy(GameObject.Find("Pieza de oro(Clone)"));
 
 				Camera.main.transform.parent = GameObject.Find("PlayerJuego").transform;
+				Vector3 posicion = GameObject.Find("PlayerJuego").transform.position;
 				Network.Destroy(GameObject.Find(Network.player.ipAddress));
 				GameObject g = new GameObject();
 				switch(General.idPersonaje)
 				{
 				case 1: 
-					g = (GameObject) Network.Instantiate (pj12, General.posicionIncial, transform.rotation, 0);
+					g = (GameObject) Network.Instantiate (pj12, posicion, transform.rotation, 0);
 					break;
 				case 2:
-					g = (GameObject) Network.Instantiate (pj22, General.posicionIncial, transform.rotation, 0);
+					g = (GameObject) Network.Instantiate (pj22, posicion, transform.rotation, 0);
 					break;
 				case 3:
-					g = (GameObject) Network.Instantiate (pj32, General.posicionIncial, transform.rotation, 0);
+					g = (GameObject) Network.Instantiate (pj32, posicion, transform.rotation, 0);
 					break;
 				}
 				

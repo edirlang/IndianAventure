@@ -8,7 +8,7 @@ public class General : MonoBehaviour {
 	public static GameObject chia;
 	public GameObject chiaPrefab;
 	public static GameObject personaje;
-	public static Vector3 posicionIncial;
+	public static string escenario;
 	public static int idPersonaje, paso_mision=1;
 	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
 	public static bool conectado = false, bono=false;
@@ -42,9 +42,7 @@ public class General : MonoBehaviour {
 		WWWForm form = new WWWForm ();
 		form.AddField ("username", General.username);
 		form.AddField("mision",General.misionActual[0] + "");
-		form.AddField("pos_x", General.posicionIncial.x + "");
-		form.AddField("pos_y", (General.posicionIncial.y + 2) + "");
-		form.AddField("pos_z", General.posicionIncial.z + "");
+		form.AddField("escenario", Application.loadedLevelName);
 		form.AddField("vidas", General.salud + "");
 		form.AddField("monedas", General.monedas + "");
 		form.AddField("bono", General.bono + "");
@@ -63,9 +61,7 @@ public class General : MonoBehaviour {
 		WWWForm form = new WWWForm ();
 		form.AddField ("username", General.username);
 		form.AddField("mision",General.misionActual[0] + "");
-		form.AddField("x", General.posicionIncial.x + "");
-		form.AddField("y", General.posicionIncial.y + "");
-		form.AddField("z", General.posicionIncial.z + "");
+		form.AddField("escenario", Application.loadedLevelName + "");
 		WWW www = new WWW (url, form);
 		yield return www;
 		if(www.error == null){

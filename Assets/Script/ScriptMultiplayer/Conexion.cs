@@ -27,6 +27,9 @@ public class Conexion : MonoBehaviour {
 		if (General.username == "") {
 			Application.LoadLevel("main");
 		}
+		if(General.escenario != "level1"){
+			GameObject.Find("TrasportadorSilvania").GetComponent<Trasportador>().cambiarEscenaSpaw(General.escenario);
+		}
 		color = new Color (Random.Range(0.0f,0.7f),Random.Range(0.0f,0.7f),Random.Range(0.0f,0.7f));
 		mensajes = new ArrayList();
 		nw = GetComponent<NetworkView> ();
@@ -214,9 +217,7 @@ public class Conexion : MonoBehaviour {
 		WWWForm form = new WWWForm ();
 		form.AddField ("username", General.username);
 		form.AddField("mision",General.misionActual[0] + "");
-		form.AddField("pos_x", General.posicionIncial.x + "");
-		form.AddField("pos_y", General.posicionIncial.y + "");
-		form.AddField("pos_z", General.posicionIncial.z + "");
+		form.AddField("escenario", Application.loadedLevelName);
 		form.AddField("vidas", General.salud + "");
 		form.AddField("monedas", General.monedas + "");
 		form.AddField("bono", General.bono + "");

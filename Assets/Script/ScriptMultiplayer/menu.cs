@@ -195,11 +195,13 @@ public class menu : MonoBehaviour {
 	public IEnumerator consultarMisionActual(WWW www){
 		yield return www;
 		if(www.error == null){
+
 			string[] mision = www.text.Split('*');
 
 			General.misionActual[0] = mision[0];
 			General.misionActual[1] = mision[1];
 			General.misionActual[2] = mision[2];
+			General.escenario = mision[5];
 			GameObject personaje;
 			
 			if(General.idPersonaje == 1)
@@ -230,14 +232,14 @@ public class menu : MonoBehaviour {
 				personaje.tag = "Player";
 			}
 
-			if(mision[10] == "0"){
+			if(mision[8] == "0"){
 				General.bono = false;
 			}else{
 				General.bono = true;
 			}
 
-			General.paso_mision= int.Parse(mision[9]);
-			General.posicionIncial = new Vector3(float.Parse(mision[5]),float.Parse(mision[6]),float.Parse(mision[7]));
+			General.paso_mision= int.Parse(mision[7]);
+
 		}else{
 			Debug.Log(www.error);
 		}

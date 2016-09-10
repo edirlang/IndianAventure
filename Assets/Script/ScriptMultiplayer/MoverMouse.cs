@@ -34,7 +34,6 @@ public class MoverMouse : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		General.posicionIncial = transform.position;
 		animator = GetComponent<Animator> ();
 		nw = GetComponent<NetworkView> ();
 
