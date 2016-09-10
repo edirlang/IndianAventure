@@ -109,7 +109,7 @@ public class Misiones : MonoBehaviour {
 		if(cambio_mapa && GameObject.Find("PlayerJuego2")){
 
 			GameObject.Find("PlayerJuego").transform.position = GameObject.Find("PlayerJuego2").transform.position;
-			Destroy(GameObject.Find("LuzTest"));
+			Destroy(GameObject.Find("Luz2"));
 			if(General.paso_mision == 1)
 				GameObject.Find(Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego2").transform.position;
 			cambio_mapa = false;
@@ -199,6 +199,7 @@ public class Misiones : MonoBehaviour {
 			terminoMision = true;
 			General.paso_mision = 1;
 			General.misionActual[0] = "2";
+			General.escenario = "level2";
 			StartCoroutine(General.cambiarMision());
 			if(GameObject.Find("chozas")){
 				NetworkView nw = Camera.main.GetComponent<NetworkView>();

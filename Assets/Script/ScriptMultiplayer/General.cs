@@ -17,6 +17,7 @@ public class General : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		chia = chiaPrefab;
+		escenario = "level1";
 		PlayerPrefs.GetInt ("salud",3);
 		//personaje = personajeDefault;
 		DontDestroyOnLoad (this);
@@ -42,7 +43,7 @@ public class General : MonoBehaviour {
 		WWWForm form = new WWWForm ();
 		form.AddField ("username", General.username);
 		form.AddField("mision",General.misionActual[0] + "");
-		form.AddField("escenario", Application.loadedLevelName);
+		form.AddField("escenario", General.escenario);
 		form.AddField("vidas", General.salud + "");
 		form.AddField("monedas", General.monedas + "");
 		form.AddField("bono", General.bono + "");
@@ -61,7 +62,7 @@ public class General : MonoBehaviour {
 		WWWForm form = new WWWForm ();
 		form.AddField ("username", General.username);
 		form.AddField("mision",General.misionActual[0] + "");
-		form.AddField("escenario", Application.loadedLevelName + "");
+		form.AddField("escenario", General.escenario);
 		WWW www = new WWW (url, form);
 		yield return www;
 		if(www.error == null){
