@@ -19,7 +19,7 @@ var rotateJoystick : Joystick;
 
 var cameraPivot : Transform;						// The transform used for camera rotation
 
-var forwardSpeed : float = 4;
+var forwardSpeed : float = 6;
 var backwardSpeed : float = 1;
 var sidestepSpeed : float = 1;
 var jumpSpeed : float = 8;
@@ -71,8 +71,6 @@ function Update()
 {
 	if (nw.isMine)
 	{
-		camara.transform.parent = transform;
-		camara.transform.localPosition = new Vector3(-0.01339699f, 3.32726f, -7.790852f);
 			
 		var movement = thisTransform.TransformDirection( Vector3( moveJoystick.position.x, 0, moveJoystick.position.y ) );
 		
