@@ -92,7 +92,7 @@ public class Choza : MonoBehaviour {
 			player = colision.gameObject;
 			playerAnimator = colision.gameObject.GetComponent<Animator>();
 			
-			if(General.paso_mision == 4 && General.misionActual[0] == "1"){
+			if(General.paso_mision == 7 && General.misionActual[0] == "1"){
 				activarBoton = true;
 			}
 		}
@@ -100,7 +100,7 @@ public class Choza : MonoBehaviour {
 
 	public void OnTriggerExit(Collider colision){
 		if (colision.tag == "Player") {
-			if(General.paso_mision == 4 && General.misionActual[0] == "1"){
+			if(General.paso_mision == 7 && General.misionActual[0] == "1"){
 				player = colision.gameObject;
 				activarBoton = false;
 			}

@@ -39,7 +39,7 @@ public class barro : MonoBehaviour {
 			if (tiempoAnimacion < 0 && tomabarro) {
 				MoverMouse.movimiento = true;	
 				MoverMouse.cambioCamara = false;
-				if(actualizar && General.paso_mision == 3 && General.misionActual[0] == "1"){
+				if(actualizar && General.paso_mision == 6 && General.misionActual[0] == "1"){
 					Misiones mision = Camera.main.gameObject.GetComponent<Misiones>();
 					mision.procesoMision1(General.paso_mision);
 					actualizar = false;
@@ -69,8 +69,9 @@ public class barro : MonoBehaviour {
 			player = colision.gameObject;
 			playerAnimator = colision.gameObject.GetComponent<Animator>();
 			playerAnimator.SetBool("recojer",true);
-			tiempo = 10;
+
 			tiempoAnimacion = recojer.length;
+			tiempo = tiempoAnimacion + 0.5f;
 			instanciarVasija = true;
 			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 			maleta.agregarTextura(contenidobarro);

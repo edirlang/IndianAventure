@@ -25,26 +25,29 @@ public class Madera : MonoBehaviour {
 				transform.position = new Vector3(-10,-10,-10);
 				MoverMouse.movimiento = true;
 				MoverMouse.cambioCamara = false;
-				if(actualizar && General.paso_mision == 1 && General.misionActual[0] == "1"){
+				if(actualizar && General.paso_mision == 3 && General.misionActual[0] == "1"){
 					Misiones mision = Camera.main.gameObject.GetComponent<Misiones>();
 					mision.procesoMision1(General.paso_mision);
+					gameObject.GetComponent<MeshRenderer> ().enabled = false;
+					gameObject.GetComponent<BoxCollider> ().enabled = false;
 					actualizar = false;
 				}
 			}
 		}
 
-		if(General.misionActual[0] == "1" && General.paso_mision == 1){
+		if(General.misionActual[0] == "1" && General.paso_mision == 3){
 
 		} else{
-			if(General.paso_mision != 1 && General.misionActual[0] == "1"){
+			if(General.paso_mision > 3 && General.misionActual[0] == "1"){
 				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 				maleta.agregarTextura(madera);
+				Destroy(gameObject);
 			}
 			if(playerAnimator != null){
 				playerAnimator.SetBool("recojer",false);
 			}
 
-			Destroy(gameObject);
+			
 		}
 	}
 
@@ -60,21 +63,21 @@ public class Madera : MonoBehaviour {
 
 	public void OnTriggerEnter(Collider colision){
 		if (colision.tag == "Player") {
+			actualizar = true;
 
 			playerAnimator = colision.gameObject.GetComponent<Animator>();
 			playerAnimator.SetBool("recojer",true);
-			actualizar = true;
+
 			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 			maleta.agregarTextura(madera);
 
-			Destroy(gameObject,5);		
-			tiempo = 5;
-			tiempoAnimacion = recojerAnimacion.length;
 			MoverMouse.movimiento = false;
 			MoverMouse.cambioCamara = true;
 
 			tomaMadera = true;
-
+			tiempoAnimacion = recojerAnimacion.length;
+			Destroy(gameObject,5);		
+			tiempo = 5;
 		}
 	}
 }

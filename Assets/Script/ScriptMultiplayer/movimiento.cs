@@ -10,14 +10,14 @@ public class movimiento : MonoBehaviour {
 	private GameObject camara;
 	private NetworkView nw;
 	private Animator animator;
-	public static Vector3 posicion;
+	public static Vector3 posicion = General.posicionIncial;
 
 	public Vector3 posicionInicial;  
 
 	void Start()
 	{
 		nw = GetComponent<NetworkView> ();
-		posicion = GameObject.Find ("PlayerJuego").transform.position;
+
 	}
 	
 	void Update() {

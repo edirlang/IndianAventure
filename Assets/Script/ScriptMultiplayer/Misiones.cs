@@ -19,7 +19,7 @@ public class Misiones : MonoBehaviour {
 	{
 		mision1 = new Mision();
 		string[] pasos = new string[5];
-		mision1.nombre = "Construir una choza para vivir";
+		mision1.nombre = "Conociendo a nuestros antepasados";
 		pasos[0] = "Debes conseguir 6 trozos de madera para construir tu choza ";
 		pasos[1] = "Busca hojas de la palma de Boba, \n consige 20 hojas para poder construir tu casa";
 		pasos[2] = "Toma una vasija y trae barro, junto al lago la encontraras";
@@ -72,6 +72,7 @@ public class Misiones : MonoBehaviour {
 		if(General.misionActual[0] == "2" && Network.peerType != NetworkPeerType.Disconnected && General.timepo <= 0 ){
 			if(GameObject.Find("chozas") && !GameObject.Find("Chia(clone)")){
 				Maleta.vaciar = true;
+
 				MoverMouse.movimiento = false;
 				Application.LoadLevelAdditive("level2");
 				Destroy(GameObject.Find("Escenario"));
@@ -82,19 +83,18 @@ public class Misiones : MonoBehaviour {
 					Destroy(GameObject.Find("Pieza de oro(Clone)"));
 
 				Camera.main.transform.parent = GameObject.Find("PlayerJuego").transform;
-				Vector3 posicion = GameObject.Find("PlayerJuego").transform.position;
 				Network.Destroy(GameObject.Find(Network.player.ipAddress));
 				GameObject g = new GameObject();
 				switch(General.idPersonaje)
 				{
 				case 1: 
-					g = (GameObject) Network.Instantiate (pj12, posicion, transform.rotation, 0);
+					g = (GameObject) Network.Instantiate (pj12, General.posicionIncial, transform.rotation, 0);
 					break;
 				case 2:
-					g = (GameObject) Network.Instantiate (pj22, posicion, transform.rotation, 0);
+					g = (GameObject) Network.Instantiate (pj22, General.posicionIncial, transform.rotation, 0);
 					break;
 				case 3:
-					g = (GameObject) Network.Instantiate (pj32, posicion, transform.rotation, 0);
+					g = (GameObject) Network.Instantiate (pj32, General.posicionIncial, transform.rotation, 0);
 					break;
 				}
 				
@@ -109,7 +109,7 @@ public class Misiones : MonoBehaviour {
 		if(cambio_mapa && GameObject.Find("PlayerJuego2")){
 
 			GameObject.Find("PlayerJuego").transform.position = GameObject.Find("PlayerJuego2").transform.position;
-			Destroy(GameObject.Find("Luz2"));
+			Destroy(GameObject.Find("LuzTest"));
 			if(General.paso_mision == 1)
 				GameObject.Find(Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego2").transform.position;
 			cambio_mapa = false;
@@ -140,7 +140,62 @@ public class Misiones : MonoBehaviour {
 	}
 
 	private void Mision1(){
-		ayudaPersonaje.transform.parent = transform;
+		string mensaje = "";
+		switch (General.paso_mision) {
+		case 1:
+			if (General.timepo > 10) {
+				mensaje = " Hola, bienvenidos a Natives \n Yo soy Chía, diosa de la luna";
+			} else if (General.timepo > 2) {
+				mensaje = "Ayudo a tu pueblo, los Sutagaos a llevar una vida llena de travesías. \n Entonces que esperamos, ¡EMPECEMOS!";
+			}else if(General.timepo > 0 && General.timepo < 1){
+				General.timepo = 0;
+				procesoMision1 (General.paso_mision);
+			}
+			break;
+		case 2:
+			if (General.timepo > 12) {
+				mensaje = "Para poder sobrevivir en esta tierra mágica, \n debes primero tener donde vivir, para ello necesitaremos conseguir algunos materiales.";
+			} else if (General.timepo > 8) {
+				mensaje = "Lo primero que debes hacer es ir a Silvania, \n  la tierra de la madera y trae un poco de ella para construir tú hogar.";
+			}else if(General.timepo > 0){
+				mensaje = " Guíate por las señales que están alrededor del mapa";
+			}
+			break;
+		case 3:
+			if (General.timepo > 1) {
+				mensaje = "Muy bien,  recuerda recoger 6 palos de madera \n y luego retornar a Fusa para seguir la construcción de tu hogar.";
+			}
+			break;
+		case 4:
+			if (General.timepo > 12) {
+				mensaje = "Ya tienes los palos \n estos los usaras como pared de tu choza.";
+			} else if (General.timepo > 8) {
+				mensaje = "Ahora necesitamos el techo para cubrirnos de la lluvia, \n  para ello necestamos hojas de palma boba.";
+			}else if(General.timepo > 0){
+				mensaje = " Las cuales puedes conseguir en Pasca \n luego regresa a Fusagasuga";
+			}
+			break;
+		case 5:
+			if (General.timepo > 0) {
+				mensaje = "Recuerda que debes recoger 20 hojas \n para poder construir el techo Y luego volver a fusa a terminar tu hogar.";
+			}
+			break;
+		case 6:
+			if (General.timepo > 0) {
+				mensaje = "Muy bien, por ultimo ve y busca barro, así finalizaras La recolección de materiales. \n encuentralo en Fusagasuga junto al lago";
+			}
+			break;
+		case 7:
+			if (General.timepo > 8) {
+				mensaje = "Ya conseguiste todos los materiales, \n ¡Qué bien! Ahora debes construir tu hogar,";
+			}else if (General.timepo > 0) {
+				mensaje = "ve al punto central de nuestro pueblo, \n cerca al fuego y construye tu casa.";
+			}
+			break;
+		}
+
+		ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = mensaje;
+		/*
 		string saludo = "Hola, soy chia";
 		if(General.paso_mision != 1){
 			saludo = "Felicitaciones, continuemos";
@@ -152,8 +207,9 @@ public class Misiones : MonoBehaviour {
 			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = "Tu mision es "+mision1.nombre;
 		}
 		else{
-			ayudaPersonaje.GetComponent<ChiaPerseguir>().mensajeChia = mision1.pasos[General.paso_mision - 1 ];
+			
 		}
+		*/
 	}
 
 	public void procesoMision1(int paso){
@@ -161,52 +217,72 @@ public class Misiones : MonoBehaviour {
 		switch(paso)
 		{
 			case 1:
-				Debug.Log("maderas "+numeroMaderas);
-				numeroMaderas+=1;
-			if(numeroMaderas >= 6)
-				{
-					General.timepo = 15;
-					General.timepoChia = 15;
-					instanciar = true;
-					General.paso_mision = 2;
-					StartCoroutine(General.actualizarUser());
-					GameObject[] hojas = GameObject.FindGameObjectsWithTag("Hojas");
-					
-				}
+				General.timepo = 20;
+				General.timepoChia = 20.5f;
+				instanciar = true;
+				General.paso_mision = 2;
+				StartCoroutine(General.actualizarUser());
 			break;
-		case 2:
-			numerohojas+=2;
-			if(numerohojas >= 20)
-			{
-				General.timepo = 15;
-				General.timepoChia = 15;
+			case 2:
+				General.timepo = 10;
+				General.timepoChia = 10.5f;
 				instanciar = true;
 				General.paso_mision = 3;
 				StartCoroutine(General.actualizarUser());
-			}
+				break;
+			case 3:
+				Debug.Log("maderas "+numeroMaderas);
+				numeroMaderas+=1;
+				if(numeroMaderas >= 6)
+					{
+						General.timepo = 20;
+						General.timepoChia = 20.5f;
+						instanciar = true;
+						General.paso_mision = 4;
+						StartCoroutine(General.actualizarUser());
+						GameObject[] hojas = GameObject.FindGameObjectsWithTag("Hojas");
+					}
 			break;
-		case 3:
-			General.timepo = 15;
-			General.timepoChia = 15;
-			instanciar = true;
-			General.paso_mision = 4;
-			StartCoroutine(General.actualizarUser());
-			break;
-		case 4:
-			General.timepo = 40f;
-			General.timepoChia = 40f;
-			instanciar = true;
-			terminoMision = true;
-			General.paso_mision = 1;
-			General.misionActual[0] = "2";
-			General.escenario = "level2";
-			StartCoroutine(General.cambiarMision());
-			if(GameObject.Find("chozas")){
-				NetworkView nw = Camera.main.GetComponent<NetworkView>();
-				Color color = Color.red;
-				nw.RPC("recibir",RPCMode.AllBuffered, "He subido de nivel", General.username,color.r + "," + color.g + "," + color.b);
-			}
-			break;
+			case 4:
+				General.timepo = 10;
+				General.timepoChia = 10.5f;
+				instanciar = true;
+				General.paso_mision = 5;
+				StartCoroutine(General.actualizarUser());
+				break;
+			case 5:
+				numerohojas+=2;
+				if(numerohojas >= 20)
+				{
+					General.timepo = 15;
+					General.timepoChia = 15.5f;
+					instanciar = true;
+					General.paso_mision = 6;
+					StartCoroutine(General.actualizarUser());
+				}
+				break;
+			case 6:
+				General.timepo = 15;
+				General.timepoChia = 15.5f;
+				instanciar = true;
+				General.paso_mision = 7;
+				StartCoroutine(General.actualizarUser());
+				break;
+
+			case 7:
+				General.timepo = 40f;
+				General.timepoChia = 40.5f;
+				instanciar = true;
+				terminoMision = true;
+				General.paso_mision = 1;
+				General.misionActual[0] = "2";
+				StartCoroutine(General.cambiarMision());
+				if(GameObject.Find("chozas")){
+					NetworkView nw = Camera.main.GetComponent<NetworkView>();
+					Color color = Color.red;
+					nw.RPC("recibir",RPCMode.AllBuffered, "He subido de nivel", General.username,color.r + "," + color.g + "," + color.b);
+				}
+				break;
 		}
 	}
 
@@ -243,7 +319,7 @@ public class Misiones : MonoBehaviour {
 			break;
 		case 3:
 			General.timepo = 15;
-			General.timepoChia = 15;
+			General.timepoChia = 15.5f;
 			instanciar = true;
 			General.paso_mision = 4;
 			StartCoroutine(General.actualizarUser());
@@ -257,13 +333,13 @@ public class Misiones : MonoBehaviour {
 		string mensaje="";
 		if(General.timepo > 35){
 			int idmision = int.Parse(General.misionActual[0]) - 1;
-			mensaje = "Felicitaciones, haz completado la mision "+idmision+"\n"+General.misionActual[1];
+			mensaje = "¡Felicitaciones! Haz terminado la misión, "+idmision+"\n"+General.misionActual[1];
 		}else if(General.timepo > 30){
-			mensaje = "Tus antepasados 'Sutagaos', habitaron \n esta zona viviendo en casas como la que construiste";
+			mensaje = "este será tu hogar hasta que alguien venga y te lo quite, \n por ahora disfrutarlo.";
 		}else if(General.timepo > 20){
 			mensaje = "Haz pasado al siguiente nivel";
 		}else if(General.timepo > 10){
-			mensaje = "Recibe este regalo por terminar el primer nivel";
+			mensaje = "Por haber terminado la misión has ganado este premio de oro.";
 
 			if(!GameObject.Find("Pieza de oro(Clone)")){
 				GameObject player = GameObject.Find(Network.player.ipAddress);

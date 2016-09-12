@@ -8,16 +8,15 @@ public class General : MonoBehaviour {
 	public static GameObject chia;
 	public GameObject chiaPrefab;
 	public static GameObject personaje;
-	public static string escenario;
+	public static Vector3 posicionIncial;
 	public static int idPersonaje, paso_mision=1;
 	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
-	public static bool conectado = false, bono=false;
+	public static bool conectado = false, bono=false, mensajeRecojer = false;
 	public static string[] misionActual = new string[3];
 	public static float timepoChia=10, timepo=0;
 	// Use this for initialization
 	void Start () {
 		chia = chiaPrefab;
-		escenario = "level1";
 		PlayerPrefs.GetInt ("salud",3);
 		//personaje = personajeDefault;
 		DontDestroyOnLoad (this);
@@ -43,7 +42,9 @@ public class General : MonoBehaviour {
 		WWWForm form = new WWWForm ();
 		form.AddField ("username", General.username);
 		form.AddField("mision",General.misionActual[0] + "");
-		form.AddField("escenario", General.escenario);
+		form.AddField("pos_x", General.posicionIncial.x + "");
+		form.AddField("pos_y", (General.posicionIncial.y + 2) + "");
+		form.AddField("pos_z", General.posicionIncial.z + "");
 		form.AddField("vidas", General.salud + "");
 		form.AddField("monedas", General.monedas + "");
 		form.AddField("bono", General.bono + "");
@@ -62,7 +63,9 @@ public class General : MonoBehaviour {
 		WWWForm form = new WWWForm ();
 		form.AddField ("username", General.username);
 		form.AddField("mision",General.misionActual[0] + "");
-		form.AddField("escenario", General.escenario);
+		form.AddField("x", General.posicionIncial.x + "");
+		form.AddField("y", General.posicionIncial.y + "");
+		form.AddField("z", General.posicionIncial.z + "");
 		WWW www = new WWW (url, form);
 		yield return www;
 		if(www.error == null){

@@ -24,8 +24,10 @@ public class hojas : MonoBehaviour {
 				transform.position = new Vector3(-10,-10,-10);
 				MoverMouse.movimiento = true;
 				MoverMouse.cambioCamara = false;
-				if(actualizar && General.paso_mision == 2 && General.misionActual[0] == "1"){
+				if(actualizar && General.paso_mision == 5 && General.misionActual[0] == "1"){
 					Misiones mision = Camera.main.gameObject.GetComponent<Misiones>();
+					gameObject.GetComponent<MeshRenderer> ().enabled = false;
+					gameObject.GetComponent<BoxCollider> ().enabled = false;
 					mision.procesoMision1(General.paso_mision);
 					actualizar = false;
 				}
@@ -35,10 +37,10 @@ public class hojas : MonoBehaviour {
 		if(tiempo < 0){
 			tomaHojas =false;
 		}
-		if(General.misionActual[0] == "1" && General.paso_mision == 2){
+		if(General.misionActual[0] == "1" && General.paso_mision == 5){
 			gameObject.GetComponent<MeshRenderer>().enabled = true;
 			gameObject.GetComponent<LensFlare>().enabled = true;
-		} else if(General.paso_mision > 2 && General.misionActual[0] == "1"){
+		} else if(General.paso_mision > 5 && General.misionActual[0] == "1"){
 			if(playerAnimator != null){
 				playerAnimator.SetBool("recojer",false);
 			}
@@ -63,7 +65,7 @@ public class hojas : MonoBehaviour {
 		}
 	}
 	public void OnTriggerEnter(Collider colision){
-		if (colision.tag == "Player" && General.paso_mision == 2) {
+		if (colision.tag == "Player" && General.paso_mision == 5) {
 			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 			maleta.agregarTextura(hoja);
 			maleta.agregarTextura(hoja);

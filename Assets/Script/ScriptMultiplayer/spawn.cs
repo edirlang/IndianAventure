@@ -16,14 +16,27 @@ public class spawn : MonoBehaviour {
 
 	void OnNetworkLoadedLevel()
 	{
-		Vector3 posicion = GameObject.Find ("PlayerJuego").transform.position;
-		GameObject g = (GameObject) Network.Instantiate (General.personaje, posicion, transform.rotation, 0);
+		GameObject g = (GameObject) Network.Instantiate (General.personaje, General.posicionIncial, transform.rotation, 0);
 		g.transform.localScale = new Vector3 (2, 2, 2);
 		g.AddComponent<BoxCollider>();
 		g.GetComponent<BoxCollider> ().size = new Vector3(0.1f,0.1f,0.1f);
 
 		g.name = Network.player.ipAddress;
 
+		if(General.misionActual[0] == "2"){
+			if(GameObject.Find("chozas") && Network.isClient){
+				
+				MoverMouse.movimiento = false;
+
+				Application.LoadLevelAdditive("level2");
+				Destroy(GameObject.Find("Escenario"));
+				Destroy(GameObject.Find("fogata"));
+				Destroy(GameObject.Find("micos"));
+				Destroy(GameObject.Find("chozas"));
+
+				Misiones.cambio_mapa = true;
+			}
+		}
 		Network.isMessageQueueRunning = true;
 	}
 
