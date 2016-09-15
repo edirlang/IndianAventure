@@ -71,4 +71,16 @@ public class Maleta : MonoBehaviour {
 			}
 		}
 	}
+
+		public void eliminarTextura(string textura){
+				for(int i = 0; i < imagenes.Length; i++)
+				{
+						if(objeto[i,0] == name)
+						{
+								objeto [i, 0] = null;
+								objeto[i,1] = null;
+								break;
+						}
+				}
+		}
 }

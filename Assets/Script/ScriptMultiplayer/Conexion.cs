@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class Conexion : MonoBehaviour {
 
@@ -12,7 +13,7 @@ public class Conexion : MonoBehaviour {
 	public string textoAyuda = "Chia";
 	public static string mensaje = "";
 	private ArrayList mensajes;
-	public GameObject prefab, chia;
+	public GameObject prefab, chia, gonzalo;
 	public Vector3 rotacion;
 	private string idPersonaje;
 	private bool salir = false, abrirMenu = false, verChat= false;
@@ -37,6 +38,8 @@ public class Conexion : MonoBehaviour {
 		if(GameObject.Find("MainCamera2")){
 			Destroy(GameObject.Find("MainCamera2"));
 		}
+
+
 	}
 
 	void  OnGUI (){
@@ -201,10 +204,15 @@ public class Conexion : MonoBehaviour {
 
 	private void SpawnPlayer()
 	{
-		foreach (GameObject Go in FindObjectsOfType(typeof(GameObject)) as GameObject[])
-		{
-			Go.SendMessage("OnNetworkLoadedLevel",SendMessageOptions.DontRequireReceiver);
-		}
+				GameObject g = (GameObject) Network.Instantiate (General.personaje, new Vector3(General.posicionIncial.x,General.posicionIncial.y + 10f,General.posicionIncial.z), transform.rotation, 0);
+				g.transform.localScale = new Vector3 (2, 2, 2);
+				g.AddComponent<BoxCollider>();
+				g.GetComponent<BoxCollider> ().size = new Vector3(0.1f,0.1f,0.1f);
+
+				g.name = Network.player.ipAddress;
+
+				Network.isMessageQueueRunning = true;
+
 		//GameObject g = (GameObject) Network.Instantiate (General.personaje, transform.position, transform.rotation, 0);
 		//g.name = Network.player.ipAddress;
 	}
@@ -274,7 +282,7 @@ public class Conexion : MonoBehaviour {
 				GUI.color = new Color(float.Parse(colorRGB[0]),float.Parse(colorRGB[1]),float.Parse(colorRGB[2]));
 				if(mensajeConcatenado.Length > 1){
 					GUI.Label(new Rect (Screen.width/12,(numeroMensajes - i)*(Screen.height/10), 2*Screen.width, Screen.height/10),mensajeNuevo[0]+": "+ mensajeConcatenado[0]);
-					if(mensajeConcatenado[1] != General.username && General.paso_mision == 2)
+					if(mensajeConcatenado[1] != General.username && General.paso_mision >= 3)
 						if(GUI.Button(new Rect (Screen.width/12 + Screen.width/2,(numeroMensajes - i)*(Screen.height/10), Screen.width/3, Screen.height/10),"Unirme")){
 							nw.RPC("agregarEquipo",RPCMode.All,mensajeConcatenado[1], General.username);
 							mensajes.Remove(mensajes[i]);
@@ -364,6 +372,17 @@ public class Conexion : MonoBehaviour {
 		return mensaje;
 	}
 
+		void OnPlayerDisconnected(NetworkPlayer player) {
+				Debug.Log("Clean up after player " + player);
+				Network.RemoveRPCs(player);
+				Network.DestroyPlayerObjects(player);
+		}
+
+		public virtual void OnServerDisconnect(NetworkConnection conn)
+		{
+				NetworkServer.DestroyPlayersForConnection(conn);
+		}
+		 
 	[RPC]
 	public void recibir(string text,string usuario, string color)
 	{
@@ -407,7 +426,7 @@ public class Conexion : MonoBehaviour {
 			MoverMouse.jugadoresEquipo[2] = usuario3;
 		}
 	}
-
+		/*
 	[RPC]
 	void actualizarPosicion(float x, float y, float z){
 		Transform gonzalo = GameObject.Find ("gonzaloJimenez").transform;
@@ -416,9 +435,10 @@ public class Conexion : MonoBehaviour {
 	
 	[RPC]
 	void converzar(float tiempo){
-		Debug.Log ("soy "+Network.player.ipAddress);
+
 		Gonzalo gonzalo = GameObject.Find ("gonzaloJimenez").GetComponent<Gonzalo>();
 		gonzalo.tiempo = tiempo;
 		gonzalo.buscar = true;
 	}
+	*/
 }
