@@ -24,7 +24,7 @@ public class VerificacionVirrey : MonoBehaviour {
 								}
 						}
 						Debug.Log (contador);
-						if (contador < 1) {
+						if (contador < 3) {
 								colision.gameObject.transform.position = GameObject.Find ("pasca").transform.position;
 						}
 				}

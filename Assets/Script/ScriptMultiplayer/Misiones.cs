@@ -56,7 +56,15 @@ public class Misiones : MonoBehaviour
 				}
 				if (General.timepo > 0) {
 						if (terminoMision) {
-								completarMision ();
+								
+								switch(General.misionActual[0]){
+								case "2":
+										completarMision ();
+										break;
+								case "3":
+										completarMision2 ();
+										break;
+								}
 						} else {
 								switch (General.misionActual [0]) {
 								case "1":
@@ -82,6 +90,21 @@ public class Misiones : MonoBehaviour
 								Destroy (GameObject.Find ("chozas"));
 								if (GameObject.Find ("Pieza de oro(Clone)"))
 										Destroy (GameObject.Find ("Pieza de oro(Clone)"));
+
+								Camera.main.transform.parent = GameObject.Find ("PlayerJuego").transform;
+
+								Misiones.cambio_mapa = true;
+						}
+				}
+
+				if (General.misionActual [0] == "3" && Network.peerType != NetworkPeerType.Disconnected && General.timepo <= 0) {
+						if (GameObject.Find ("casas") && !GameObject.Find ("Chia(clone)")) {
+								Maleta.vaciar = true;
+
+								MoverMouse.movimiento = false;
+								Application.LoadLevelAdditive ("level3");
+								Destroy (GameObject.Find ("Escenario"));
+								Destroy (GameObject.Find ("casas"));
 
 								Camera.main.transform.parent = GameObject.Find ("PlayerJuego").transform;
 
@@ -303,8 +326,17 @@ public class Misiones : MonoBehaviour
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 6:
-						General.paso_mision = 7;
-						StartCoroutine (General.actualizarUser ());
+						General.timepo = 40f;
+						General.timepoChia = 40.5f;
+						instanciar = true;
+						terminoMision = true;
+						General.paso_mision = 1;
+						General.misionActual [0] = "3";
+						General.monedas += 50;
+						StartCoroutine (General.cambiarMision ());
+						NetworkView nw = Camera.main.GetComponent<NetworkView> ();
+						Color color = Color.red;
+						nw.RPC ("recibir", RPCMode.AllBuffered, "He subido de nivel", General.username, color.r + "," + color.g + "," + color.b);
 						break;
 				}
 		}
@@ -331,6 +363,30 @@ public class Misiones : MonoBehaviour
 								pieza.transform.localPosition = new Vector3 (-1.3f, 0.8f, -0.01f);
 						} else {
 								GameObject.Find ("Pieza de oro(Clone)").transform.Rotate (-10f * Time.deltaTime, 0f, 0f); 
+						}
+				} else {
+						mensaje = "Conservalo, te puede servir mas adelante";
+				}
+				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
+		}
+
+		void completarMision2 ()
+		{
+				//ayudaPersonaje.transform.parent = transform;
+
+				string mensaje = "";
+				if (General.timepo > 35) {
+						int idmision = int.Parse (General.misionActual [0]) - 1;
+						mensaje = "¡Felicitaciones! Haz terminado la misión, \n" + General.misionActual [1];
+				} else if (General.timepo > 30) {
+						mensaje = ", este será tu humilde hogar.";
+				} else if (General.timepo > 20) {
+						mensaje = "Haz pasado al siguiente nivel";
+				} else if (General.timepo > 10) {
+						mensaje = "Por haber terminado la misión has ganado 50 monedas de oro";
+
+						if (!GameObject.Find ("Pieza de oro(Clone)")) {
+								
 						}
 				} else {
 						mensaje = "Conservalo, te puede servir mas adelante";

@@ -12,7 +12,7 @@ public class Virrey : MonoBehaviour {
 		ArrayList players;
 		public float tiempo = -1f;
 		public bool iniciarConversasion = false, cambio = false;
-		Vector3 moveDirection = Vector3.zero;
+		Vector3 moveDirection;
 		// Use this for initialization
 		void Start ()
 		{
@@ -20,6 +20,12 @@ public class Virrey : MonoBehaviour {
 						Application.LoadLevel ("main");
 				}
 				players = new ArrayList ();
+				moveDirection = Vector3.zero;
+
+				if (General.paso_mision == 6) {
+						Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
+						maleta.eliminarTextura ("premio");
+				}
 		}
 
 		// Update is called once per frame
@@ -32,14 +38,14 @@ public class Virrey : MonoBehaviour {
 				if (tiempo <= 0) {
 
 						if (cambio) {
-								if (General.paso_mision == 6) {
+								if (General.paso_mision == 5) {
 										contador = 0;
 										for (int i = 0; i < 3; i++) {
 												if (MoverMouse.jugadoresEquipo [i] != null && MoverMouse.jugadoresEquipo [i] != "") {
 														contador++;
 												}
 										}
-										if (contador >= 1) {
+										if (contador >= 3) {
 												tiempo = 25;
 												iniciarConversasion = true;
 										} else {
@@ -57,7 +63,7 @@ public class Virrey : MonoBehaviour {
 				if (iniciarConversasion && player.GetComponent<NetworkView> ().isMine) {
 
 						switch (General.paso_mision) {
-						case 6: 
+						case 5: 
 								if (tiempo > 20) {
 										mensaje = "Bienvenidos a Altagracia de Sumapaz,";
 								} else if (tiempo > 15) {
@@ -110,7 +116,7 @@ public class Virrey : MonoBehaviour {
 
 						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
 
-						if (General.paso_mision == 6 && General.misionActual [0] == "2" && tiempo < 0.5) {
+						if (General.paso_mision == 5 && General.misionActual [0] == "2" && tiempo < 0.5) {
 								//General.timepo = 10;
 								//Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 								//mision.procesoMision2 (General.paso_mision);

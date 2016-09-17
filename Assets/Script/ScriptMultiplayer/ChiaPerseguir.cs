@@ -44,6 +44,7 @@ public class ChiaPerseguir : MonoBehaviour {
 			luz.intensity = 0.5f;
 			GUI.Box(new Rect(0,3*Screen.height/4, Screen.width,Screen.height/4),mensajeChia);
 			MoverMouse.movimiento = true;
+						MoverMouse.cambioCamara = false;
 		}else{
 			luz.intensity = 0;
 		}

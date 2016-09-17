@@ -77,7 +77,7 @@ public class ActivarGonzalo : MonoBehaviour
 												}
 										}
 
-										if (contador >= 2 && General.paso_mision == 3) {
+										if (contador >= 3 && General.paso_mision == 3) {
 												tiempo = 15;
 												Camera.main.GetComponent<Misiones> ().procesoMision2 (General.paso_mision);
 										}
@@ -88,7 +88,7 @@ public class ActivarGonzalo : MonoBehaviour
 												}
 										}
 
-										if (contador >= 1 && General.paso_mision >= 3) {
+										if (contador >= 3 && General.paso_mision >= 3) {
 												tiempo = 5;
 												mensaje = "podeis pasar, sean respetusos con su virrey";
 												GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;
@@ -117,9 +117,9 @@ public class ActivarGonzalo : MonoBehaviour
 										mensaje = "Bienvenidos a Altagracia de Sumapaz,";
 								} else if (tiempo > 15) {
 										mensaje = "para poder hablar con el virrey, debes traer tres tributos.";
-								} else if (tiempo > 10) {
+								} else if (tiempo > 8) {
 										mensaje = "Para conseguirlos, debes unirte con otros dos compañeros";
-								} else if (tiempo > 5) {
+								} else if (tiempo > 0) {
 										mensaje = "y así podrán venir a hablar con el virrey.";
 								}
 								break;
@@ -148,6 +148,7 @@ public class ActivarGonzalo : MonoBehaviour
 								//General.timepo = 10;
 								Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 								mision.procesoMision2 (General.paso_mision);
+								tiempo = 0;
 						}
 						
 						if (General.paso_mision == 4 && General.misionActual [0] == "2" && tiempo < 0.5) {

@@ -21,7 +21,7 @@ public class barro : MonoBehaviour {
 		if(instanciarVasija){
 			GameObject vasijaIns = (GameObject) Instantiate(vasija, player.transform.position,transform.rotation);
 			vasijaIns.transform.parent = player.transform;
-			vasijaIns.transform.Translate(-0.1532699f,-0.3859406f,0f);
+			vasijaIns.transform.Translate(0.1532699f,-0.3859406f,0f);
 			vasijaIns.transform.rotation = new Quaternion();
 			vasijaIns.transform.Rotate(270f,0f,0f);
 			instanciarVasija = false;
@@ -71,7 +71,7 @@ public class barro : MonoBehaviour {
 			playerAnimator.SetBool("recojer",true);
 
 			tiempoAnimacion = recojer.length;
-			tiempo = tiempoAnimacion + 0.5f;
+			tiempo = tiempoAnimacion + 1.5f;
 			instanciarVasija = true;
 			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 			maleta.agregarTextura(contenidobarro);
