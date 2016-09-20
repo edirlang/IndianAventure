@@ -24,7 +24,7 @@ public class Virrey : MonoBehaviour {
 
 				if (General.paso_mision == 6) {
 						Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
-						maleta.eliminarTextura ("premio");
+						maleta.eliminarTextura (premioTextura.name);
 				}
 		}
 

@@ -5,7 +5,7 @@ public class Misiones : MonoBehaviour
 {
 		public static bool instanciar = false, cambio_mapa = false;
 
-		public Texture tributo;
+		public Texture tributo, certificado, llave;
 		public GameObject piezaOro;
 		bool terminoMision = false;
 		Mision mision1, mision2;
@@ -41,12 +41,30 @@ public class Misiones : MonoBehaviour
 
 		void Start ()
 		{
-
+				
 		}
 	
 		// Update is called once per frame
 		void Update ()
 		{
+				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
+				Debug.Log (maleta.estaTextura (certificado.name));
+				if (General.misionActual [0] == "2" && General.paso_mision == 6 && !maleta.estaTextura (certificado.name)) {
+						
+						maleta.agregarTextura (certificado);	
+						if(maleta.estaTextura(tributo.name)){
+								maleta.eliminarTextura (tributo.name);
+						}
+				} else if (General.misionActual [0] == "2" && General.paso_mision == 7 && !maleta.estaTextura (llave.name)) {
+						maleta.agregarTextura (llave);
+						if(maleta.estaTextura(certificado.name)){
+								maleta.eliminarTextura (certificado.name);
+						}
+						if(maleta.estaTextura(tributo.name)){
+								maleta.eliminarTextura (tributo.name);
+						}
+				}
+
 				if (instanciar) {
 						chiaInstanciar ();
 						if (General.timepo <= 0) {
@@ -121,7 +139,7 @@ public class Misiones : MonoBehaviour
 						cambio_mapa = false;
 						MoverMouse.movimiento = true;
 						Misiones.cambio_mapa = false;
-						Maleta maleta = Camera.main.gameObject.GetComponent<Maleta> ();
+
 						maleta.agregarTextura (tributo);
 
 				}
@@ -326,6 +344,10 @@ public class Misiones : MonoBehaviour
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 6:
+						General.paso_mision = 7;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 7:
 						General.timepo = 40f;
 						General.timepoChia = 40.5f;
 						instanciar = true;

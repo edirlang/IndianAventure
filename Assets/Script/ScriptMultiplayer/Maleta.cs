@@ -24,6 +24,7 @@ public class Maleta : MonoBehaviour
 		{
 				if (vaciar) {
 						imagenes = new Texture[6];
+						objeto = new string[6, 2];
 						vaciar = false;
 				}
 
@@ -79,5 +80,16 @@ public class Maleta : MonoBehaviour
 								break;
 						}
 				}
+		}
+
+		public bool estaTextura (string textura)
+		{
+				for (int i = 0; i < imagenes.Length; i++) {
+						if (objeto [i, 0] == textura) {
+								return true;
+								break;
+						}
+				}
+				return false;
 		}
 }
