@@ -101,11 +101,7 @@ public class Misiones : MonoBehaviour
 								Maleta.vaciar = true;
 
 								MoverMouse.movimiento = false;
-								Application.LoadLevelAdditive ("level2");
-								Destroy (GameObject.Find ("Escenario"));
-								Destroy (GameObject.Find ("fogata"));
-								Destroy (GameObject.Find ("micos"));
-								Destroy (GameObject.Find ("chozas"));
+								Application.LoadLevel("level2");
 								if (GameObject.Find ("Pieza de oro(Clone)"))
 										Destroy (GameObject.Find ("Pieza de oro(Clone)"));
 
@@ -120,9 +116,7 @@ public class Misiones : MonoBehaviour
 								Maleta.vaciar = true;
 
 								MoverMouse.movimiento = false;
-								Application.LoadLevelAdditive ("level3");
-								Destroy (GameObject.Find ("Escenario"));
-								Destroy (GameObject.Find ("casas"));
+								Application.LoadLevel ("level3");
 
 								Camera.main.transform.parent = GameObject.Find ("PlayerJuego").transform;
 
@@ -132,15 +126,18 @@ public class Misiones : MonoBehaviour
 
 				if (cambio_mapa && GameObject.Find ("PlayerJuego2")) {
 
-						GameObject.Find ("PlayerJuego").transform.position = GameObject.Find ("PlayerJuego2").transform.position;
+						GameObject.Find ("PlayerJuego2").name = "PlayerJuego";
+						GameObject.Find ("Luz").GetComponent<Light>().intensity = 1f;
+						GameObject.Find ("Luz").transform.position = GameObject.Find ("LuzTest").transform.position;
 						Destroy (GameObject.Find ("LuzTest"));
 						if (General.paso_mision == 1)
-								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego2").transform.position;
-						cambio_mapa = false;
+								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego").transform.position;
 						MoverMouse.movimiento = true;
 						Misiones.cambio_mapa = false;
-
-						maleta.agregarTextura (tributo);
+						if (General.misionActual [0] == "2" && General.paso_mision > 6) {
+								maleta.agregarTextura (tributo);
+						}
+						cambio_mapa = false;
 
 				}
 

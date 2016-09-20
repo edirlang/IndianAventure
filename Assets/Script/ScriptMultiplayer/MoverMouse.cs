@@ -18,6 +18,7 @@ public class MoverMouse : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
+				DontDestroyOnLoad (this.gameObject);
 
 				MoverMouse.jugadoresEquipo = new string[3];
 				MoverMouse.movimiento = true;

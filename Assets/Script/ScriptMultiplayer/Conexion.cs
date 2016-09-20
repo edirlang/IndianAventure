@@ -26,6 +26,8 @@ public class Conexion : MonoBehaviour
 
 		void Start ()
 		{
+				DontDestroyOnLoad (this.gameObject);
+				DontDestroyOnLoad (GameObject.Find("Luz"));
 				if (General.username == "") {
 						Application.LoadLevel ("main");
 				}

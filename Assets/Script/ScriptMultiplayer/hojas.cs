@@ -10,7 +10,6 @@ public class hojas : MonoBehaviour {
 	float tiempoAnimacion;
 	// Use this for initialization
 	void Start () {
-
 	}
 	
 	// Update is called once per frame
