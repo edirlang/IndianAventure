@@ -91,7 +91,7 @@ public class ActivarGonzalo : MonoBehaviour
 										if (contador >= 3 && General.paso_mision >= 3) {
 												tiempo = 5;
 												mensaje = "podeis pasar, sean respetusos con su virrey";
-												GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;
+												//GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;
 										} else {
 												tiempo = 8;
 												mensaje = "Recuerda que debes unirte con otros compañeros y completar tres tributos.\n Así podrán hablar con el virrey. ";
@@ -105,10 +105,17 @@ public class ActivarGonzalo : MonoBehaviour
 								persegir = false;
 						}
 				}
+
+				if (tiempo < 0 && contador < 3) {
+						GameObject reja = GameObject.Find ("Reja");
+						if(reja.transform.localPosition.z > -4.798f)
+							reja.transform.Translate (-0.02f, 0, 0);
+				}
 		}
 
 		void OnGUI ()
 		{
+				GameObject reja = GameObject.Find ("Reja");
 				if (iniciarConversasion && player.GetComponent<NetworkView> ().isMine) {
 
 						switch (General.paso_mision) {
@@ -131,12 +138,18 @@ public class ActivarGonzalo : MonoBehaviour
 										mensaje = "He observado que traen sus tributos";
 								} else if (tiempo > 1) {
 										mensaje = "podeis pasar, sean respetusos con su virrey";
-										GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;	
+										//GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;
 								}
+								if(reja.transform.localPosition.z < 4.1f)
+										reja.transform.Translate(0.01f, 0, 0);
+
 								break;
 				
 						}
 
+						if (tiempo > 0 && contador >= 3 && General.paso_mision >= 5 && reja.transform.localPosition.z < 4.1f) {
+								reja.transform.Translate (0.02f, 0, 0);
+						}
 						GUIStyle style = new GUIStyle ();
 						style.alignment = TextAnchor.MiddleCenter;
 						style = GUI.skin.GetStyle ("Box");

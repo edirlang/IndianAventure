@@ -17,6 +17,7 @@ public class MensajesCuriosos : MonoBehaviour {
 				mensajes[2] = "Esta iglesia la han traído los españoles, donde \n nos enseñaran a practicar su religión católica.";
 				mensajes[3] = "Sabias que el pago en monedas de oro como único \n intercambio llego con los españoles.";
 				mensajes[4] = "Iglesia reconstruida en 1776, \n mostrando la construcción de la nueva ciudad.";
+				mensajes[5] = "La evolucion llega tambien a las viviendas \n hecha de ......";
 	}
 	
 	// Update is called once per frame

@@ -27,8 +27,9 @@ public class entradaCasa : MonoBehaviour
 						if(soyEntrar)
 								player.transform.position = new Vector3(dentro.transform.position.x,dentro.transform.position.y,dentro.transform.position.z - 2f);
 						else
-								player.transform.position = new Vector3(fuera.transform.position.x,fuera.transform.position.y,fuera.transform.position.z + 2f);
+								player.transform.position = new Vector3(fuera.transform.position.x,fuera.transform.position.y,fuera.transform.position.z + 5f);
 						trasportar = false;
+
 				}
 
 				tiempo -= Time.deltaTime;	
@@ -36,7 +37,7 @@ public class entradaCasa : MonoBehaviour
 
 		void OnGUI ()
 		{
-				if (trasportar && player.GetComponent<NetworkView> ().isMine) {
+				if (player.GetComponent<NetworkView> ().isMine) {
 						if (tiempo > 0) {
 								string mensaje = "";
 
@@ -47,6 +48,9 @@ public class entradaCasa : MonoBehaviour
 
 								GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje + "de tu casa");
 						}
+						if (tiempo < 1 && tiempo > 0) {
+								MoverMouse.cambioCamara = false;
+						}
 				}
 		}
 
@@ -56,7 +60,7 @@ public class entradaCasa : MonoBehaviour
 						if (General.paso_mision == 7) {
 								player = colision.gameObject;
 								tiempo = 5;
-
+								MoverMouse.cambioCamara = true;
 								trasportar = true;
 								if (!soyEntrar) {
 										Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();

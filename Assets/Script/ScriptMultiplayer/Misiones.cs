@@ -48,8 +48,9 @@ public class Misiones : MonoBehaviour
 		void Update ()
 		{
 				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
-				Debug.Log (maleta.estaTextura (certificado.name));
-				if (General.misionActual [0] == "2" && General.paso_mision == 6 && !maleta.estaTextura (certificado.name)) {
+				if (General.misionActual [0] == "2" && General.paso_mision <= 5 && !maleta.estaTextura (tributo.name)) {
+						maleta.agregarTextura (tributo);
+				}else if (General.misionActual [0] == "2" && General.paso_mision == 6 && !maleta.estaTextura (certificado.name)) {
 						
 						maleta.agregarTextura (certificado);	
 						if(maleta.estaTextura(tributo.name)){
@@ -68,8 +69,16 @@ public class Misiones : MonoBehaviour
 				if (instanciar) {
 						chiaInstanciar ();
 						if (General.timepo <= 0) {
-								General.timepo = 15;
-								General.timepoChia = 16;
+								if (General.misionActual [0] == "2") {
+										General.timepo = 35;
+										General.timepoChia = 36;
+								} else if (General.misionActual [0] == "3") {
+										General.timepo = 26;
+										General.timepoChia = 26.5f;
+								} else{
+										General.timepo = 15;
+										General.timepoChia = 16;
+								}
 						}
 				}
 				if (General.timepo > 0) {
@@ -90,6 +99,9 @@ public class Misiones : MonoBehaviour
 										break;
 								case "2":
 										Mision2 ();
+										break;
+								case "3":
+										Mision3 ();
 										break;
 								}
 						}
@@ -112,7 +124,7 @@ public class Misiones : MonoBehaviour
 				}
 
 				if (General.misionActual [0] == "3" && Network.peerType != NetworkPeerType.Disconnected && General.timepo <= 0) {
-						if (GameObject.Find ("casas") && !GameObject.Find ("Chia(clone)")) {
+						if ((GameObject.Find ("casas") || GameObject.Find ("chozas")) && !GameObject.Find ("Chia(clone)")) {
 								Maleta.vaciar = true;
 
 								MoverMouse.movimiento = false;
@@ -127,7 +139,7 @@ public class Misiones : MonoBehaviour
 				if (cambio_mapa && GameObject.Find ("PlayerJuego2")) {
 
 						GameObject.Find ("PlayerJuego2").name = "PlayerJuego";
-						GameObject.Find ("Luz").GetComponent<Light>().intensity = 1f;
+						GameObject.Find ("Luz").GetComponent<Light>().intensity = 1.5f;
 						GameObject.Find ("Luz").transform.position = GameObject.Find ("LuzTest").transform.position;
 						Destroy (GameObject.Find ("LuzTest"));
 						if (General.paso_mision == 1)
@@ -329,6 +341,103 @@ public class Misiones : MonoBehaviour
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 3:
+						General.paso_mision = 4;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 4:
+						General.paso_mision = 5;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 5:
+						General.paso_mision = 6;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 6:
+						General.paso_mision = 7;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 7:
+						General.timepo = 40f;
+						General.timepoChia = 40.5f;
+						instanciar = true;
+						terminoMision = true;
+						General.paso_mision = 1;
+						General.misionActual [0] = "3";
+						General.monedas += 50;
+						StartCoroutine (General.cambiarMision ());
+						NetworkView nw = Camera.main.GetComponent<NetworkView> ();
+						Color color = Color.red;
+						nw.RPC ("recibir", RPCMode.AllBuffered, "He subido de nivel", General.username, color.r + "," + color.g + "," + color.b);
+						break;
+				}
+		}
+
+		private void Mision3 ()
+		{
+				string mensaje = "";
+				switch (General.paso_mision) {
+				case 1:
+						if (General.timepo > 25) {
+								mensaje = "Felicitaciones has subido al siguiente nivel.";
+						} else if (General.timepo > 18) {
+								mensaje = "En este punto encontraras edificaciones más grandes y fuertes,";
+						} else if (General.timepo > 12) {
+								mensaje = "las cuales fueron dejadas por la cultura española que nos colonizo. \n Para poder iniciar esta nueva travesía,";
+						}else if (General.timepo > 5) {
+								mensaje = "debes buscar al párroco Julio Sabogal  \n que te dará nuevas indicaciones.";
+						}else if (General.timepo > 0 && General.timepo < 1) {
+								General.timepo = 0;
+								procesoMision3 (General.paso_mision);
+						}
+						break;
+				case 2:
+						mensaje = "Recuerda que debes ir a la iglesia y reclamar el símbolo de la nueva religión.";
+						break;
+				case 3:
+						if (General.timepo > 18) {
+								mensaje = "Bienvenido a la nueva iglesia, \n esta iglesia fue reconstruida en 1776, ";
+						} else if (General.timepo > 12) {
+								mensaje = "mostrando la construcción de la nueva ciudad. ";
+						} else if (General.timepo > 5) {
+								mensaje = "Desde aquí tu comunidad y tu empiezan a tomar la religión católica";
+						}else if (General.timepo > 2) {
+								mensaje = "para ello te entrego esta cruz, \n símbolo de nuestra religión católica.";
+						}else if (General.timepo > 0 && General.timepo < 1) {
+								General.timepo = 0;
+								procesoMision3 (General.paso_mision);
+						}
+						break;
+				case 4:
+						if (General.timepo > 12) {
+								mensaje = "¡Muy bien! Ya conoces de la nueva religión.";
+						}else if (General.timepo > 8 && General.timepo < 1) {
+								mensaje = "Ahora debes buscar a la casona de Balmoral, \n allá te darán nuevas indicaciones. ";
+						}else if (General.timepo > 0 && General.timepo < 1) {
+								General.timepo = 0;
+								procesoMision3 (General.paso_mision);
+						}
+						break;
+				}
+
+				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
+		}
+
+		public void procesoMision3 (int paso)
+		{
+				switch (paso) {
+				case 1:
+						//instanciar = true;
+						General.paso_mision = 2;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 2:
+						General.paso_mision = 3;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 3:
+						instanciar = true;
+						General.timepo = 13;
+						General.timepoChia = 13.5f;
 						General.paso_mision = 4;
 						StartCoroutine (General.actualizarUser ());
 						break;

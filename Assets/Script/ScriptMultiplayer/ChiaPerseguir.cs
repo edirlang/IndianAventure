@@ -41,7 +41,11 @@ public class ChiaPerseguir : MonoBehaviour {
 		style.fontSize = (int)(20.0f );
 		if(llegoChia)
 		{
-			luz.intensity = 0.5f;
+						if (int.Parse (General.misionActual [0]) >= 2) {
+								luz.intensity = 1.5f;
+						} else {
+								luz.intensity = 0.5f;
+						}
 			GUI.Box(new Rect(0,3*Screen.height/4, Screen.width,Screen.height/4),mensajeChia);
 			MoverMouse.movimiento = true;
 						MoverMouse.cambioCamara = false;

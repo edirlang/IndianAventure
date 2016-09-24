@@ -26,14 +26,14 @@ public class Conexion : MonoBehaviour
 
 		void Start ()
 		{
-				DontDestroyOnLoad (this.gameObject);
-				DontDestroyOnLoad (GameObject.Find("Luz"));
 				if (General.username == "") {
 						Application.LoadLevel ("main");
 				}
 				color = new Color (Random.Range (0.0f, 0.7f), Random.Range (0.0f, 0.7f), Random.Range (0.0f, 0.7f));
 				mensajes = new ArrayList ();
 				nw = GetComponent<NetworkView> ();
+				DontDestroyOnLoad (this.gameObject);
+				DontDestroyOnLoad (GameObject.Find("Luz"));
 		}
 
 		void Update ()
@@ -82,6 +82,11 @@ public class Conexion : MonoBehaviour
 						Network.Disconnect (200);
 						StartCoroutine (General.actualizarUser ());
 						Application.LoadLevel ("menu");
+						GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+						foreach (GameObject jugador in players) {
+								Destroy(jugador);
+						}
+						Destroy (this.gameObject,200f);
 				}
 		}
 
@@ -284,7 +289,7 @@ public class Conexion : MonoBehaviour
 								GUI.color = new Color (float.Parse (colorRGB [0]), float.Parse (colorRGB [1]), float.Parse (colorRGB [2]));
 								if (mensajeConcatenado.Length > 1) {
 										GUI.Label (new Rect (Screen.width / 12, (numeroMensajes - i) * (Screen.height / 10), 2 * Screen.width, Screen.height / 10), mensajeNuevo [0] + ": " + mensajeConcatenado [0]);
-										if (mensajeConcatenado [1] != General.username && General.paso_mision >= 3)
+										if (mensajeConcatenado [1] != General.username && General.paso_mision >= 3 && int.Parse(General.misionActual[0]) >= 2)
 										if (GUI.Button (new Rect (Screen.width / 12 + Screen.width / 2, (numeroMensajes - i) * (Screen.height / 10), Screen.width / 3, Screen.height / 10), "Unirme")) {
 												nw.RPC ("agregarEquipo", RPCMode.All, mensajeConcatenado [1], General.username);
 												mensajes.Remove (mensajes [i]);
@@ -373,6 +378,7 @@ public class Conexion : MonoBehaviour
 				Debug.Log ("Clean up after player " + player);
 				Network.RemoveRPCs (player);
 				Network.DestroyPlayerObjects (player);
+
 		}
 
 		public virtual void OnServerDisconnect (NetworkConnection conn)
