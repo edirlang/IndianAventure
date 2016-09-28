@@ -18,6 +18,10 @@ public class MensajesCuriosos : MonoBehaviour {
 				mensajes[3] = "Sabias que el pago en monedas de oro como único \n intercambio llego con los españoles.";
 				mensajes[4] = "Iglesia reconstruida en 1776, \n mostrando la construcción de la nueva ciudad.";
 				mensajes[5] = "La evolucion llega tambien a las viviendas \n hecha de ......";
+				mensajes[6] = "Primer casona creada en 1850, traída por la cultura española. \n Fue usadas como un Casino por diversión del pueblo.";
+				mensajes[7] = "Te cuento, esta iglesia fue reconstruida en 1776, \n mostrando la construcción de la nueva ciudad. Desde aquí tu comunidad y tu empiezan a tomar la religión católica.";
+				mensajes[8] = "Esta casona fue usada en 1875, para firmar \n varios artículos presidenciales.";
+				mensajes[9] = "El café fue uno de los principales productos que se producen en la región del Sumapaz.";
 	}
 	
 	// Update is called once per frame

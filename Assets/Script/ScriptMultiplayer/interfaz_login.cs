@@ -9,19 +9,19 @@ public class interfaz_login : MonoBehaviour
 		private string Usuario = "";
 		private bool resultado = false;
 		private string mensaje;
-		private bool registrar = false;
+		private bool registrar = false, loginAutomatico;
 		private string Nombre = "", Apellido = "";
 
 		// Use this for initialization
 		void Start ()
 		{
-
+				loginAutomatico = false;
 		}
 	
 		// Update is called once per frame
 		void Update ()
 		{
-		
+				
 		}
 
 		void OnGUI ()
@@ -87,6 +87,15 @@ public class interfaz_login : MonoBehaviour
 						if (GUI.Button (new Rect (1 * (Screen.width / 8), 6 * (Screen.height / 8), Screen.width / 4, Screen.height / 10), "Registrar")) {
 								registrar = true;
 						}
+
+						if (loginAutomatico) {
+								string url = General.hosting + "login";
+								WWWForm form = new WWWForm ();
+								form.AddField ("username", Usuario);
+								WWW www = new WWW (url, form);
+								StartCoroutine (comprobarUser (www));
+								loginAutomatico = false;
+						}
 				} else {
 						General.username = username;
 						Application.LoadLevel ("selecionarPersonaje");
@@ -135,9 +144,10 @@ public class interfaz_login : MonoBehaviour
 
 				if (GUI.Button (new Rect (2 * (Screen.width / 4), 5 * (Screen.height / 7), Screen.width / 5, Screen.height / 14), "Guardar")) {
 						if (validarusuario ()) {
+								username = Usuario;
 								string url = General.hosting + "registrar";
 								WWWForm form = new WWWForm ();
-								form.AddField ("username", Usuario);
+								form.AddField ("username", username);
 								form.AddField ("nombre", Nombre);
 								form.AddField ("apellido", Apellido);
 								WWW www = new WWW (url, form);
@@ -170,6 +180,7 @@ public class interfaz_login : MonoBehaviour
 						if (www.text.Length == 2 || www.text.Length == 1) {
 								mensaje = "El usuario ha sido creado";
 								registrar = false;
+								loginAutomatico = true;
 						} else {
 								mensaje = "No se logro crear tu cuenta";
 								Debug.Log ("No se logro crear tu cuenta");

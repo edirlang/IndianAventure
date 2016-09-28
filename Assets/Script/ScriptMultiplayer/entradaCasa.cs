@@ -66,6 +66,11 @@ public class entradaCasa : MonoBehaviour
 										Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 										mision.procesoMision2 (General.paso_mision);
 								}
+						} else if(General.paso_mision == 9 && General.misionActual[0]=="3"){
+								player = colision.gameObject;
+								tiempo = 5;
+								MoverMouse.cambioCamara = true;
+								trasportar = true;
 						}
 				}
 

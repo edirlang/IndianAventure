@@ -5,7 +5,7 @@ public class Misiones : MonoBehaviour
 {
 		public static bool instanciar = false, cambio_mapa = false;
 
-		public Texture tributo, certificado, llave;
+		public Texture tributo, certificado, llave, cruz, articulos, titulo;
 		public GameObject piezaOro;
 		bool terminoMision = false;
 		Mision mision1, mision2;
@@ -63,6 +63,22 @@ public class Misiones : MonoBehaviour
 						}
 						if(maleta.estaTextura(tributo.name)){
 								maleta.eliminarTextura (tributo.name);
+						}
+				}else if (General.misionActual [0] == "3" && General.paso_mision >= 4 && !maleta.estaTextura (cruz.name)) {
+						maleta.agregarTextura (cruz);
+
+				}else if (General.misionActual [0] == "3" && General.paso_mision == 5 && !maleta.estaTextura (articulos.name)) {
+						maleta.agregarTextura (articulos);
+
+				}else if (General.misionActual [0] == "3" && General.paso_mision == 6 && !maleta.estaTextura (titulo.name)) {
+						maleta.agregarTextura (titulo);
+						if(maleta.estaTextura(articulos.name)){
+								maleta.eliminarTextura (articulos.name);
+						}
+				}else if (General.misionActual [0] == "3" && General.paso_mision == 7 && !maleta.estaTextura (llave.name)) {
+						maleta.agregarTextura (llave);
+						if(maleta.estaTextura(titulo.name)){
+								maleta.eliminarTextura (titulo.name);
 						}
 				}
 
@@ -146,6 +162,7 @@ public class Misiones : MonoBehaviour
 								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego").transform.position;
 						MoverMouse.movimiento = true;
 						Misiones.cambio_mapa = false;
+						GameObject.Find (Network.player.ipAddress).transform.localScale = new Vector3(1f,1f,1f);
 						if (General.misionActual [0] == "2" && General.paso_mision > 6) {
 								maleta.agregarTextura (tributo);
 						}
@@ -384,7 +401,7 @@ public class Misiones : MonoBehaviour
 						} else if (General.timepo > 12) {
 								mensaje = "las cuales fueron dejadas por la cultura española que nos colonizo. \n Para poder iniciar esta nueva travesía,";
 						}else if (General.timepo > 5) {
-								mensaje = "debes buscar al párroco Julio Sabogal  \n que te dará nuevas indicaciones.";
+								mensaje = "debes buscar al cura Antonio Martínez \n que te dará nuevas indicaciones.";
 						}else if (General.timepo > 0 && General.timepo < 1) {
 								General.timepo = 0;
 								procesoMision3 (General.paso_mision);
@@ -394,28 +411,35 @@ public class Misiones : MonoBehaviour
 						mensaje = "Recuerda que debes ir a la iglesia y reclamar el símbolo de la nueva religión.";
 						break;
 				case 3:
-						if (General.timepo > 18) {
-								mensaje = "Bienvenido a la nueva iglesia, \n esta iglesia fue reconstruida en 1776, ";
-						} else if (General.timepo > 12) {
-								mensaje = "mostrando la construcción de la nueva ciudad. ";
-						} else if (General.timepo > 5) {
-								mensaje = "Desde aquí tu comunidad y tu empiezan a tomar la religión católica";
-						}else if (General.timepo > 2) {
-								mensaje = "para ello te entrego esta cruz, \n símbolo de nuestra religión católica.";
+						if (General.timepo > 8) {
+								mensaje = "¡Muy bien! Ya conoces de la nueva religión.";
+						}else if (General.timepo > 1) {
+								mensaje = "Ahora debes buscar a la casona de Balmoral, \n allá te darán nuevas indicaciones. ";
 						}else if (General.timepo > 0 && General.timepo < 1) {
 								General.timepo = 0;
 								procesoMision3 (General.paso_mision);
 						}
 						break;
 				case 4:
-						if (General.timepo > 12) {
-								mensaje = "¡Muy bien! Ya conoces de la nueva religión.";
-						}else if (General.timepo > 8 && General.timepo < 1) {
-								mensaje = "Ahora debes buscar a la casona de Balmoral, \n allá te darán nuevas indicaciones. ";
-						}else if (General.timepo > 0 && General.timepo < 1) {
-								General.timepo = 0;
-								procesoMision3 (General.paso_mision);
-						}
+						mensaje = "Ahora debes buscar a la casona de Balmoral,\n allá te darán nuevas indicaciones.";
+						break;
+				case 5:
+						mensaje = "Ya tienes los artículos, \n llévalos a la casona de Coburgo, allá te dirán que hacer. ";
+						break;
+				case 6:
+						mensaje = "Recuerda buscar al recaudador de impuestos, él te dará la información de tu nuevo hogar.";
+						break;
+				case 7:
+						mensaje = "Busca a Jose Celestino mutis en la casona la venta, él te necesita.";
+						break;
+				case 8:
+						mensaje = "Recuerda llevar la Quina a Alfonso López, que se encuentra en la casona de Coburgo.";
+						break;
+				case 9:
+						mensaje = "Muy bien, para terminar tu misión, lleva tu mata de café para adornar tu casa.";
+						break;
+				case 10:
+						mensaje = "Excelente, ya tienes tu casa en esta nueva era. Haz pasado al siguiente nivel.";
 						break;
 				}
 
@@ -431,36 +455,58 @@ public class Misiones : MonoBehaviour
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 2:
+						instanciar = true;
+						General.timepo = 10;
+						General.timepoChia = 10.5f;
 						General.paso_mision = 3;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 3:
-						instanciar = true;
-						General.timepo = 13;
-						General.timepoChia = 13.5f;
 						General.paso_mision = 4;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 4:
 						General.paso_mision = 5;
+						instanciar = true;
+						General.timepo = 10f;
+						General.timepoChia = 10.5f;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 5:
+						instanciar = true;
+						General.timepo = 10f;
+						General.timepoChia = 10.5f;
 						General.paso_mision = 6;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 6:
+						instanciar = true;
+						General.timepo = 10f;
+						General.timepoChia = 10.5f;
 						General.paso_mision = 7;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 7:
-						General.timepo = 40f;
-						General.timepoChia = 40.5f;
+						instanciar = true;
+						General.timepo = 10f;
+						General.timepoChia = 10.5f;
+						General.paso_mision = 8;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 8:
+						instanciar = true;
+						General.timepo = 10f;
+						General.timepoChia = 10.5f;
+						General.paso_mision = 9;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 9:
+						General.timepo = 15f;
+						General.timepoChia = 15.5f;
 						instanciar = true;
 						terminoMision = true;
 						General.paso_mision = 1;
-						General.misionActual [0] = "3";
-						General.monedas += 50;
+						General.misionActual [0] = "4";
 						StartCoroutine (General.cambiarMision ());
 						NetworkView nw = Camera.main.GetComponent<NetworkView> ();
 						Color color = Color.red;
@@ -519,6 +565,20 @@ public class Misiones : MonoBehaviour
 				} else {
 						mensaje = "Conservalo, te puede servir mas adelante";
 				}
+				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
+		}
+
+		void completarMision3 ()
+		{
+				//ayudaPersonaje.transform.parent = transform;
+
+				string mensaje = "";
+				if (General.timepo > 8) {
+						int idmision = int.Parse (General.misionActual [0]) - 1;
+						mensaje = "¡Felicitaciones! Haz terminado la misión, \n" + General.misionActual [1];
+				} else if (General.timepo > 0) {
+						mensaje = "Excelente, ya tienes tu casa en esta nueva era. Haz pasado al siguiente nivel.";
+				} 
 				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
 		}
 

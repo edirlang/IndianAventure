@@ -22,7 +22,7 @@ public class ActivarGonzalo : MonoBehaviour
 				equipo = new GameObject[3];
 				players = new ArrayList ();
 
-				gonzaloInstanciado = (GameObject)Instantiate (gonzalo, new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), transform.rotation);
+				gonzaloInstanciado = (GameObject)Instantiate (gonzalo, new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), transform.rotation);
 				gonzaloInstanciado.name = "gonzaloJimenez";
 		}
 	

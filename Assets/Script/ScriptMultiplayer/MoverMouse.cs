@@ -65,7 +65,7 @@ public class MoverMouse : MonoBehaviour
 						camara.transform.Rotate (new Vector3 (20f, 0, 0));
 						camara.transform.localPosition = new Vector3 (-0.352941f, 1.576233f, -1.929336f);
 				} else {
-						posicion = transform.position;
+						//posicion = transform.position;
 				}
 
 				if (nw.isMine) {
