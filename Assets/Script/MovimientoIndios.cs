@@ -3,15 +3,17 @@ using System.Collections;
 
 public class MovimientoIndios : MonoBehaviour {
 		public Transform[] points;
-		private int destPoint = 0;
+		public int destPoint = 0;
 		private NavMeshAgent agent;
-		float tiempo=5;
+		float tiempo=-1;
+		public int numeroPuntos;
 		Animator animator;
 
 		void Start () {
+				tiempo = 0;
 				agent = GetComponent<NavMeshAgent>();
 				animator = GetComponent<Animator> ();
-
+				numeroPuntos = 1;
 				// Disabling auto-braking allows for continuous movement
 				// between points (ie, the agent doesn't slow down as it
 				// approaches a destination point).
@@ -31,7 +33,16 @@ public class MovimientoIndios : MonoBehaviour {
 
 				// Choose the next point in the array as the destination,
 				// cycling to the start if necessary.
-				destPoint = (destPoint + 1) % points.Length;
+
+				if (destPoint >= (points.Length-1)) {
+						numeroPuntos = -1;
+				}
+
+				if(destPoint <= 0){
+						numeroPuntos = 1;
+				}
+
+				destPoint = (destPoint + numeroPuntos);
 		}
 
 
@@ -44,11 +55,13 @@ public class MovimientoIndios : MonoBehaviour {
 						agent.speed = 0f;
 						if (tiempo < 0) {
 								GotoNextPoint ();
-								agent.speed = 2f;
+								agent.speed = 3f;
 								tiempo = 10;
 						}
+					
 				} else {
 						animator.SetFloat ("speed", 1.0f);
+						agent.speed = 3f;
 				}
 		}
 }

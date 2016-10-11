@@ -14,19 +14,56 @@ public class General : MonoBehaviour {
 	public static bool conectado = false, bono=false, mensajeRecojer = false;
 	public static string[] misionActual = new string[3];
 	public static float timepoChia=10, timepo=0;
+		public Texture mapa;
+		bool gameOvwer=false;
+		float tiempoOvwer;
 	// Use this for initialization
 	void Start () {
+				salud = 1;
 		chia = chiaPrefab;
 		PlayerPrefs.GetInt ("salud",3);
 		//personaje = personajeDefault;
 		DontDestroyOnLoad (this);
+				gameOvwer = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		DontDestroyOnLoad (this);
-		PlayerPrefs.SetInt ("salud", salud);
-	}
+				DontDestroyOnLoad (this);
+				PlayerPrefs.SetInt ("salud", salud);
+
+				if (salud <= 0) {
+						MoverMouse.cambioCamara = false;
+						Application.LoadLevel ("gameOver");
+						General.paso_mision = 1;
+						General.salud = 3;
+						StartCoroutine (actualizarUser ());
+						tiempoOvwer = 10;
+						Camera.main.transform.parent = gameObject.transform;
+						Camera.main.name = "Main Camera2";
+						gameOvwer = true;
+				}
+				if (tiempoOvwer > 0) {
+						tiempoOvwer -= Time.deltaTime;
+						Camera.main.clearFlags = CameraClearFlags.Color;
+						Camera.main.backgroundColor = Color.black;
+
+				} else {
+						Camera.main.clearFlags = CameraClearFlags.Skybox;
+				}
+
+				if (gameOvwer && tiempoOvwer <= 0) {
+						Application.LoadLevel ("level1");
+						gameOvwer = false;
+
+						Destroy (GameObject.Find ("Main Camera"));
+						GameObject.Find ("Main Camera2").name = "Main Camera";
+						MoverMouse.cambioCamara = false;
+				}
+
+		}
+
+	
 
 	public static IEnumerator consultarPersonajeUsername(WWW www){
 		yield return www;

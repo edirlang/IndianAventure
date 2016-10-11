@@ -9,12 +9,14 @@ public class Jose : MonoBehaviour {
 		public float tiempo = -1f;
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
+		Animator animator;
 		// Use this for initialization
 		void Start ()
 		{
 				if (General.username == "") {
 						Application.LoadLevel ("main");
 				}
+				animator = GameObject.Find("Jose-Celestino-Mutis").GetComponent<Animator> ();
 		}
 
 		// Update is called once per frame
@@ -31,6 +33,7 @@ public class Jose : MonoBehaviour {
 								moveDirection = new Vector3 (0, 0, 1);
 								moveDirection = jose.transform.TransformDirection (moveDirection);
 								moveDirection *= 2;
+								animator.SetFloat ("speed", 1.0f);
 						} else {
 								moveDirection = Vector3.zero;
 								iniciarConversasion = true;
@@ -39,6 +42,7 @@ public class Jose : MonoBehaviour {
 										tiempo = 10;
 								}
 								persegir = false;
+								animator.SetFloat ("speed", 0.0f);
 						}
 						moveDirection.y -= 200 * Time.deltaTime;
 						controller.Move (moveDirection * Time.deltaTime);

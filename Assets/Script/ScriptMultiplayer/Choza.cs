@@ -44,7 +44,7 @@ public class Choza : MonoBehaviour {
 
 					NetworkView nw = Camera.main.GetComponent<NetworkView>();
 					nw.RPC("crearChozaMultiplayer",RPCMode.OthersBuffered, player.name, posicionInstanciar.position, 2);
-					playerAnimator.SetBool("recojer",false);
+					playerAnimator.SetBool("construir",false);
 
 					MoverMouse.cambioCamara = false;
 					MoverMouse.movimiento = true;
@@ -74,12 +74,14 @@ public class Choza : MonoBehaviour {
 				camaraOriginal = Camera.main.transform;
 				MoverMouse.cambioCamara = true;
 				MoverMouse.movimiento = false;
-				playerAnimator.SetBool("recojer",true);
+				playerAnimator.SetBool("construir",true);
 				posicionInstanciar = player.transform;
 
 				Camera.main.transform.localPosition = new Vector3(1.71456f,3.25226f,1.54568f);
 				Camera.main.transform.rotation = new Quaternion();
 				Camera.main.transform.Rotate(50.517f,265.809f,14.878f);
+
+
 			}
 		}
 		if(crearChozaMulti){

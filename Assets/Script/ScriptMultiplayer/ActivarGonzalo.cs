@@ -13,6 +13,7 @@ public class ActivarGonzalo : MonoBehaviour
 		public float tiempo = -1f;
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
+		Animator animator;
 		// Use this for initialization
 		void Start ()
 		{
@@ -24,6 +25,7 @@ public class ActivarGonzalo : MonoBehaviour
 
 				gonzaloInstanciado = (GameObject)Instantiate (gonzalo, new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), transform.rotation);
 				gonzaloInstanciado.name = "gonzaloJimenez";
+				animator = GameObject.Find("Gonzalo-Jimenez-1").GetComponent<Animator> ();
 		}
 	
 		// Update is called once per frame
@@ -42,8 +44,10 @@ public class ActivarGonzalo : MonoBehaviour
 								moveDirection = new Vector3 (0, 0, 1);
 								moveDirection = gonzaloInstanciado.transform.TransformDirection (moveDirection);
 								moveDirection *= 2;
+								animator.SetFloat ("speed", 1.0f);
 
 						} else {
+								animator.SetFloat ("speed", 0.0f);
 								moveDirection = Vector3.zero;
 								iniciarConversasion = true;
 								persegir = false;
@@ -52,6 +56,7 @@ public class ActivarGonzalo : MonoBehaviour
 			
 						moveDirection.y -= 200 * Time.deltaTime;
 						controller.Move (moveDirection * Time.deltaTime);
+
 
 				}
 

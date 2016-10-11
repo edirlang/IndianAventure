@@ -17,6 +17,7 @@ public class entradaCasa : MonoBehaviour
 						Application.LoadLevel ("main");
 				}
 				trasportar = false;
+				tiempo = 0;
 		}
 
 		// Update is called once per frame
@@ -37,19 +38,21 @@ public class entradaCasa : MonoBehaviour
 
 		void OnGUI ()
 		{
-				if (player.GetComponent<NetworkView> ().isMine) {
-						if (tiempo > 0) {
-								string mensaje = "";
+				if (tiempo > 0) {
+						if (player.GetComponent<NetworkView> ().isMine) {
+								if (tiempo > 0) {
+										string mensaje = "";
 
-								GUIStyle style = new GUIStyle ();
-								style.alignment = TextAnchor.MiddleCenter;
-								style = GUI.skin.GetStyle ("Box");
-								style.fontSize = (int)(20.0f);
+										GUIStyle style = new GUIStyle ();
+										style.alignment = TextAnchor.MiddleCenter;
+										style = GUI.skin.GetStyle ("Box");
+										style.fontSize = (int)(20.0f);
 
-								GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje + "de tu casa");
-						}
-						if (tiempo < 1 && tiempo > 0) {
-								MoverMouse.cambioCamara = false;
+										GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje + "de tu casa");
+								}
+								if (tiempo < 1 && tiempo > 0) {
+										MoverMouse.cambioCamara = false;
+								}
 						}
 				}
 		}

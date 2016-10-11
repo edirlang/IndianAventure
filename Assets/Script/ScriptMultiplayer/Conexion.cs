@@ -28,6 +28,8 @@ public class Conexion : MonoBehaviour
 		{
 				if (General.username == "") {
 						Application.LoadLevel ("main");
+						Destroy (gameObject);
+						Destroy (GameObject.Find ("Luz"));
 				}
 				color = new Color (Random.Range (0.0f, 0.7f), Random.Range (0.0f, 0.7f), Random.Range (0.0f, 0.7f));
 				mensajes = new ArrayList ();
@@ -212,7 +214,8 @@ public class Conexion : MonoBehaviour
 				if (Application.isMobilePlatform) {
 						General.posicionIncial.y += 10f;
 				}
-				GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, 0);
+
+		GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, int.Parse(General.misionActual [0])-1);
 				g.transform.localScale = new Vector3 (2, 2, 2);
 				g.AddComponent<BoxCollider> ();
 				g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
@@ -432,19 +435,4 @@ public class Conexion : MonoBehaviour
 						MoverMouse.jugadoresEquipo [2] = usuario3;
 				}
 		}
-		/*
-	[RPC]
-	void actualizarPosicion(float x, float y, float z){
-		Transform gonzalo = GameObject.Find ("gonzaloJimenez").transform;
-		gonzalo.position = new Vector3 (x, y, z);
-	}
-	
-	[RPC]
-	void converzar(float tiempo){
-
-		Gonzalo gonzalo = GameObject.Find ("gonzaloJimenez").GetComponent<Gonzalo>();
-		gonzalo.tiempo = tiempo;
-		gonzalo.buscar = true;
-	}
-	*/
 }

@@ -6,7 +6,7 @@ public class Misiones : MonoBehaviour
 		public static bool instanciar = false, cambio_mapa = false;
 
 		public Texture tributo, certificado, llave, cruz, articulos, titulo;
-		public GameObject piezaOro;
+		public GameObject piezaOro, pjR12, pjR22, pjR32;
 		bool terminoMision = false;
 		Mision mision1, mision2;
 		GameObject ayudaPersonaje;
@@ -133,9 +133,33 @@ public class Misiones : MonoBehaviour
 								if (GameObject.Find ("Pieza de oro(Clone)"))
 										Destroy (GameObject.Find ("Pieza de oro(Clone)"));
 
-								Camera.main.transform.parent = GameObject.Find ("PlayerJuego").transform;
+								Camera.main.transform.parent = GameObject.Find ("IniciarVariables").transform;
 
+								if (General.misionActual [0] == "2") {
+										switch (General.idPersonaje) {
+										case 1: 
+												General.personaje = pjR12;
+												break;
+										case 2:
+												General.personaje = pjR22;
+												break;
+										case 3:
+												General.personaje = pjR32;
+												break;
+										}
+								}
+
+								Network.Destroy (GameObject.Find (Network.player.ipAddress));
+								GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, 1);
+								g.transform.localScale = new Vector3 (2, 2, 2);
+								g.AddComponent<BoxCollider> ();
+								g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
+
+								g.name = Network.player.ipAddress;
+
+								MoverMouse.movimiento = true;
 								Misiones.cambio_mapa = true;
+
 						}
 				}
 
@@ -147,22 +171,23 @@ public class Misiones : MonoBehaviour
 								Application.LoadLevel ("level3");
 
 								Camera.main.transform.parent = GameObject.Find ("PlayerJuego").transform;
-
+								GameObject.Find (Network.player.ipAddress).transform.localScale = new Vector3(1f,1f,1f);
 								Misiones.cambio_mapa = true;
 						}
 				}
 
 				if (cambio_mapa && GameObject.Find ("PlayerJuego2")) {
 
+
 						GameObject.Find ("PlayerJuego2").name = "PlayerJuego";
 						GameObject.Find ("Luz").GetComponent<Light>().intensity = 1.5f;
 						GameObject.Find ("Luz").transform.position = GameObject.Find ("LuzTest").transform.position;
 						Destroy (GameObject.Find ("LuzTest"));
-						if (General.paso_mision == 1)
+						if (General.paso_mision == 1 || General.paso_mision == 0)
 								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego").transform.position;
+
 						MoverMouse.movimiento = true;
-						Misiones.cambio_mapa = false;
-						GameObject.Find (Network.player.ipAddress).transform.localScale = new Vector3(1f,1f,1f);
+
 						if (General.misionActual [0] == "2" && General.paso_mision > 6) {
 								maleta.agregarTextura (tributo);
 						}
@@ -252,6 +277,7 @@ public class Misiones : MonoBehaviour
 		{
 
 				switch (paso) {
+
 				case 1:
 						General.timepo = 20;
 						General.timepoChia = 20.5f;
@@ -308,7 +334,7 @@ public class Misiones : MonoBehaviour
 						General.timepoChia = 40.5f;
 						instanciar = true;
 						terminoMision = true;
-						General.paso_mision = 1;
+						General.paso_mision = 0;
 						General.misionActual [0] = "2";
 						StartCoroutine (General.cambiarMision ());
 						if (GameObject.Find ("chozas")) {
@@ -347,6 +373,13 @@ public class Misiones : MonoBehaviour
 		public void procesoMision2 (int paso)
 		{
 				switch (paso) {
+				case 0:
+						General.timepo = 20;
+						General.timepoChia = 20.5f;
+						instanciar = true;
+						General.paso_mision = 1;
+						StartCoroutine (General.actualizarUser ());
+						break;
 				case 1:
 			//instanciar = true;
 						General.paso_mision = 2;
@@ -590,5 +623,9 @@ public class Misiones : MonoBehaviour
 		public int getNumeroHojas ()
 		{
 				return numerohojas + 2;
+		}
+
+		private void destruitChoza(){
+
 		}
 }

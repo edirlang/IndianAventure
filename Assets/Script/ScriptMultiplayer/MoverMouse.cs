@@ -9,11 +9,13 @@ public class MoverMouse : MonoBehaviour
 		public static bool movimiento, equipo = false;
 		public static bool cambioCamara = false;
 		bool solicitudEquipo = false;
+		float x,y;
 		private NetworkView nw;
 		private Animator animator;
 		public static string[] jugadoresEquipo;
 
 		public static Vector3 targetObjeto;
+		public Texture mapa;
 
 		// Use this for initialization
 		void Start ()
@@ -42,6 +44,12 @@ public class MoverMouse : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
+
+				if(GameObject.Find ("camara")){
+						GameObject camaraMapa = GameObject.Find ("camara");
+						camaraMapa.transform.parent = gameObject.transform;
+						camaraMapa.transform.localPosition = new Vector3(0f,10f,0f);
+				}
 
 				General.posicionIncial = transform.position;
 				animator = GetComponent<Animator> ();
@@ -89,6 +97,8 @@ public class MoverMouse : MonoBehaviour
 
 						animator.SetFloat ("speed", 1.0f);
 						nw.RPC ("activarCaminar", RPCMode.AllBuffered, 1.0f);
+
+
 				} else {
 						moveDirection = Vector3.zero;
 						animator.SetFloat ("speed", 0.0f);
@@ -102,9 +112,15 @@ public class MoverMouse : MonoBehaviour
 
 		void OnGUI ()
 		{
+				
 				for (int i = 0; i < 3; i++) {
 						GUI.Label (new Rect (0, i * (Screen.height / 4), Screen.width / 3, Screen.height / 4), jugadoresEquipo [i]);
 				}
+				x = (((transform.position.x * 100)/2000)*Screen.width)/100;
+				y = (((transform.position.z * 100)/2000)*Screen.height)/100;
+				GUI.BeginGroup (new Rect (0, 3 * (Screen.height / 4), Screen.width / 3, Screen.height / 4));
+				GUI.Box (new Rect (x,y,Screen.width,Screen.height), mapa);
+				GUI.EndGroup ();
 		}
 
 		[RPC]

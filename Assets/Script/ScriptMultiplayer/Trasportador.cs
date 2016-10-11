@@ -6,12 +6,14 @@ public class Trasportador : MonoBehaviour
 {
 		public GameObject llegada;
 		GameObject player;
+		Animator animator;
 		float tiempo = 0;
 		bool inciarTiempo;
 		// Use this for initialization
 		void Start ()
 		{
 				inciarTiempo = false;
+
 		}
 	
 		// Update is called once per frame
@@ -19,8 +21,8 @@ public class Trasportador : MonoBehaviour
 		{
 				tiempo -= Time.deltaTime;
 				if (tiempo < 0 && inciarTiempo) {
-						
 						player.transform.position = llegada.transform.position;
+
 						if (General.misionActual [0] == "1" && General.paso_mision == 2) {
 								Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 								mision.procesoMision1 (General.paso_mision);
@@ -36,10 +38,15 @@ public class Trasportador : MonoBehaviour
 								General.timepoChia = 10.5f;
 								Misiones.instanciar = true;
 						}
+
 						inciarTiempo = false;
 						MoverMouse.movimiento = true;
 						MoverMouse.cambioCamara = false;
 
+				}
+
+				if (tiempo > 0 && tiempo < 1) {
+						animator.SetBool ("transportador", false);
 				}
 		}
 
@@ -47,10 +54,12 @@ public class Trasportador : MonoBehaviour
 		{
 				if (colision.tag == "Player") {
 						player = colision.gameObject;
+						animator = player.GetComponent<Animator> ();
 						MoverMouse.movimiento = false;
 						MoverMouse.cambioCamara = true;
-						tiempo = 1;
+						tiempo = 3;
 						inciarTiempo = true;
+						animator.SetBool("transportador",true);
 				}
 		}
 }
