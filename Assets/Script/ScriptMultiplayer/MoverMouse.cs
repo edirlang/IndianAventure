@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MoverMouse : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class MoverMouse : MonoBehaviour
 
 				posicion = transform.position;
 
-				if (General.paso_mision == 1 && nw.isMine) {
+				if (General.paso_mision == 1 && nw.isMine && Application.loadedLevelName != "introduccion") {
 						if (General.misionActual [0] == "2") {
 								General.timepo = 35;
 								General.timepoChia = 35;
@@ -96,13 +97,15 @@ public class MoverMouse : MonoBehaviour
 						moveDirection *= speed;
 
 						animator.SetFloat ("speed", 1.0f);
-						nw.RPC ("activarCaminar", RPCMode.AllBuffered, 1.0f);
+						if(Application.loadedLevelName != "introduccion")
+							nw.RPC ("activarCaminar", RPCMode.AllBuffered, 1.0f);
 
 
 				} else {
 						moveDirection = Vector3.zero;
 						animator.SetFloat ("speed", 0.0f);
-						nw.RPC ("activarCaminar", RPCMode.AllBuffered, 0.0f);
+						if(Application.loadedLevelName != "introduccion")
+							nw.RPC ("activarCaminar", RPCMode.AllBuffered, 0.0f);
 				}
 
 				moveDirection.y -= gravity * Time.deltaTime;
@@ -116,11 +119,7 @@ public class MoverMouse : MonoBehaviour
 				for (int i = 0; i < 3; i++) {
 						GUI.Label (new Rect (0, i * (Screen.height / 4), Screen.width / 3, Screen.height / 4), jugadoresEquipo [i]);
 				}
-				x = (((transform.position.x * 100)/2000)*Screen.width)/100;
-				y = (((transform.position.z * 100)/2000)*Screen.height)/100;
-				GUI.BeginGroup (new Rect (0, 3 * (Screen.height / 4), Screen.width / 3, Screen.height / 4));
-				GUI.Box (new Rect (x,y,Screen.width,Screen.height), mapa);
-				GUI.EndGroup ();
+
 		}
 
 		[RPC]

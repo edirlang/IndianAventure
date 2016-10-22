@@ -13,7 +13,7 @@ public class General : MonoBehaviour {
 	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
 	public static bool conectado = false, bono=false, mensajeRecojer = false;
 	public static string[] misionActual = new string[3];
-	public static float timepoChia=10, timepo=0;
+	public static float timepoChia=10, timepo=-1;
 		public Texture mapa;
 		bool gameOvwer=false;
 		float tiempoOvwer;

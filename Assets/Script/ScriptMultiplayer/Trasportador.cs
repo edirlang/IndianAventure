@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Trasportador : MonoBehaviour
 {
-		public GameObject llegada;
+		public GameObject llegada, efecto;
 		GameObject player;
 		Animator animator;
 		float tiempo = 0;
@@ -43,6 +43,7 @@ public class Trasportador : MonoBehaviour
 						MoverMouse.movimiento = true;
 						MoverMouse.cambioCamara = false;
 
+						efecto.SetActive(false);
 				}
 
 				if (tiempo > 0 && tiempo < 1) {
@@ -55,6 +56,7 @@ public class Trasportador : MonoBehaviour
 				if (colision.tag == "Player") {
 						player = colision.gameObject;
 						animator = player.GetComponent<Animator> ();
+						efecto.SetActive(true);
 						MoverMouse.movimiento = false;
 						MoverMouse.cambioCamara = true;
 						tiempo = 3;

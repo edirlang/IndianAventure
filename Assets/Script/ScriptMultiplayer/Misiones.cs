@@ -6,8 +6,10 @@ public class Misiones : MonoBehaviour
 		public static bool instanciar = false, cambio_mapa = false;
 
 		public Texture tributo, certificado, llave, cruz, articulos, titulo;
+		public GameObject rain, luzrayos, luz;
+		public Material tormenta;
 		public GameObject piezaOro, pjR12, pjR22, pjR32;
-		bool terminoMision = false;
+		public bool terminoMision = false;
 		Mision mision1, mision2;
 		GameObject ayudaPersonaje;
 		private int numeroMaderas = 0, numerohojas = 0;
@@ -81,6 +83,7 @@ public class Misiones : MonoBehaviour
 								maleta.eliminarTextura (titulo.name);
 						}
 				}
+
 
 				if (instanciar) {
 						chiaInstanciar ();
@@ -198,6 +201,17 @@ public class Misiones : MonoBehaviour
 				if (terminoMision && General.timepo < 0) {
 						instanciar = true;
 						terminoMision = false;
+						Conexion conexion = Camera.main.gameObject.GetComponent<Conexion>();
+						conexion.reiniciar = true;
+						luzrayos.SetActive (false);
+				}
+
+				if(General.misionActual[0] == "2" && General.paso_mision == 7 && !GameObject.Find ("Rain(Clone)") && Application.loadedLevelName == "level2") {
+						GameObject lluvia = (GameObject)Instantiate (rain, transform.position, transform.rotation);
+						lluvia.transform.parent = transform;
+						RenderSettings.skybox = tormenta;
+						GameObject.Find ("Luz").SetActive (false);
+						luzrayos.SetActive (true);
 				}
 		}
 
@@ -206,8 +220,13 @@ public class Misiones : MonoBehaviour
 				if (!GameObject.Find ("Chia(Clone)")) {
 						GameObject player = GameObject.Find (Network.player.ipAddress);
 						ayudaPersonaje = Instantiate (General.chia, new Vector3 (player.transform.localPosition.x + 0, player.transform.position.y + 20, player.transform.position.z), player.transform.rotation) as GameObject;
+						if (General.misionActual [0] == "3") {
+								ayudaPersonaje.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+						}
+
 						ayudaPersonaje.transform.parent = player.transform;
 						ayudaPersonaje.transform.localPosition = new Vector3 (0f, 10f, 30f);
+
 						instanciar = false;
 				} else {
 						Camera.main.GetComponent<AudioSource> ().enabled = false;
@@ -221,9 +240,9 @@ public class Misiones : MonoBehaviour
 				case 1:
 						if (General.timepo > 10) {
 								mensaje = " Hola, bienvenidos a Natives \n Yo soy Chía, diosa de la luna";
-						} else if (General.timepo > 2) {
-								mensaje = "Ayudo a tu pueblo, los Sutagaos a llevar una vida llena de travesías. \n Entonces que esperamos, ¡EMPECEMOS!";
-						} else if (General.timepo > 0 && General.timepo < 1) {
+						} else if (General.timepo > 1) {
+								mensaje = "Ayudo a tu pueblo, los Sutagaos a llevar una vida llena de travesías. \n Hoy inicias este maravilloso viaje. Entonces que esperamos, ¡EMPECEMOS!";
+						} else if (General.timepo > 0 && General.timepo < 0.5) {
 								General.timepo = 0;
 								procesoMision1 (General.paso_mision);
 						}
@@ -268,6 +287,33 @@ public class Misiones : MonoBehaviour
 								mensaje = "ve al punto central de nuestro pueblo, \n cerca al fuego y construye tu casa.";
 						}
 						break;
+				case 8:
+						if (General.timepo > 8) {
+								mensaje = "¡Felicitaciones! Haz logrado construir tu hogar, \n este será tu refugio hasta que alguien venga y te lo quite, por ahora disfrutalo.";
+						} else if (General.timepo > 1) {
+								mensaje = "Por tu esfuerzo y dedicación, \n  te has ganado este premio de oro. Te invito a que entres a tu casa";
+								if (!GameObject.Find ("Pieza de oro(Clone)")) {
+										GameObject player = GameObject.Find (Network.player.ipAddress);
+										GameObject pieza = (GameObject)Instantiate (piezaOro, player.transform.position, transform.rotation);
+										pieza.transform.parent = player.transform;
+										pieza.transform.localPosition = new Vector3 (-1.3f, 0.8f, -0.01f);
+								} else {
+										GameObject.Find ("Pieza de oro(Clone)").transform.Rotate (-10f * Time.deltaTime, 0f, 0f); 
+								}
+						} else if (General.timepo > 0 && General.timepo < 1) {
+								if (GameObject.Find ("Pieza de oro(Clone)")) {
+										Destroy (GameObject.Find ("Pieza de oro(Clone)"));
+										if (!GameObject.Find ("Rain(Clone)")) {
+												GameObject lluvia = (GameObject)Instantiate (rain, transform.position, transform.rotation);
+												lluvia.transform.parent = transform;
+										}
+										RenderSettings.skybox = tormenta;
+										GameObject.Find ("Luz").SetActive (false);
+										luzrayos.SetActive (true);
+								}
+						}
+
+						break;
 				}
 
 				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
@@ -275,9 +321,7 @@ public class Misiones : MonoBehaviour
 
 		public void procesoMision1 (int paso)
 		{
-
 				switch (paso) {
-
 				case 1:
 						General.timepo = 20;
 						General.timepoChia = 20.5f;
@@ -328,12 +372,17 @@ public class Misiones : MonoBehaviour
 						General.paso_mision = 7;
 						StartCoroutine (General.actualizarUser ());
 						break;
-
 				case 7:
-						General.timepo = 40f;
-						General.timepoChia = 40.5f;
+						General.timepo = 15;
+						General.timepoChia = 15.5f;
 						instanciar = true;
+						General.paso_mision = 8;
+						break;
+				case 8:
+						General.timepo = 1;
+						General.timepoChia = 1.5f;
 						terminoMision = true;
+						instanciar = true;
 						General.paso_mision = 0;
 						General.misionActual [0] = "2";
 						StartCoroutine (General.cambiarMision ());
@@ -353,7 +402,7 @@ public class Misiones : MonoBehaviour
 				switch (General.paso_mision) {
 				case 1:
 						if (General.timepo > 27) {
-								mensaje = "Felicitaciones has subido al segundo nivel, \n en el lugar donde estas será el nuevo pueblo para resguardar tu pueblo.";
+								mensaje = "haz perdido tu casa, ahora debemos conseguir una nueva \n En el lugar donde estas será el nuevo pueblo para resguardar tu familia.";
 						} else if (General.timepo > 18) {
 								mensaje = "Hoy, 5 de febrero de 1592, fuimos colonizados por los españoles, \n convirtiéndonos en una ciudad.";
 						} else if (General.timepo > 9) {
@@ -364,6 +413,38 @@ public class Misiones : MonoBehaviour
 								General.timepo = 0;
 								procesoMision2 (General.paso_mision);
 						}
+						break;
+				case 2:
+						if (General.timepo > 8) {
+								mensaje = "debes buscar al virrey de España que se encuentra ubicado en nuestra";
+						} else if (General.timepo > 0) {
+								mensaje = " señora de Altagracia para que te otorgue el permiso necesario para habitar la zona.";
+						}
+						break;
+
+				case 3:
+						if (General.timepo > 10) {
+								mensaje = "Busca a tres compañeros más, con sus tributos.";
+						} else if (General.timepo > 0) {
+								mensaje = "Con ello podrán ir a hablar con el virrey \n para que les den el permiso para tener las llaves de su nuevo hogar.";
+						}  
+						break;
+				case 4 :
+						
+						if (General.timepo > 0) {
+								mensaje = "Recuerda ir hasta donde el Virrey a reclamar tu permiso.";
+						} 
+						break;
+				case 6:
+						if (General.timepo > 0) {
+								mensaje = "Recuerda buscar a Bernardino de Albornoz que se encuentra en Fusagasugá.";
+						}
+						break;
+				case 7:
+						if (General.timepo > 0) {
+								mensaje = "Encuentra Tu casa, prueba en cada casa hasta encontrarla.";
+						}
+
 						break;
 				}
 
@@ -403,10 +484,15 @@ public class Misiones : MonoBehaviour
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 6:
+						General.timepo = 10f;
+						General.timepoChia = 10.5f;
+						instanciar = true;
 						General.paso_mision = 7;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 7:
+						luz.SetActive (true);
+
 						General.timepo = 40f;
 						General.timepoChia = 40.5f;
 						instanciar = true;
@@ -550,37 +636,16 @@ public class Misiones : MonoBehaviour
 
 		void completarMision ()
 		{
-				//ayudaPersonaje.transform.parent = transform;
-
-				string mensaje = "";
-				if (General.timepo > 35) {
-						int idmision = int.Parse (General.misionActual [0]) - 1;
-						mensaje = "¡Felicitaciones! Haz terminado la misión, " + idmision + "\n" + General.misionActual [1];
-				} else if (General.timepo > 30) {
-						mensaje = "este será tu hogar hasta que alguien venga y te lo quite, \n por ahora disfrutarlo.";
-				} else if (General.timepo > 20) {
-						mensaje = "Haz pasado al siguiente nivel";
-				} else if (General.timepo > 10) {
-						mensaje = "Por haber terminado la misión has ganado este premio de oro.";
-
-						if (!GameObject.Find ("Pieza de oro(Clone)")) {
-								GameObject player = GameObject.Find (Network.player.ipAddress);
-								GameObject pieza = (GameObject)Instantiate (piezaOro, player.transform.position, transform.rotation);
-								pieza.transform.parent = player.transform;
-								pieza.transform.localPosition = new Vector3 (-1.3f, 0.8f, -0.01f);
-						} else {
-								GameObject.Find ("Pieza de oro(Clone)").transform.Rotate (-10f * Time.deltaTime, 0f, 0f); 
-						}
-				} else {
-						mensaje = "Conservalo, te puede servir mas adelante";
-				}
-				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
+				luz.SetActive (true);
+				Destroy (GameObject.Find("Rain(Clone)"));
 		}
 
 		void completarMision2 ()
 		{
 				//ayudaPersonaje.transform.parent = transform;
-
+				if(GameObject.Find("Rain(Clone)")){
+						Destroy (GameObject.Find("Rain(Clone)"));
+				}
 				string mensaje = "";
 				if (General.timepo > 35) {
 						int idmision = int.Parse (General.misionActual [0]) - 1;

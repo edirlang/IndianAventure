@@ -39,8 +39,8 @@ public class Choza : MonoBehaviour {
 					Destroy(GameObject.Find("choza2"));
 
 					chozaLevel = GameObject.Find("choza3");
-					chozaLevel.transform.localScale = new Vector3(4f,4f,3f);
-					chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 4, posicionInstanciar.position.y - 2, posicionInstanciar.position.z);
+					chozaLevel.transform.localScale = new Vector3(4f,4f,4f);
+					chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 4, posicionInstanciar.position.y, posicionInstanciar.position.z);
 
 					NetworkView nw = Camera.main.GetComponent<NetworkView>();
 					nw.RPC("crearChozaMultiplayer",RPCMode.OthersBuffered, player.name, posicionInstanciar.position, 2);

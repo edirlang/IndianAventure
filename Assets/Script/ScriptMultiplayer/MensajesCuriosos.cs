@@ -11,7 +11,7 @@ public class MensajesCuriosos : MonoBehaviour {
 	void Start () {
 				gameObject.GetComponent<MeshRenderer> ().enabled = false;
 				ver_mensaje = false;
-				mensajes = new string[10];
+				mensajes = new string[15];
 				mensajes[0] = "Las hojas de palma boba son palmas los cuales crecen en zonas frías,\n son originarias de la región del Sumapaz ";
 				mensajes[1] = "El barro es usado en nuestro pueblo como cemento \n para unir las distintas partes de la casa ";
 				mensajes[2] = "Esta iglesia la han traído los españoles, donde \n nos enseñaran a practicar su religión católica.";
@@ -22,6 +22,7 @@ public class MensajesCuriosos : MonoBehaviour {
 				mensajes[7] = "Te cuento, esta iglesia fue reconstruida en 1776, \n mostrando la construcción de la nueva ciudad. Desde aquí tu comunidad y tu empiezan a tomar la religión católica.";
 				mensajes[8] = "Esta casona fue usada en 1875, para firmar \n varios artículos presidenciales.";
 				mensajes[9] = "El café fue uno de los principales productos que se producen en la región del Sumapaz.";
+				mensajes[10] = "Con la llegada de los españoles, nuestros indígenas fueron forzados a salir \n de su zona y llevados hacia Altagracia de Sumapaz. (Ahora conocido como Pasca).";
 	}
 	
 	// Update is called once per frame
@@ -49,6 +50,9 @@ public class MensajesCuriosos : MonoBehaviour {
 				if (colision.tag == "Player") {
 						ver_mensaje = true;
 						tiempo = 10;
+						if (numeroMensaje == 11) {
+								Destroy (gameObject, tiempo);
+						}
 				}
 		}
 }

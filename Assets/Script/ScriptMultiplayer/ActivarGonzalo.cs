@@ -95,7 +95,7 @@ public class ActivarGonzalo : MonoBehaviour
 
 										if (contador >= 3 && General.paso_mision >= 3) {
 												tiempo = 5;
-												mensaje = "podeis pasar, sean respetusos con su virrey";
+												mensaje = "podéis pasar, sean respetuosos con su virrey.";
 												//GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;
 										} else {
 												tiempo = 8;

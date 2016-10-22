@@ -22,7 +22,8 @@ public class Conexion : MonoBehaviour
 		private int numeroMensajes = 0;
 		private NetworkView nw;
 		private Color color;
-		private float tiempo = 30;
+		private float tiempo = 30, tiempo_reinicio = 0.5f;
+		public bool reiniciar;
 
 		void Start ()
 		{
@@ -36,6 +37,10 @@ public class Conexion : MonoBehaviour
 				nw = GetComponent<NetworkView> ();
 				DontDestroyOnLoad (this.gameObject);
 				DontDestroyOnLoad (GameObject.Find("Luz"));
+				reiniciar = false;
+				if (Application.isMobilePlatform) {
+						tiempo_reinicio = 2f;
+				}
 		}
 
 		void Update ()
@@ -44,7 +49,18 @@ public class Conexion : MonoBehaviour
 						Destroy (GameObject.Find ("MainCamera2"));
 				}
 
+				if (GameObject.Find ("camaraPrincipal") && Application.loadedLevelName != "introduccion") {
+						Destroy (GameObject.Find("Main Camera"));
+						GameObject.Find ("camaraPrincipal").name = "Main Camera";
+				}
+				if (reiniciar) {
+						tiempo_reinicio -= Time.deltaTime;
 
+						if (tiempo_reinicio < 0) {
+								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego").transform.position;
+								reiniciar = false;
+						}
+				}
 		}
 
 		void  OnGUI ()
@@ -100,7 +116,7 @@ public class Conexion : MonoBehaviour
 				mensajesEnviados ();
 
 				if (Network.isServer) {
-						GUI.Label (new Rect (2 * (Screen.width / 10), Screen.height - Screen.height / 12, Screen.width / 4, Screen.height / 12), "TU IP: " + Network.player.ipAddress);
+						GUI.Label (new Rect (Screen.width / 2 - Screen.width / 8, 0, Screen.width / 4, Screen.height / 12), "TU IP: " + Network.player.ipAddress);
 						//GUI.Label (new Rect (7*(Screen.width / 10), Screen.height - Screen.height / 9, Screen.width / 4, Screen.height / 9),"Puerto: " + Network.player.port.ToString() );
 				}
 
@@ -215,7 +231,7 @@ public class Conexion : MonoBehaviour
 						General.posicionIncial.y += 10f;
 				}
 
-		GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, int.Parse(General.misionActual [0])-1);
+		GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, 0);
 				g.transform.localScale = new Vector3 (2, 2, 2);
 				g.AddComponent<BoxCollider> ();
 				g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
@@ -224,6 +240,9 @@ public class Conexion : MonoBehaviour
 
 				Network.isMessageQueueRunning = true;
 
+				if (General.paso_mision == 1) {
+						g.transform.position = GameObject.Find ("PlayerJuego").transform.position;
+				}
 				//GameObject g = (GameObject) Network.Instantiate (General.personaje, transform.position, transform.rotation, 0);
 				//g.name = Network.player.ipAddress;
 		}

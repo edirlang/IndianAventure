@@ -127,7 +127,11 @@ public class menu : MonoBehaviour
 				GUI.Label (new Rect (9 * (Screen.width / 10), (Screen.height / 10), Screen.width / 10, Screen.height / 12), "x " + General.monedas + "");
 				if (porcentaje == "100%" && GUI.Button (new Rect (4 * (Screen.width / 6), 9 * (Screen.height / 10), Screen.width / 6, Screen.height / 10), "Jugar")) {
 						opciones = 1;
-						Application.LoadLevel ("level1");
+						if (General.paso_mision == 1 && General.misionActual [0] == "1") {
+								Application.LoadLevel ("introduccion");
+						} else {
+								Application.LoadLevel ("level1");
+						}
 				}
 		}
 
