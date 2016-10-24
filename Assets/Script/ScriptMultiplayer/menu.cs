@@ -125,12 +125,22 @@ public class menu : MonoBehaviour
 		
 				GUI.Box (new Rect (9 * (Screen.width / 10) - Screen.width / 16, (Screen.height / 10), Screen.width / 12, Screen.height / 12), monedas, style);
 				GUI.Label (new Rect (9 * (Screen.width / 10), (Screen.height / 10), Screen.width / 10, Screen.height / 12), "x " + General.monedas + "");
-				if (porcentaje == "100%" && GUI.Button (new Rect (4 * (Screen.width / 6), 9 * (Screen.height / 10), Screen.width / 6, Screen.height / 10), "Jugar")) {
-						opciones = 1;
-						if (General.paso_mision == 1 && General.misionActual [0] == "1") {
-								Application.LoadLevel ("introduccion");
-						} else {
-								Application.LoadLevel ("level1");
+				if (General.misionActual [0] != "4") {
+						if (porcentaje == "100%" && GUI.Button (new Rect (4 * (Screen.width / 6), 9 * (Screen.height / 10), Screen.width / 6, Screen.height / 10), "Jugar")) {
+								opciones = 1;
+								if (General.paso_mision == 1 && General.misionActual [0] == "1") {
+										Application.LoadLevel ("introduccion");
+								} else {
+										Application.LoadLevel ("level1");
+								}
+						}
+				} else {
+						if(GUI.Button (new Rect (4 * (Screen.width / 6), 9 * (Screen.height / 10), Screen.width / 6, Screen.height / 10), "Reiniciar")){
+								General.paso_mision = 1;
+								General.misionActual [0] = "5";
+								General.salud = 3;
+								General.monedas = 10;
+								StartCoroutine (General.cambiarMision ());
 						}
 				}
 		}

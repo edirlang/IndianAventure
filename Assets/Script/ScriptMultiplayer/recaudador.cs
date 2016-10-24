@@ -26,7 +26,7 @@ public class recaudador : MonoBehaviour {
 				if (persegir) {
 						moveDirection = Vector3.zero;
 						iniciarConversasion = true;
-						tiempo = 12;
+						tiempo = 16;
 						persegir = false;
 				}
 
@@ -62,11 +62,11 @@ public class recaudador : MonoBehaviour {
 				if (iniciarConversasion && player.GetComponent<NetworkView> ().isMine) {
 
 						if (General.paso_mision == 6) {
-								if (tiempo > 8) {
+								if (tiempo > 16) {
 
 										mensaje = "Bienvenido a esta nueva ciudad.";
 
-								} else if (tiempo > 0) {
+								} else if (tiempo > 8) {
 										mensaje = "Te recibo el título de propiedad y 30 monedas de oro de impuestos de tu casa.";
 
 										if (!GameObject.Find ("titulo")) {
@@ -79,12 +79,18 @@ public class recaudador : MonoBehaviour {
 												permisoObj.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
 												permisoObj.name = "titulo";
 
+										}
+								} 
+								else if (tiempo > 0) {
+										mensaje = "Gracias, te entrego las llaves de tu nuevo hogar, \n tu casa la puedes encontrar en las casas que ves al lado de nosotros. Ve y encuéntrala.";
+
+										if (!GameObject.Find ("llave")) {
 												GameObject llaveObj = (GameObject)Instantiate (llave, recaudador_game.transform.position, transform.rotation);
 												llaveObj.transform.parent = player.transform;
 												llaveObj.transform.localPosition = new Vector3 (2.14f, 0.84f, 2.08f);
 												llaveObj.name = "llave"; 
 										}
-								} 
+								}
 
 								if (General.paso_mision == 6 && General.misionActual [0] == "3" && tiempo < 0.5) {
 										//General.timepo = 10;
@@ -96,7 +102,7 @@ public class recaudador : MonoBehaviour {
 										Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 										mision.procesoMision3 (General.paso_mision);
 								}
-						} else if (General.paso_mision == 8) {
+						} else if (General.paso_mision == 10) {
 								mensaje = "Gracias, Alfonso te envía este regalo por ayudarle.";
 								if (!GameObject.Find ("cafe")) {
 										General.monedas -= 30;
@@ -114,7 +120,7 @@ public class recaudador : MonoBehaviour {
 										llaveObj.name = "cafe"; 
 								}
 
-								if (General.paso_mision == 8 && General.misionActual [0] == "3" && tiempo < 0.5) {
+								if (General.paso_mision == 10 && General.misionActual [0] == "3" && tiempo < 0.5) {
 										//General.timepo = 10;
 										if (GameObject.Find ("cafe")) {
 												Destroy (GameObject.Find ("quina"));

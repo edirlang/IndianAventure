@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Misiones : MonoBehaviour
 {
 		public static bool instanciar = false, cambio_mapa = false;
 
 		public Texture tributo, certificado, llave, cruz, articulos, titulo;
-		public GameObject rain, luzrayos, luz;
+		public GameObject rain, luzrayos, luz, luzrayosprefab;
 		public Material tormenta;
 		public GameObject piezaOro, pjR12, pjR22, pjR32;
 		public bool terminoMision = false;
 		Mision mision1, mision2;
 		GameObject ayudaPersonaje;
 		private int numeroMaderas = 0, numerohojas = 0;
+		public int numeroLlave;
 
 		struct Mision
 		{
@@ -43,7 +45,7 @@ public class Misiones : MonoBehaviour
 
 		void Start ()
 		{
-				
+				numeroLlave = Random.Range (1,5);
 		}
 	
 		// Update is called once per frame
@@ -74,6 +76,7 @@ public class Misiones : MonoBehaviour
 
 				}else if (General.misionActual [0] == "3" && General.paso_mision == 6 && !maleta.estaTextura (titulo.name)) {
 						maleta.agregarTextura (titulo);
+
 						if(maleta.estaTextura(articulos.name)){
 								maleta.eliminarTextura (articulos.name);
 						}
@@ -99,6 +102,10 @@ public class Misiones : MonoBehaviour
 										General.timepoChia = 16;
 								}
 						}
+						if (General.misionActual [0] == "2" && General.paso_mision == 0) {
+								General.timepo = 1f;
+								General.timepoChia = 1.5f;
+						}
 				}
 				if (General.timepo > 0) {
 						if (terminoMision) {
@@ -109,6 +116,9 @@ public class Misiones : MonoBehaviour
 										break;
 								case "3":
 										completarMision2 ();
+										break;
+								case "4":
+										completarMision3 ();
 										break;
 								}
 						} else {
@@ -132,7 +142,8 @@ public class Misiones : MonoBehaviour
 								Maleta.vaciar = true;
 
 								MoverMouse.movimiento = false;
-								Application.LoadLevel("level2");
+								Destroy (GameObject.Find ("camara"));
+								SceneManager.LoadScene("level2");
 								if (GameObject.Find ("Pieza de oro(Clone)"))
 										Destroy (GameObject.Find ("Pieza de oro(Clone)"));
 
@@ -171,7 +182,26 @@ public class Misiones : MonoBehaviour
 								Maleta.vaciar = true;
 
 								MoverMouse.movimiento = false;
-								Application.LoadLevel ("level3");
+								Destroy (GameObject.Find ("camara"));
+								SceneManager.LoadScene ("level3");
+
+								Camera.main.transform.parent = GameObject.Find ("PlayerJuego").transform;
+								GameObject.Find (Network.player.ipAddress).transform.localScale = new Vector3(1f,1f,1f);
+								Misiones.cambio_mapa = true;
+						}
+						if (GameObject.Find("Luz_tormenta")) {
+								luzrayos = GameObject.Find ("Luz_tormenta");
+								luzrayos.SetActive (false);
+						}
+				}
+
+				if (General.misionActual [0] == "4" && Network.peerType != NetworkPeerType.Disconnected && General.timepo <= 0) {
+						Debug.Log ("Subiendo de level");
+						if (GameObject.Find ("Casa1")) {
+
+								MoverMouse.movimiento = false;
+								Destroy (GameObject.Find ("camara"));
+								SceneManager.LoadScene ("fin");
 
 								Camera.main.transform.parent = GameObject.Find ("PlayerJuego").transform;
 								GameObject.Find (Network.player.ipAddress).transform.localScale = new Vector3(1f,1f,1f);
@@ -180,8 +210,7 @@ public class Misiones : MonoBehaviour
 				}
 
 				if (cambio_mapa && GameObject.Find ("PlayerJuego2")) {
-
-
+						
 						GameObject.Find ("PlayerJuego2").name = "PlayerJuego";
 						GameObject.Find ("Luz").GetComponent<Light>().intensity = 1.5f;
 						GameObject.Find ("Luz").transform.position = GameObject.Find ("LuzTest").transform.position;
@@ -198,11 +227,16 @@ public class Misiones : MonoBehaviour
 
 				}
 
+				if (luzrayos == null) {
+						luzrayos = GameObject.Find ("Luz_tormenta");
+						luzrayos.SetActive (false);
+				}
 				if (terminoMision && General.timepo < 0) {
 						instanciar = true;
 						terminoMision = false;
 						Conexion conexion = Camera.main.gameObject.GetComponent<Conexion>();
 						conexion.reiniciar = true;
+
 						luzrayos.SetActive (false);
 				}
 
@@ -213,6 +247,8 @@ public class Misiones : MonoBehaviour
 						GameObject.Find ("Luz").SetActive (false);
 						luzrayos.SetActive (true);
 				}
+
+
 		}
 
 		private void chiaInstanciar ()
@@ -514,11 +550,11 @@ public class Misiones : MonoBehaviour
 				switch (General.paso_mision) {
 				case 1:
 						if (General.timepo > 25) {
-								mensaje = "Felicitaciones has subido al siguiente nivel.";
+								mensaje = "Bienvenido de nuevo. En este punto encontraras edificaciones más grandes y fuertes";
 						} else if (General.timepo > 18) {
-								mensaje = "En este punto encontraras edificaciones más grandes y fuertes,";
+								mensaje = ", las cuales fueron dejadas por la cultura española que nos colonizo.";
 						} else if (General.timepo > 12) {
-								mensaje = "las cuales fueron dejadas por la cultura española que nos colonizo. \n Para poder iniciar esta nueva travesía,";
+								mensaje = "Para poder iniciar esta nueva travesía,";
 						}else if (General.timepo > 5) {
 								mensaje = "debes buscar al cura Antonio Martínez \n que te dará nuevas indicaciones.";
 						}else if (General.timepo > 0 && General.timepo < 1) {
@@ -527,7 +563,7 @@ public class Misiones : MonoBehaviour
 						}
 						break;
 				case 2:
-						mensaje = "Recuerda que debes ir a la iglesia y reclamar el símbolo de la nueva religión.";
+						mensaje = "Recuerda buscar al cura Antonio Martínez, él te dirá que hacer.";
 						break;
 				case 3:
 						if (General.timepo > 8) {
@@ -540,7 +576,7 @@ public class Misiones : MonoBehaviour
 						}
 						break;
 				case 4:
-						mensaje = "Ahora debes buscar a la casona de Balmoral,\n allá te darán nuevas indicaciones.";
+						mensaje = "Recuerda buscar la casona de Coburgo, allá te darán nuevas indicaciones.";
 						break;
 				case 5:
 						mensaje = "Ya tienes los artículos, \n llévalos a la casona de Coburgo, allá te dirán que hacer. ";
@@ -549,16 +585,22 @@ public class Misiones : MonoBehaviour
 						mensaje = "Recuerda buscar al recaudador de impuestos, él te dará la información de tu nuevo hogar.";
 						break;
 				case 7:
-						mensaje = "Busca a Jose Celestino mutis en la casona la venta, él te necesita.";
+						mensaje = "Recuerda probar las llaves en esas casas para encontrar la tuya.";
 						break;
 				case 8:
-						mensaje = "Recuerda llevar la Quina a Alfonso López, que se encuentra en la casona de Coburgo.";
+						mensaje = "¡Muy bien! Este es tu nuevo hogar. Ahora vamos a adornarlo. \n Busca a Jose Celestino mutis en la casona la venta, él te dirá que hacer.";
+						if (General.timepo > 0 && General.timepo < 1) {
+								procesoMision3 (General.paso_mision);
+						}
 						break;
 				case 9:
-						mensaje = "Muy bien, para terminar tu misión, lleva tu mata de café para adornar tu casa.";
+						mensaje = "Busca a Jose Celestino mutis en la casona la venta, él te necesita.";
 						break;
 				case 10:
-						mensaje = "Excelente, ya tienes tu casa en esta nueva era. Haz pasado al siguiente nivel.";
+						mensaje = "Recuerda llevar la Quina a Alfonso López, que se encuentra en la casona de Coburgo.";
+						break;
+				case 11:
+						mensaje = "Muy bien, para terminar tu misión, lleva tu mata de café para adornar tu casa.";
 						break;
 				}
 
@@ -613,13 +655,21 @@ public class Misiones : MonoBehaviour
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 8:
-						instanciar = true;
-						General.timepo = 10f;
-						General.timepoChia = 10.5f;
 						General.paso_mision = 9;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 9:
+						General.paso_mision = 10;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 10:
+						instanciar = true;
+						General.timepo = 10f;
+						General.timepoChia = 10.5f;
+						General.paso_mision = 11;
+						StartCoroutine (General.actualizarUser ());
+						break;
+				case 11:
 						General.timepo = 15f;
 						General.timepoChia = 15.5f;
 						instanciar = true;
@@ -671,11 +721,8 @@ public class Misiones : MonoBehaviour
 				//ayudaPersonaje.transform.parent = transform;
 
 				string mensaje = "";
-				if (General.timepo > 8) {
-						int idmision = int.Parse (General.misionActual [0]) - 1;
-						mensaje = "¡Felicitaciones! Haz terminado la misión, \n" + General.misionActual [1];
-				} else if (General.timepo > 0) {
-						mensaje = "Excelente, ya tienes tu casa en esta nueva era. Haz pasado al siguiente nivel.";
+				if (General.timepo > 0) {
+						mensaje = "Excelente, ya tienes tu casa en esta nueva era. Tu viaje terminara pronto";
 				} 
 				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
 		}

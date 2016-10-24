@@ -38,8 +38,8 @@ public class Jose : MonoBehaviour {
 								moveDirection = Vector3.zero;
 								iniciarConversasion = true;
 								tiempo = 25;
-								if (General.paso_mision != 7) {
-										tiempo = 10;
+								if (General.paso_mision != 9) {
+										tiempo = 6;
 								}
 								persegir = false;
 								animator.SetFloat ("speed", 0.0f);
@@ -61,7 +61,7 @@ public class Jose : MonoBehaviour {
 		{
 				if (iniciarConversasion && player.GetComponent<NetworkView> ().isMine) {
 
-						if (General.paso_mision == 7) {
+						if (General.paso_mision == 9) {
 								if (tiempo > 18) {
 										mensaje = "Bienvenido, esta es la casona la venta, \n ";
 								}else if (tiempo > 12) {
@@ -80,7 +80,7 @@ public class Jose : MonoBehaviour {
 										mensaje = "se llama Quina, es muy usada como medicina. \n Ve rápido, no te demores mucho.";
 								}
 
-								if (General.paso_mision == 7 && General.misionActual [0] == "3" && tiempo < 0.5) {
+								if (General.paso_mision == 9 && General.misionActual [0] == "3" && tiempo < 0.5) {
 										//General.timepo = 10;
 										if (GameObject.Find ("quina")) {
 												Destroy (GameObject.Find ("quina"));

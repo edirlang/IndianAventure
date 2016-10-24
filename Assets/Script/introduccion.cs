@@ -33,6 +33,7 @@ public class introduccion : MonoBehaviour {
 				if (tiempo < 0) {
 						luz.GetComponent<Light> ().color = Color.white;
 						luz.GetComponent<Light> ().intensity = 8;
+						Destroy (GameObject.Find ("camara"));
 						SceneManager.LoadScene ("level1");
 						Destroy (lluvia);
 						Misiones mision = Camera.main.gameObject.GetComponent<Misiones>();

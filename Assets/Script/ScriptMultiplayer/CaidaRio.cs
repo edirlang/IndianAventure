@@ -18,6 +18,9 @@ public class CaidaRio : MonoBehaviour {
 			General.timepoChia = 10;
 			GameObject player = GameObject.Find(Network.player.ipAddress);
 			GameObject chia = Instantiate (chiaPrefab,  player.transform.position, player.transform.rotation) as GameObject;
+						if (General.misionActual [0] == "3") {
+								chia.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+						}
 			chia.GetComponent<ChiaPerseguir>().mensajeChia = "Haz perdido una vida \nTen cuidado la proxima vez";
 			chia.transform.parent = player.transform;
 			chia.transform.localPosition = new Vector3(0f, 8f,25f);

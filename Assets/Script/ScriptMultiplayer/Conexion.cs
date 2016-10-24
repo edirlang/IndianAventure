@@ -231,7 +231,7 @@ public class Conexion : MonoBehaviour
 						General.posicionIncial.y += 10f;
 				}
 
-		GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, 0);
+				GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, 0);
 				g.transform.localScale = new Vector3 (2, 2, 2);
 				g.AddComponent<BoxCollider> ();
 				g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
@@ -242,6 +242,10 @@ public class Conexion : MonoBehaviour
 
 				if (General.paso_mision == 1) {
 						g.transform.position = GameObject.Find ("PlayerJuego").transform.position;
+				}
+				if (GameObject.Find("Luz_tormenta")) {
+						Camera.main.GetComponent<Misiones>().luzrayos = GameObject.Find ("Luz_tormenta");
+						Camera.main.GetComponent<Misiones> ().luzrayos.SetActive (false);
 				}
 				//GameObject g = (GameObject) Network.Instantiate (General.personaje, transform.position, transform.rotation, 0);
 				//g.name = Network.player.ipAddress;

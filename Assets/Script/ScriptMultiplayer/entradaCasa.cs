@@ -9,6 +9,7 @@ public class entradaCasa : MonoBehaviour
 		bool trasportar;
 		public GameObject dentro, fuera, camara;
 		float tiempo;
+		public int numeroCasa;
 		// Use this for initialization
 		void Start ()
 		{
@@ -60,8 +61,9 @@ public class entradaCasa : MonoBehaviour
 		public void OnTriggerEnter (Collider colision)
 		{
 				if (colision.tag == "Player") {
-						if (General.paso_mision == 7) {
-								player = colision.gameObject;
+						player = colision.gameObject;
+						if (General.paso_mision == 7 && General.misionActual[0] == "2") {
+								
 								tiempo = 5;
 								MoverMouse.cambioCamara = true;
 								trasportar = true;
@@ -69,11 +71,26 @@ public class entradaCasa : MonoBehaviour
 										Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 										mision.procesoMision2 (General.paso_mision);
 								}
-						} else if(General.paso_mision == 9 && General.misionActual[0]=="3"){
-								player = colision.gameObject;
-								tiempo = 5;
-								MoverMouse.cambioCamara = true;
-								trasportar = true;
+						} else  if(General.paso_mision == 7 && General.misionActual[0]=="3"){
+								
+								Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
+								if (soyEntrar && numeroCasa == mision.numeroLlave) {
+										MoverMouse.cambioCamara = true;
+										trasportar = true;
+										mision.procesoMision3 (General.paso_mision);
+								}
+						}else  if(General.paso_mision == 8 && General.misionActual[0]=="3"){
+								Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
+								if (numeroCasa == mision.numeroLlave) {
+										trasportar = true;
+								}
+						}else if(General.paso_mision == 11 && General.misionActual[0]=="3"){
+								Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
+								if (soyEntrar && numeroCasa == mision.numeroLlave) {
+										mision.procesoMision3 (General.paso_mision);
+										MoverMouse.cambioCamara = true;
+										trasportar = true;
+								}
 						}
 				}
 

@@ -4,9 +4,6 @@ var flickerSpeed : float = 0.07;
 
 private var randomizer : int = 0;
 
-function Start () {
-		DontDestroyOnLoad (transform.gameObject);
-}
 
 function Update () {
 	rayo();

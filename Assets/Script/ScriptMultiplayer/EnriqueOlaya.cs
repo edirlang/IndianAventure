@@ -60,10 +60,10 @@ public class EnriqueOlaya : MonoBehaviour {
 
 						if (General.paso_mision == 4) {
 								if (tiempo > 15) {
-										mensaje = "Bienvenido a la casona de Balmoral. \n ";
+										mensaje = "Bienvenido a la casona de Balmoral. \n Construida en 1870.";
 
 								} else if (tiempo > 10) {
-										mensaje = "Aquí se realizaron grandes reuniones \n para crear las leyes de nuestro país que rige actualmente.";
+										mensaje = "Aquí se realizaron grandes reuniones \n para crear las leyes de 1886 en nuestro país que rigen actualmente.";
 								} else if (tiempo > 8) {
 										mensaje = "Para continuar,";
 								}else if (tiempo > 0) {
