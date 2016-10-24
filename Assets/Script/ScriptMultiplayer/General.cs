@@ -107,6 +107,9 @@ public class General : MonoBehaviour {
 		yield return www;
 		if(www.error == null){
 			Misiones.cambio_mapa = true;
+						if(General.misionActual[0]=="5"){
+								General.misionActual[0] = "1";
+						}
 		}else{
 			Debug.Log(www.error);
 		}

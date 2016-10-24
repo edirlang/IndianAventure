@@ -6,7 +6,7 @@ public class introduccion : MonoBehaviour {
 
 		public GameObject lluviaPrefab, luz, rayos;
 		GameObject jugador, lluvia;
-		float tiempo = 30f;
+		float tiempo = 20f;
 		bool crearLlubia;
 	// Use this for initialization
 	void Start () {

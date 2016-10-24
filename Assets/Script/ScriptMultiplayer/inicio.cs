@@ -19,6 +19,8 @@ public class inicio : MonoBehaviour {
 		{
 			Application.LoadLevel("main");
 		}
+
+
 		string url = General.hosting+"consultarPersonaje";
 		WWWForm form = new WWWForm();
 		form.AddField("username", username);

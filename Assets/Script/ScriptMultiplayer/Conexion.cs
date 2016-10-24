@@ -132,7 +132,7 @@ public class Conexion : MonoBehaviour
 				GUI.Label (new Rect (Screen.width - 2 * (Screen.width / 20), 10, Screen.width / 10, Screen.height / 9), "x " + General.monedas);
 		
 				// Ayuda
-				if (GUI.Button (new Rect (Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 12, Screen.width / 12, Screen.height / 6), ayudaTexture)) {
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 12, Screen.width / 12, Screen.height / 6), ayudaTexture) && Application.loadedLevelName != "introduccion") {
 						Misiones.instanciar = true;
 						MoverMouse.movimiento = false;
 						MoverMouse.cambioCamara = true;
