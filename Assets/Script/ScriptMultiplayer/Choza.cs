@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.Networking;
 public class Choza : MonoBehaviour {
 	public bool cosntrullendo=false, activarBoton = false;
 	public float tiempo = 0;
@@ -15,6 +15,7 @@ public class Choza : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		posicionInstanciar = transform;
+			
 	}
 	
 	// Update is called once per frame
@@ -43,6 +44,7 @@ public class Choza : MonoBehaviour {
 					chozaLevel.transform.position = new Vector3(posicionInstanciar.position.x  - 4, posicionInstanciar.position.y, posicionInstanciar.position.z);
 
 					NetworkView nw = Camera.main.GetComponent<NetworkView>();
+
 					nw.RPC("crearChozaMultiplayer",RPCMode.OthersBuffered, player.name, posicionInstanciar.position, 2);
 					playerAnimator.SetBool("construir",false);
 

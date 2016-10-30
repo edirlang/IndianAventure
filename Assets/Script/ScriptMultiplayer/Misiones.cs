@@ -51,6 +51,7 @@ public class Misiones : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
+				
 				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 				if (General.misionActual [0] == "2" && General.paso_mision <= 5 && !maleta.estaTextura (tributo.name)) {
 						maleta.agregarTextura (tributo);
@@ -229,7 +230,8 @@ public class Misiones : MonoBehaviour
 
 				if (luzrayos == null) {
 						luzrayos = GameObject.Find ("Luz_tormenta");
-						luzrayos.SetActive (false);
+						if(GameObject.Find ("Luz_tormenta"))
+							luzrayos.SetActive (false);
 				}
 				if (terminoMision && General.timepo < 0) {
 						instanciar = true;
@@ -240,7 +242,7 @@ public class Misiones : MonoBehaviour
 						luzrayos.SetActive (false);
 				}
 
-				if(General.misionActual[0] == "2" && General.paso_mision == 7 && !GameObject.Find ("Rain(Clone)") && Application.loadedLevelName == "level2") {
+				if(General.misionActual[0] == "2" && General.paso_mision == 7 && !GameObject.Find ("Rain(Clone)") && SceneManager.GetActiveScene().name == "level2") {
 						GameObject lluvia = (GameObject)Instantiate (rain, transform.position, transform.rotation);
 						lluvia.transform.parent = transform;
 						RenderSettings.skybox = tormenta;
@@ -381,7 +383,7 @@ public class Misiones : MonoBehaviour
 								instanciar = true;
 								General.paso_mision = 4;
 								StartCoroutine (General.actualizarUser ());
-								GameObject[] hojas = GameObject.FindGameObjectsWithTag ("Hojas");
+								//GameObject[] hojas = GameObject.FindGameObjectsWithTag ("Hojas");
 						}
 						break;
 				case 4:
@@ -698,7 +700,6 @@ public class Misiones : MonoBehaviour
 				}
 				string mensaje = "";
 				if (General.timepo > 35) {
-						int idmision = int.Parse (General.misionActual [0]) - 1;
 						mensaje = "¡Felicitaciones! Haz terminado la misión, \n" + General.misionActual [1];
 				} else if (General.timepo > 30) {
 						mensaje = ", este será tu humilde hogar.";

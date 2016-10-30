@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Jose : MonoBehaviour {
 
@@ -14,7 +15,7 @@ public class Jose : MonoBehaviour {
 		void Start ()
 		{
 				if (General.username == "") {
-						Application.LoadLevel ("main");
+						SceneManager.LoadScene("main");
 				}
 				animator = GameObject.Find("Jose-Celestino-Mutis").GetComponent<Animator> ();
 		}

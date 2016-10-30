@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class menu : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class menu : MonoBehaviour
 				form.AddField ("username", General.username);
 				www2 = new WWW (url, form);
 				StartCoroutine (consultarMisionActual (www2));
+
+				MoverMouse.cambioCamara = false;
 		}
 	
 		// Update is called once per frame
@@ -128,11 +131,7 @@ public class menu : MonoBehaviour
 				if (General.misionActual [0] != "4") {
 						if (porcentaje == "100%" && GUI.Button (new Rect (4 * (Screen.width / 6), 9 * (Screen.height / 10), Screen.width / 6, Screen.height / 10), "Jugar")) {
 								opciones = 1;
-								if (General.paso_mision == 1 && General.misionActual [0] == "1") {
-										Application.LoadLevel ("introduccion");
-								} else {
-										Application.LoadLevel ("level1");
-								}
+								SceneManager.LoadScene ("lobyScena");
 						}
 				} else {
 						if(GUI.Button (new Rect (4 * (Screen.width / 6), 9 * (Screen.height / 10), Screen.width / 6, Screen.height / 10), "Reiniciar")){

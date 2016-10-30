@@ -38,7 +38,7 @@ public class MensajesCuriosos : MonoBehaviour {
 	}
 
 		void OnGUI(){
-				if (ver_mensaje) {
+				if (ver_mensaje && Camera.main.GetComponent<NetworkView>().isMine) {
 						GUIStyle style = new GUIStyle ();
 						style.alignment = TextAnchor.MiddleCenter;
 						style = GUI.skin.GetStyle ("Box");
@@ -51,7 +51,7 @@ public class MensajesCuriosos : MonoBehaviour {
 
 		public void OnTriggerEnter (Collider colision)
 		{
-				if (colision.tag == "Player") {
+				if (colision.gameObject.name == Network.player.ipAddress) {
 						ver_mensaje = true;
 						tiempo = 10;
 						if (numeroMensaje == 11) {

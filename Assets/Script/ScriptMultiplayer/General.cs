@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class General : MonoBehaviour {
 
@@ -34,7 +35,7 @@ public class General : MonoBehaviour {
 
 				if (salud <= 0) {
 						MoverMouse.cambioCamara = false;
-						Application.LoadLevel ("gameOver");
+						SceneManager.LoadScene("gameOver");
 						General.paso_mision = 1;
 						General.salud = 3;
 						StartCoroutine (actualizarUser ());
@@ -49,11 +50,11 @@ public class General : MonoBehaviour {
 						Camera.main.backgroundColor = Color.black;
 
 				} else {
-						Camera.main.clearFlags = CameraClearFlags.Skybox;
+						//Camera.main.clearFlags = CameraClearFlags.Skybox;
 				}
 
 				if (gameOvwer && tiempoOvwer <= 0) {
-						Application.LoadLevel ("level1");
+						SceneManager.LoadScene("level1");
 						gameOvwer = false;
 
 						Destroy (GameObject.Find ("Main Camera"));

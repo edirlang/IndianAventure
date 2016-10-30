@@ -31,14 +31,14 @@ public class ChozaLevel : MonoBehaviour {
 				style.alignment = TextAnchor.MiddleCenter;
 				style = GUI.skin.GetStyle ("Box");
 				style.fontSize = (int)(20.0f );
-				if(entro)
+				if(entro && Camera.main.GetComponent<NetworkView>().isMine)
 				{
 						GUI.Box(new Rect(0,3*Screen.height/4, Screen.width,Screen.height/4),"Vas a ser llevado al futuro, al año 1592, las cosas van a cambiar");
 				}
 		}
 
 		public void OnTriggerEnter(Collider colision){
-				if (colision.tag == "Player") {
+				if (colision.name == Network.player.ipAddress) {
 						player = colision.gameObject;
 
 						entro = true;

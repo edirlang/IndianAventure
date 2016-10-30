@@ -137,7 +137,7 @@ public class Virrey : MonoBehaviour {
 
 		public void OnTriggerEnter (Collider colision)
 		{
-				if (colision.tag == "Player") {
+				if (colision.name == Network.player.ipAddress) {
 						player =  colision.gameObject;
 						cambio = true;
 				}

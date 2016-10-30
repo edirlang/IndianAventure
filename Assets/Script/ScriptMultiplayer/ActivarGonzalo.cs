@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ActivarGonzalo : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class ActivarGonzalo : MonoBehaviour
 		void Start ()
 		{
 				if (General.username == "") {
-						Application.LoadLevel ("main");
+						SceneManager.LoadScene ("main", LoadSceneMode.Single);
 				}
 				equipo = new GameObject[3];
 				players = new ArrayList ();
@@ -180,7 +181,7 @@ public class ActivarGonzalo : MonoBehaviour
 
 		public void OnTriggerEnter (Collider colision)
 		{
-				if (colision.tag == "Player") {
+				if (colision.name == Network.player.ipAddress) {
 						players.Add (colision.gameObject);
 				}
 		}

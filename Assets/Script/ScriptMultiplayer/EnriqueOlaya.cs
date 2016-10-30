@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class EnriqueOlaya : MonoBehaviour {
 
@@ -14,7 +15,7 @@ public class EnriqueOlaya : MonoBehaviour {
 		void Start ()
 		{
 				if (General.username == "") {
-						Application.LoadLevel ("main");
+						SceneManager.LoadScene("main");
 				}
 		}
 

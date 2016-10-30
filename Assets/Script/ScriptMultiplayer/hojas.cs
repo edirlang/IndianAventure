@@ -54,7 +54,7 @@ public class hojas : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		if (tomaHojas) {
+				if (tomaHojas && Camera.main.GetComponent<NetworkView>().isMine) {
 			GUIStyle style = new GUIStyle ();
 			style.alignment = TextAnchor.MiddleCenter;
 			style = GUI.skin.GetStyle ("label");
@@ -64,7 +64,7 @@ public class hojas : MonoBehaviour {
 		}
 	}
 	public void OnTriggerEnter(Collider colision){
-		if (colision.tag == "Player" && General.paso_mision == 5) {
+				if (colision.gameObject.name == Network.player.ipAddress && General.paso_mision == 5) {
 			Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 			maleta.agregarTextura(hoja);
 			maleta.agregarTextura(hoja);

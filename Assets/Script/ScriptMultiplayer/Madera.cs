@@ -52,7 +52,7 @@ public class Madera : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		if (tomaMadera) {
+				if (tomaMadera && Camera.main.GetComponent<NetworkView>().isMine) {
 			GUIStyle style = new GUIStyle ();
 			style.alignment = TextAnchor.MiddleCenter;
 			style = GUI.skin.GetStyle ("label");
@@ -62,7 +62,7 @@ public class Madera : MonoBehaviour {
 	}
 
 	public void OnTriggerEnter(Collider colision){
-		if (colision.tag == "Player") {
+				if (colision.gameObject.name == Network.player.ipAddress) {
 			actualizar = true;
 
 			playerAnimator = colision.gameObject.GetComponent<Animator>();

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class AcionesBernardino : MonoBehaviour {
 
@@ -17,7 +18,7 @@ public class AcionesBernardino : MonoBehaviour {
 		void Start ()
 		{
 				if (General.username == "") {
-						Application.LoadLevel ("main");
+						SceneManager.LoadScene ("main", LoadSceneMode.Single);
 				}
 				equipo = new GameObject[3];
 				players = new ArrayList ();
@@ -156,7 +157,7 @@ public class AcionesBernardino : MonoBehaviour {
 
 		public void OnTriggerEnter (Collider colision)
 		{
-				if (colision.tag == "Player") {
+				if (colision.name == Network.player.ipAddress) {
 						players.Add (colision.gameObject);
 				}
 		}

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
-public class introduccion : MonoBehaviour {
+public class introduccion : NetworkBehaviour {
 
 		public GameObject lluviaPrefab, luz, rayos;
 		GameObject jugador, lluvia;
@@ -19,6 +20,7 @@ public class introduccion : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+				
 				if (GameObject.Find (Network.player.ipAddress) && crearLlubia) {
 						lluvia = (GameObject)Instantiate (lluviaPrefab, transform.position, transform.rotation);
 						lluvia.transform.parent = Camera.main.transform;
@@ -27,9 +29,8 @@ public class introduccion : MonoBehaviour {
 						Camera.main.name = "camaraPrincipal";
 				}
 
-				if (Network.peerType != NetworkPeerType.Disconnected) {
-						tiempo -= Time.deltaTime;
-				}
+				tiempo -= Time.deltaTime;
+
 				if (tiempo < 0) {
 						luz.GetComponent<Light> ().color = Color.white;
 						luz.GetComponent<Light> ().intensity = 8;
@@ -42,6 +43,7 @@ public class introduccion : MonoBehaviour {
 	}
 
 		void OnGUI(){
+
 
 				GUIStyle style = new GUIStyle ();
 				style.alignment = TextAnchor.MiddleCenter;

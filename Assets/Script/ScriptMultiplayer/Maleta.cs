@@ -87,7 +87,7 @@ public class Maleta : MonoBehaviour
 				for (int i = 0; i < imagenes.Length; i++) {
 						if (objeto [i, 0] == textura) {
 								return true;
-								break;
+
 						}
 				}
 				return false;

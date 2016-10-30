@@ -10,7 +10,7 @@ public class Conexion : MonoBehaviour
 		public GameObject chozaFinal;
 		public Texture corazonTexture;
 		public Texture monedasTexture;
-		public Texture ayudaTexture;
+		public Texture ayudaTexture, chat, menu, correr1, correr2;
 		public string textoAyuda = "Chia";
 		public static string mensaje = "";
 		private ArrayList mensajes;
@@ -32,11 +32,11 @@ public class Conexion : MonoBehaviour
 						Destroy (gameObject);
 						Destroy (GameObject.Find ("Luz"));
 				}
+
 				color = new Color (Random.Range (0.0f, 0.7f), Random.Range (0.0f, 0.7f), Random.Range (0.0f, 0.7f));
 				mensajes = new ArrayList ();
 				nw = GetComponent<NetworkView> ();
 				DontDestroyOnLoad (this.gameObject);
-				DontDestroyOnLoad (GameObject.Find("Luz"));
 				reiniciar = false;
 				if (Application.isMobilePlatform) {
 						tiempo_reinicio = 2f;
@@ -47,6 +47,10 @@ public class Conexion : MonoBehaviour
 		{
 				if (GameObject.Find ("MainCamera2")) {
 						Destroy (GameObject.Find ("MainCamera2"));
+				}
+
+				if (GameObject.Find ("Main Camera")) {
+						Destroy (GameObject.Find ("Main Camera"));
 				}
 
 				if (GameObject.Find ("camaraPrincipal") && Application.loadedLevelName != "introduccion") {
@@ -88,10 +92,19 @@ public class Conexion : MonoBehaviour
 				} else {
 						pantallaJuego ();
 						if (!abrirMenu && !verChat) {
-								if (GUI.Button (new Rect (13 * (Screen.width / 16), 5 * (Screen.height / 6), Screen.width / 6, Screen.height / 10), "Menu")) {
+								if (GUI.Button (new Rect (15 * (Screen.width / 16), 5 * (Screen.height / 6), Screen.height/8, Screen.height/8), menu)) {
 										abrirMenu = true;
 										MoverMouse.movimiento = false;
 										MoverMouse.cambioCamara = true;
+								}
+								if (GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed == 3) {
+										if (GUI.Button (new Rect (14 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height / 8, 5 * (Screen.height / 16)), correr1)) {
+												GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed = 8f;
+										}
+								} else {
+										if (GUI.Button (new Rect (14 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height / 8, 5 * (Screen.height / 16)), correr2)) {
+												GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed = 3f;
+										}
 								}
 						}
 				}
@@ -99,7 +112,7 @@ public class Conexion : MonoBehaviour
 				if (salir) {
 						Network.Disconnect (200);
 						StartCoroutine (General.actualizarUser ());
-						Application.LoadLevel ("menu");
+						Application.LoadLevel ("lobyScena");
 						GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 						foreach (GameObject jugador in players) {
 								Destroy(jugador);
@@ -123,22 +136,20 @@ public class Conexion : MonoBehaviour
 				style.fontSize = (int)(25.0f);
 				style.alignment = TextAnchor.LowerLeft;
 				// Vidas
-				GUI.Box (new Rect (0, 10, Screen.width / 10, Screen.height / 9), corazonTexture, style);
-				GUI.Label (new Rect (Screen.width / 10, 10, Screen.width / 10, Screen.height / 9), "x " + General.salud + "");
+				GUI.Box (new Rect (Screen.width - 5 * (Screen.width / 20) , 10, Screen.width / 10, Screen.height / 9), corazonTexture, style);
+				GUI.Label (new Rect (Screen.width - 4 * (Screen.width / 20), 10, Screen.width / 10, Screen.height / 9), "x " + General.salud + "");
 
 				//Monedas
 				GUI.Box (new Rect (Screen.width - 3 * (Screen.width / 20), 10, Screen.width / 10, Screen.height / 9), monedasTexture, style);
 
 				GUI.Label (new Rect (Screen.width - 2 * (Screen.width / 20), 10, Screen.width / 10, Screen.height / 9), "x " + General.monedas);
-		
+
 				// Ayuda
-				if (GUI.Button (new Rect (Screen.width - Screen.width / 7, Screen.height / 2 - Screen.height / 12, Screen.width / 12, Screen.height / 6), ayudaTexture) && Application.loadedLevelName != "introduccion") {
+				if (GUI.Button (new Rect (Screen.width/30 , 9 * (Screen.height / 12) , Screen.height/6, Screen.height / 6), ayudaTexture) && Application.loadedLevelName != "introduccion") {
 						Misiones.instanciar = true;
 						MoverMouse.movimiento = false;
 						MoverMouse.cambioCamara = true;
 				}
-
-				GUI.Label (new Rect (Screen.width - Screen.width / 10, Screen.height / 2, Screen.width / 12, Screen.height / 9), textoAyuda);
 
 				if (abrirMenu) {
 						GUI.Box (new Rect (0, 0, Screen.width, Screen.height), "Menu Pausa");
@@ -168,7 +179,7 @@ public class Conexion : MonoBehaviour
 								style.fontSize = (int)(15.0f);
 								chatVer ();
 						} else {
-								if (GUI.Button (new Rect (13 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.width / 6, Screen.height / 10), "Chat")) {
+								if (GUI.Button (new Rect (15 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height/8, Screen.height/8), chat)) {
 										verChat = true;
 										MoverMouse.movimiento = false;
 										MoverMouse.cambioCamara = true;
@@ -246,6 +257,21 @@ public class Conexion : MonoBehaviour
 				if (GameObject.Find("Luz_tormenta")) {
 						Camera.main.GetComponent<Misiones>().luzrayos = GameObject.Find ("Luz_tormenta");
 						Camera.main.GetComponent<Misiones> ().luzrayos.SetActive (false);
+				}
+				switch(int.Parse(General.misionActual[0])){
+				case 1:
+						if (General.paso_mision == 1 && General.misionActual [0] == "1") {
+								Application.LoadLevel("introduccion");
+						} else {
+								Application.LoadLevel("level1");
+						}
+						break;
+				case 2:
+						Application.LoadLevel("level2");
+						break;
+				case 3:
+						Application.LoadLevel("level2");
+						break;
 				}
 				//GameObject g = (GameObject) Network.Instantiate (General.personaje, transform.position, transform.rotation, 0);
 				//g.name = Network.player.ipAddress;
@@ -364,12 +390,12 @@ public class Conexion : MonoBehaviour
 								mensaje = "¿Dónde consigo Madera?";
 								verChat = false;
 						}
-			
+
 						if (GUI.Button (new Rect (0, 3 * (Screen.height / 16), Screen.width / 3, Screen.height / 16), "¿Dónde consigo arcilla?")) {
 								mensaje = "¿Dónde consigo arcilla?";
 								verChat = false;
 						}
-			
+
 						if (GUI.Button (new Rect (0, 4 * (Screen.height / 16), Screen.width / 3, 2 * (Screen.height / 16)), "¿Dónde consigo Hojas de \n Palma boba?")) {
 								mensaje = "¿Dónde consigo Hojas de Palma boba?";
 								verChat = false;
@@ -379,7 +405,7 @@ public class Conexion : MonoBehaviour
 								mensaje = "¿Dónde esta Nuestra señora de Altagracia?";
 								verChat = false;
 						}
-			
+
 						if (GUI.Button (new Rect (0, 4 * (Screen.height / 16), Screen.width / 3, 2 * (Screen.height / 16)), "¿Necesito un equipo?")) {
 								mensaje = "¿Necesito un equipo?.[" + General.username;
 								MoverMouse.jugadoresEquipo [0] = General.username;
@@ -411,7 +437,7 @@ public class Conexion : MonoBehaviour
 		{
 				NetworkServer.DestroyPlayersForConnection (conn);
 		}
-		 
+
 		[RPC]
 		public void recibir (string text, string usuario, string color)
 		{

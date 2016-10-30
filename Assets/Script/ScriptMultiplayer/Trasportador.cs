@@ -53,7 +53,7 @@ public class Trasportador : MonoBehaviour
 
 		public void OnTriggerEnter (Collider colision)
 		{
-				if (colision.tag == "Player") {
+				if (colision.gameObject.name == Network.player.ipAddress) {
 						player = colision.gameObject;
 						animator = player.GetComponent<Animator> ();
 						efecto.SetActive(true);

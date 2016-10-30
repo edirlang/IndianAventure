@@ -33,7 +33,7 @@ public class Fuego : MonoBehaviour
 
 		public void OnTriggerEnter (Collider colision)
 		{
-				if (colision.tag == "Player") {
+				if (colision.name == Network.player.ipAddress) {
 						quemarse = true;
 						tiempo = 5;
 

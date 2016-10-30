@@ -9,7 +9,7 @@ public class MoverMouse : MonoBehaviour
 		public float speed = 3f, gravity;
 		public static bool movimiento, equipo = false;
 		public static bool cambioCamara = false;
-		bool solicitudEquipo = false;
+		bool solicitudEquipo = false, ubicar=true;
 		float x,y;
 		private NetworkView nw;
 		private Animator animator;
@@ -41,10 +41,16 @@ public class MoverMouse : MonoBehaviour
 						Misiones.instanciar = true;
 				}
 		}
-	
+
 		// Update is called once per frame
 		void Update ()
 		{
+				if (General.paso_mision == 0 || General.paso_mision == 1) {
+						if (GameObject.Find ("PlayerJuego") && ubicar) {
+								transform.position = GameObject.Find ("PlayerJuego").transform.position;
+								ubicar = false;
+						}
+				}
 
 				if(GameObject.Find ("camara")){
 						GameObject camaraMapa = GameObject.Find ("camara");
@@ -57,11 +63,11 @@ public class MoverMouse : MonoBehaviour
 				nw = GetComponent<NetworkView> ();
 
 				Ray ray = new Ray ();
-		
+
 				if (Input.GetMouseButtonDown (0)) {
 						RaycastHit hit;
 						ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			
+
 						if (Physics.Raycast (ray, out hit)) {
 								posicion = hit.point;
 						}
@@ -98,14 +104,14 @@ public class MoverMouse : MonoBehaviour
 
 						animator.SetFloat ("speed", 1.0f);
 						if(Application.loadedLevelName != "introduccion")
-							nw.RPC ("activarCaminar", RPCMode.AllBuffered, 1.0f);
+								nw.RPC ("activarCaminar", RPCMode.AllBuffered, 1.0f);
 
 
 				} else {
 						moveDirection = Vector3.zero;
 						animator.SetFloat ("speed", 0.0f);
 						if(Application.loadedLevelName != "introduccion")
-							nw.RPC ("activarCaminar", RPCMode.AllBuffered, 0.0f);
+								nw.RPC ("activarCaminar", RPCMode.AllBuffered, 0.0f);
 				}
 
 				moveDirection.y -= gravity * Time.deltaTime;
@@ -115,7 +121,7 @@ public class MoverMouse : MonoBehaviour
 
 		void OnGUI ()
 		{
-				
+
 				for (int i = 0; i < 3; i++) {
 						GUI.Label (new Rect (0, i * (Screen.height / 4), Screen.width / 3, Screen.height / 4), jugadoresEquipo [i]);
 				}

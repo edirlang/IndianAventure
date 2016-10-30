@@ -56,7 +56,7 @@ public class barro : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		if (tomabarro) {
+				if (tomabarro && Camera.main.GetComponent<NetworkView>().isMine) {
 			GUIStyle style = new GUIStyle ();
 			style.alignment = TextAnchor.MiddleCenter;
 			style = GUI.skin.GetStyle ("label");
@@ -65,7 +65,7 @@ public class barro : MonoBehaviour {
 		}
 	}
 	public void OnTriggerEnter(Collider colision){
-		if (colision.tag == "Player") {
+				if (colision.gameObject.name == Network.player.ipAddress) {
 			player = colision.gameObject;
 			playerAnimator = colision.gameObject.GetComponent<Animator>();
 			playerAnimator.SetBool("recojer",true);
