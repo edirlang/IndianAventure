@@ -7,7 +7,6 @@ public class Virrey : MonoBehaviour {
 		public GameObject virrey, premio, permiso;
 		public Texture premioTextura;
 		GameObject gonzaloInstanciado;
-		public int contador = 0;
 		GameObject player;
 		ArrayList players;
 		public float tiempo = -1f;
@@ -39,19 +38,10 @@ public class Virrey : MonoBehaviour {
 
 						if (cambio) {
 								if (General.paso_mision == 5) {
-										contador = 0;
-										for (int i = 0; i < 3; i++) {
-												if (MoverMouse.jugadoresEquipo [i] != null && MoverMouse.jugadoresEquipo [i] != "") {
-														contador++;
-												}
-										}
-										if (contador >= 3) {
-												tiempo = 25;
-												iniciarConversasion = true;
-										} else {
-												
-												iniciarConversasion = false;
-										}
+										tiempo = 25;
+										iniciarConversasion = true;
+								} else {
+										iniciarConversasion = false;
 								}
 								cambio = false;
 						} 
@@ -67,23 +57,19 @@ public class Virrey : MonoBehaviour {
 								if (tiempo > 20) {
 										mensaje = "Bienvenidos a Altagracia de Sumapaz,";
 								} else if (tiempo > 15) {
-										mensaje = "he aquí les recibo sus tributos y les entrego este permiso.";
+										mensaje = "he aquí recibo sus tributos y te entrego este permiso.";
 										if (!GameObject.Find ("pieza0")) {
+												GameObject pieza = (GameObject)Instantiate (premio, virrey.transform.position, transform.rotation);
+												pieza.transform.parent = virrey.transform;
+												pieza.transform.rotation = new Quaternion ();
+												pieza.transform.Rotate (0,265,0);
+												pieza.transform.localPosition = new Vector3 (-2.25f, 0.2f, -3f);
+												pieza.name = "pieza0";
 
-												for (int i = 0; i < 3; i++) {
-														GameObject pieza = (GameObject)Instantiate (premio, virrey.transform.position, transform.rotation);
-														pieza.transform.parent = virrey.transform;
-														pieza.transform.rotation = new Quaternion ();
-														pieza.transform.Rotate (0,265,0);
-														pieza.transform.localPosition = new Vector3 (-2.25f, 0.2f + i, -3f + i);
-														pieza.name = "pieza" + i;
-												}
 												Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 												maleta.eliminarTextura ("premio");
 										} else {
 												GameObject.Find ("pieza0").transform.Rotate (-10f * Time.deltaTime, 0f, 0f); 
-												GameObject.Find ("pieza1").transform.Rotate (-10f * Time.deltaTime, 0f, 0f);
-												GameObject.Find ("pieza2").transform.Rotate (-10f * Time.deltaTime, 0f, 0f);
 
 												if (!GameObject.Find ("permiso")) {
 														GameObject permisoObj = (GameObject)Instantiate (permiso, virrey.transform.position, transform.rotation);
@@ -98,8 +84,6 @@ public class Virrey : MonoBehaviour {
 								} else if (tiempo > 10) {
 										mensaje = "Llevadlo a Bernardino de Albornoz que se encuentra en Fusagasugá, y entregadlo.";
 										GameObject.Find ("pieza0").transform.Translate(0.01f,0,0); 
-										GameObject.Find ("pieza1").transform.Translate(0.01f,0,0); 
-										GameObject.Find ("pieza2").transform.Translate(0.01f,0,0); 
 										GameObject.Find ("permiso").transform.Translate(-0.01f,0,0); 
 
 
@@ -121,8 +105,6 @@ public class Virrey : MonoBehaviour {
 								//Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 								//mision.procesoMision2 (General.paso_mision);
 								Destroy(GameObject.Find ("pieza0"));
-								Destroy(GameObject.Find ("pieza1"));
-								Destroy(GameObject.Find ("pieza2"));
 								Destroy(GameObject.Find ("permiso"));
 								Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 								maleta.agregarTextura (premioTextura);

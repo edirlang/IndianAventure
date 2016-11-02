@@ -9,7 +9,7 @@ public class Misiones : MonoBehaviour
 		public Texture tributo, certificado, llave, cruz, articulos, titulo;
 		public GameObject rain, luzrayos, luz, luzrayosprefab;
 		public Material tormenta;
-		public GameObject piezaOro, pjR12, pjR22, pjR32;
+		public GameObject piezaOro, pjR12, pjR22, pjR32, pjR13, pjR23, pjR33;
 		public bool terminoMision = false;
 		Mision mision1, mision2;
 		GameObject ayudaPersonaje;
@@ -52,6 +52,20 @@ public class Misiones : MonoBehaviour
 		void Update ()
 		{
 				
+				if (General.misionActual [0] == "3") {
+						switch (General.idPersonaje) {
+						case 1: 
+								General.personaje = pjR13;
+								break;
+						case 2:
+								General.personaje = pjR23;
+								break;
+						case 3:
+								General.personaje = pjR33;
+								break;
+						}
+				}
+
 				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 				if (General.misionActual [0] == "2" && General.paso_mision <= 5 && !maleta.estaTextura (tributo.name)) {
 						maleta.agregarTextura (tributo);
@@ -96,8 +110,8 @@ public class Misiones : MonoBehaviour
 										General.timepo = 35;
 										General.timepoChia = 36;
 								} else if (General.misionActual [0] == "3") {
-										General.timepo = 26;
-										General.timepoChia = 26.5f;
+										General.timepo = 30;
+										General.timepoChia = 30.5f;
 								} else{
 										General.timepo = 15;
 										General.timepoChia = 16;
@@ -186,14 +200,22 @@ public class Misiones : MonoBehaviour
 								Destroy (GameObject.Find ("camara"));
 								SceneManager.LoadScene ("level3");
 
-								Camera.main.transform.parent = GameObject.Find ("PlayerJuego").transform;
-								GameObject.Find (Network.player.ipAddress).transform.localScale = new Vector3(1f,1f,1f);
+								Camera.main.transform.parent = GameObject.Find ("IniciarVariables").transform;
 								Misiones.cambio_mapa = true;
+
+								Network.Destroy (GameObject.Find (Network.player.ipAddress));
+								GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, 1);
+								g.transform.localScale = new Vector3 (1, 1, 1);
+								g.AddComponent<BoxCollider> ();
+								g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
+
+								g.name = Network.player.ipAddress;
 						}
 						if (GameObject.Find("Luz_tormenta")) {
 								luzrayos = GameObject.Find ("Luz_tormenta");
 								luzrayos.SetActive (false);
 						}
+						MoverMouse.movimiento = true;
 				}
 
 				if (General.misionActual [0] == "4" && Network.peerType != NetworkPeerType.Disconnected && General.timepo <= 0) {
@@ -233,7 +255,13 @@ public class Misiones : MonoBehaviour
 						if(GameObject.Find ("Luz_tormenta"))
 							luzrayos.SetActive (false);
 				}
+
+				if (luz == null) {
+						luz = GameObject.Find ("Luz");
+				}
+
 				if (terminoMision && General.timepo < 0) {
+						Camera.main.transform.parent = GameObject.Find ("IniciarVariables").transform;
 						instanciar = true;
 						terminoMision = false;
 						Conexion conexion = Camera.main.gameObject.GetComponent<Conexion>();
@@ -249,7 +277,6 @@ public class Misiones : MonoBehaviour
 						GameObject.Find ("Luz").SetActive (false);
 						luzrayos.SetActive (true);
 				}
-
 
 		}
 
@@ -506,7 +533,7 @@ public class Misiones : MonoBehaviour
 						break;
 				case 2:
 			//instanciar = true;
-						General.paso_mision = 3;
+						General.paso_mision = 5;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 3:

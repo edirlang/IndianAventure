@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class menu : MonoBehaviour
 {
 
-		public GameObject objetoInstanciar, pj1, pj2, pj3, pj12, pj22, pj32, pjR12, pjR22, pjR32;
+		public GameObject objetoInstanciar, pj1, pj2, pj3, pj12, pj22, pj13, pj23, pj33, pj32, pjR12, pjR22, pjR32;
 		public GameObject Ubicacioncamara;
 		public Texture monedas, vidas;
 		private string[] misiones, mision;
@@ -58,6 +58,7 @@ public class menu : MonoBehaviour
 								break;
 						}
 				}
+
 		}
 
 		void OnGUI ()
@@ -235,22 +236,28 @@ public class menu : MonoBehaviour
 						if (General.idPersonaje == 1) {
 								if (General.misionActual [0] == "1") {
 										personaje = Instantiate (pj1, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
-								} else {
+								} else if (General.misionActual [0] == "2") {
 										personaje = Instantiate (pj12, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+								} else {
+										personaje = Instantiate (pj13, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
 								}
 								personaje.tag = "Player";
 						} else if (General.idPersonaje == 2) {
 								if (General.misionActual [0] == "1") {
 										personaje = Instantiate (pj2, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
-								} else {
+								} else if (General.misionActual [0] == "2") {
 										personaje = Instantiate (pj22, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+								}else {
+										personaje = Instantiate (pj23, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
 								}
 								personaje.tag = "Player";
 						} else if (General.idPersonaje == 3) {
 								if (General.misionActual [0] == "1") {
 										personaje = Instantiate (pj3, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject; 
-								} else {
+								} else if (General.misionActual [0] == "2") {
 										personaje = Instantiate (pj32, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
+								}else {
+										personaje = Instantiate (pj33, objetoInstanciar.transform.position, objetoInstanciar.transform.rotation) as GameObject;
 								}
 								personaje.tag = "Player";
 						}

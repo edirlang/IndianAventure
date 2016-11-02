@@ -7,21 +7,22 @@ public class AcionesBernardino : MonoBehaviour {
 		public string mensaje;
 		public static GameObject[] equipo;
 		public GameObject bernardino, permiso, llave;
-		public int contador = 0;
 		GameObject player;
 		ArrayList players;
 		public float tiempo = -1f;
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
 		bool entro;
+		Animator animator;
 		// Use this for initialization
 		void Start ()
 		{
 				if (General.username == "") {
-						SceneManager.LoadScene ("main", LoadSceneMode.Single);
+						SceneManager.LoadScene ("lobyScena", LoadSceneMode.Single);
 				}
 				equipo = new GameObject[3];
 				players = new ArrayList ();
+				animator = bernardino.GetComponent<Animator> ();
 		}
 
 		// Update is called once per frame
@@ -40,8 +41,9 @@ public class AcionesBernardino : MonoBehaviour {
 								moveDirection = new Vector3 (0, 0, 1);
 								moveDirection = bernardino.transform.TransformDirection (moveDirection);
 								moveDirection *= 2;
-
+								animator.SetFloat ("speed",1.0f);
 						} else {
+								animator.SetFloat ("speed",0f);
 								moveDirection = Vector3.zero;
 								iniciarConversasion = true;
 								persegir = false;
@@ -66,14 +68,8 @@ public class AcionesBernardino : MonoBehaviour {
 
 								player = (GameObject)players [0];
 								persegir = true;
-								contador = 0;
-								for (int i = 0; i < 3; i++) {
-										if (MoverMouse.jugadoresEquipo [i] != null && MoverMouse.jugadoresEquipo [i] != "") {
-												contador++;
-										}
-								}
 
-								if (General.paso_mision == 6 && contador >= 1) {
+								if (General.paso_mision == 6) {
 										tiempo = 48;
 
 								} else {
@@ -93,7 +89,7 @@ public class AcionesBernardino : MonoBehaviour {
 		{
 				if (iniciarConversasion && player.GetComponent<NetworkView> ().isMine) {
 
-						if (General.paso_mision == 6 && contador >= 1) {
+						if (General.paso_mision == 6) {
 								if (tiempo > 40) {
 										mensaje = "Bienvenidos amigos míos, os recibo el permiso \n de vuestro virrey para poder entregarles las llaves de su casa.";
 										if (!GameObject.Find ("permiso") && tiempo < 44) {

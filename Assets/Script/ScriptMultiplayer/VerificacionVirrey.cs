@@ -15,16 +15,8 @@ public class VerificacionVirrey : MonoBehaviour {
 
 		public void OnTriggerEnter (Collider colision)
 		{
-				if (colision.tag == "Player") {
-						int contador = 0;
-						for (int i = 0; i < 3; i++) {
-								if (MoverMouse.jugadoresEquipo [i] != null && MoverMouse.jugadoresEquipo [i] != "") {
-										contador++;
-
-								}
-						}
-						Debug.Log (contador);
-						if (contador < 3) {
+				if (colision.name == Network.player.ipAddress) {
+						if (General.paso_mision != 5) {
 								colision.gameObject.transform.position = GameObject.Find ("pasca").transform.position;
 						}
 				}

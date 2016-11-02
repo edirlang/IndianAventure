@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEngine.Networking;
 
-public class introduccion : NetworkBehaviour {
+public class introduccion : MonoBehaviour {
 
 		public GameObject lluviaPrefab, luz, rayos;
 		GameObject jugador, lluvia;
@@ -26,7 +25,6 @@ public class introduccion : NetworkBehaviour {
 						lluvia.transform.parent = Camera.main.transform;
 						lluvia.transform.localPosition = Vector3.zero;
 						crearLlubia = false;
-						Camera.main.name = "camaraPrincipal";
 				}
 
 				tiempo -= Time.deltaTime;

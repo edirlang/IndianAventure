@@ -92,7 +92,7 @@ public class Choza : MonoBehaviour {
 	}
 
 	public void OnTriggerEnter(Collider colision){
-		if (colision.tag == "Player") {
+				if (colision.name == Network.player.ipAddress) {
 			player = colision.gameObject;
 			playerAnimator = colision.gameObject.GetComponent<Animator>();
 			
@@ -103,7 +103,7 @@ public class Choza : MonoBehaviour {
 	}
 
 	public void OnTriggerExit(Collider colision){
-		if (colision.tag == "Player") {
+				if (colision.name == Network.player.ipAddress) {
 			if(General.paso_mision == 7 && General.misionActual[0] == "1"){
 				player = colision.gameObject;
 				activarBoton = false;

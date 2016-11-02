@@ -5,6 +5,7 @@ public class interfaz_login : MonoBehaviour
 {
 
 		public Texture BoxTexture;
+		public Texture fondo;
 		private string username = "";
 		private string Usuario = "";
 		private bool resultado = false;
@@ -50,12 +51,18 @@ public class interfaz_login : MonoBehaviour
 				style = GUI.skin.GetStyle ("textField");
 				style.fontSize = (int)(30.0f);
 
+
 				if (!resultado) {
 						style.alignment = TextAnchor.MiddleCenter;
-			
-						GUI.Box (new Rect (1, 1, Screen.width, Screen.height), BoxTexture, style);
-			
-						GUI.Box (new Rect (Screen.width / 10, Screen.height / 10, Screen.width - 2 * (Screen.width / 10), Screen.height - 2 * (Screen.height / 10)), "Bienvenidos a Natives");
+
+						//GUI.Box (new Rect (0, 0, Screen.width, Screen.height), fondo);
+						style = GUI.skin.GetStyle ("label");
+						style.fontSize = (int)(40.0f);
+
+						GUI.Label (new Rect (Screen.width / 2 - Screen.width / 4, Screen.height / 10, Screen.width / 2, (Screen.height / 10)), "Bienvenidos a Natives");
+
+						style = GUI.skin.GetStyle ("label");
+						style.fontSize = (int)(30.0f);
 
 						if (GUI.Button (new Rect (5 * (Screen.width / 8), 6 * (Screen.height / 8), Screen.width / 4, Screen.height / 10), "Salir")) {
 								Application.Quit ();
@@ -101,6 +108,8 @@ public class interfaz_login : MonoBehaviour
 						Application.LoadLevel ("selecionarPersonaje");
 			
 				}
+
+				GUI.color = Color.white;
 		}
 
 		public void registrarUsuario ()

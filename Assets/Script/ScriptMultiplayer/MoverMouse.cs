@@ -13,7 +13,6 @@ public class MoverMouse : MonoBehaviour
 		float x,y;
 		private NetworkView nw;
 		private Animator animator;
-		public static string[] jugadoresEquipo;
 
 		public static Vector3 targetObjeto;
 		public Texture mapa;
@@ -23,17 +22,20 @@ public class MoverMouse : MonoBehaviour
 		{
 				DontDestroyOnLoad (this.gameObject);
 
-				MoverMouse.jugadoresEquipo = new string[3];
 				MoverMouse.movimiento = true;
 				nw = GetComponent<NetworkView> ();
 				animator = GetComponent<Animator> ();
 
 				posicion = transform.position;
 
-				if (General.paso_mision == 1 && nw.isMine && Application.loadedLevelName != "introduccion") {
+				if (General.paso_mision == 1 && nw.isMine && Application.loadedLevelName != "lobyScena") {
+						Debug.Log ("Llamando a chia en "+ Application.loadedLevelName);
 						if (General.misionActual [0] == "2") {
 								General.timepo = 35;
 								General.timepoChia = 35;
+						} else if (General.misionActual [0] == "3") {
+								General.timepo = 30;
+								General.timepoChia = 30.5f;
 						} else {
 								General.timepo = 15;
 								General.timepoChia = 15;
@@ -45,22 +47,22 @@ public class MoverMouse : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-				if (General.paso_mision == 0 || General.paso_mision == 1) {
+				General.posicionIncial = transform.position;
+				animator = GetComponent<Animator> ();
+				nw = GetComponent<NetworkView> ();
+
+				if (General.paso_mision == 0 || General.paso_mision == 1 ) {
 						if (GameObject.Find ("PlayerJuego") && ubicar) {
 								transform.position = GameObject.Find ("PlayerJuego").transform.position;
 								ubicar = false;
 						}
 				}
 
-				if(GameObject.Find ("camara")){
+				if(GameObject.Find ("camara") && nw.isMine){
 						GameObject camaraMapa = GameObject.Find ("camara");
 						camaraMapa.transform.parent = gameObject.transform;
 						camaraMapa.transform.localPosition = new Vector3(0f,10f,0f);
 				}
-
-				General.posicionIncial = transform.position;
-				animator = GetComponent<Animator> ();
-				nw = GetComponent<NetworkView> ();
 
 				Ray ray = new Ray ();
 
@@ -74,7 +76,7 @@ public class MoverMouse : MonoBehaviour
 				}
 
 				if (nw.isMine && !cambioCamara) {
-						GameObject camara = GameObject.FindGameObjectWithTag ("MainCamera");
+						GameObject camara = Camera.main.gameObject;
 						camara.transform.parent = transform;
 						camara.transform.localRotation = new Quaternion ();
 						camara.transform.Rotate (new Vector3 (20f, 0, 0));
@@ -116,15 +118,6 @@ public class MoverMouse : MonoBehaviour
 
 				moveDirection.y -= gravity * Time.deltaTime;
 				controller.Move (moveDirection * Time.deltaTime);
-
-		}
-
-		void OnGUI ()
-		{
-
-				for (int i = 0; i < 3; i++) {
-						GUI.Label (new Rect (0, i * (Screen.height / 4), Screen.width / 3, Screen.height / 4), jugadoresEquipo [i]);
-				}
 
 		}
 

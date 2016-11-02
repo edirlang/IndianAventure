@@ -8,7 +8,6 @@ public class ActivarGonzalo : MonoBehaviour
 		public GameObject gonzalo;
 		public static GameObject[] equipo;
 		GameObject gonzaloInstanciado;
-		public int contador = 0;
 		GameObject player;
 		ArrayList players;
 		public float tiempo = -1f;
@@ -76,25 +75,15 @@ public class ActivarGonzalo : MonoBehaviour
 										tiempo = 25;
 								} else if (General.paso_mision == 3) {
 										tiempo = 15;
-										contador = 0;
-										for (int i = 0; i < 3; i++) {
-												if (MoverMouse.jugadoresEquipo [i] != null && MoverMouse.jugadoresEquipo [i] != "") {
-														contador++;
-												}
-										}
 
-										if (contador >= 3 && General.paso_mision == 3) {
+
+										if (General.paso_mision == 3) {
 												tiempo = 15;
 												Camera.main.GetComponent<Misiones> ().procesoMision2 (General.paso_mision);
 										}
 								} else {
-										for (int i = 0; i < 3; i++) {
-												if (MoverMouse.jugadoresEquipo [i] != null && MoverMouse.jugadoresEquipo [i] != "") {
-														contador++;
-												}
-										}
-
-										if (contador >= 3 && General.paso_mision >= 3) {
+										
+										if (General.paso_mision >= 3) {
 												tiempo = 5;
 												mensaje = "podéis pasar, sean respetuosos con su virrey.";
 												//GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;
@@ -102,7 +91,6 @@ public class ActivarGonzalo : MonoBehaviour
 												tiempo = 8;
 												mensaje = "Recuerda que debes unirte con otros compañeros y completar tres tributos.\n Así podrán hablar con el virrey. ";
 										}
-
 								}
 
 								players.RemoveAt (0);
@@ -112,7 +100,7 @@ public class ActivarGonzalo : MonoBehaviour
 						}
 				}
 
-				if (tiempo < 0 && contador < 3) {
+				if (tiempo < 0 && General.paso_mision <= 2 ) {
 						GameObject reja = GameObject.Find ("Reja");
 						if(reja.transform.localPosition.z > -4.798f)
 							reja.transform.Translate (-0.02f, 0, 0);
@@ -129,11 +117,12 @@ public class ActivarGonzalo : MonoBehaviour
 								if (tiempo > 20) {
 										mensaje = "Bienvenidos a Altagracia de Sumapaz,";
 								} else if (tiempo > 15) {
-										mensaje = "para poder hablar con el virrey, debes traer tres tributos.";
+										mensaje = "para poder hablar con el virrey, debes traer un tributo.";
 								} else if (tiempo > 8) {
-										mensaje = "Para conseguirlos, debes unirte con otros dos compañeros";
+										mensaje = "He observado que traes tu tributo";
 								} else if (tiempo > 0) {
-										mensaje = "y así podrán venir a hablar con el virrey.";
+										mensaje = "podeis pasar, sean respetusos con su virrey";
+										reja.transform.Translate(0.01f, 0, 0);
 								}
 								break;
 						case 3:
@@ -153,7 +142,7 @@ public class ActivarGonzalo : MonoBehaviour
 				
 						}
 
-						if (tiempo > 0 && contador >= 3 && General.paso_mision >= 5 && reja.transform.localPosition.z < 4.1f) {
+						if (tiempo > 0 && General.paso_mision >= 5 && reja.transform.localPosition.z < 4.1f) {
 								reja.transform.Translate (0.02f, 0, 0);
 						}
 						GUIStyle style = new GUIStyle ();

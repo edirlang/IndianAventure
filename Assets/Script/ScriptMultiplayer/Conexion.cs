@@ -10,7 +10,7 @@ public class Conexion : MonoBehaviour
 		public GameObject chozaFinal;
 		public Texture corazonTexture;
 		public Texture monedasTexture;
-		public Texture ayudaTexture, chat, menu, correr1, correr2;
+		public Texture ayudaTexture, chat, menu, correr1, correr2, volver, volverConexion;
 		public string textoAyuda = "Chia";
 		public static string mensaje = "";
 		private ArrayList mensajes;
@@ -24,6 +24,7 @@ public class Conexion : MonoBehaviour
 		private Color color;
 		private float tiempo = 30, tiempo_reinicio = 0.5f;
 		public bool reiniciar;
+		public GUIStyle stilobotones;
 
 		void Start ()
 		{
@@ -87,7 +88,7 @@ public class Conexion : MonoBehaviour
 								Application.LoadLevel ("SelecionarPersonaje");
 						pantallaServidor ();
 						if (GUI.Button (new Rect (25 * (Screen.width / 32), 5 * (Screen.height / 6), Screen.width / 5, Screen.height / 10), "Volver al Menu")) {
-								StartCoroutine (desconectarUser ());
+								Application.LoadLevel ("menu");
 						}
 				} else {
 						pantallaJuego ();
@@ -98,11 +99,11 @@ public class Conexion : MonoBehaviour
 										MoverMouse.cambioCamara = true;
 								}
 								if (GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed == 3) {
-										if (GUI.Button (new Rect (14 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height / 8, 5 * (Screen.height / 16)), correr1)) {
+										if (GUI.Button (new Rect (13 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height / 8, 5 * (Screen.height / 16)), correr1)) {
 												GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed = 8f;
 										}
 								} else {
-										if (GUI.Button (new Rect (14 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height / 8, 5 * (Screen.height / 16)), correr2)) {
+										if (GUI.Button (new Rect (13 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height / 8, 5 * (Screen.height / 16)), correr2)) {
 												GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed = 3f;
 										}
 								}
@@ -117,7 +118,7 @@ public class Conexion : MonoBehaviour
 						foreach (GameObject jugador in players) {
 								Destroy(jugador);
 						}
-						Destroy (this.gameObject,200f);
+						Destroy (this.gameObject,100f);
 				}
 		}
 
@@ -154,18 +155,18 @@ public class Conexion : MonoBehaviour
 				if (abrirMenu) {
 						GUI.Box (new Rect (0, 0, Screen.width, Screen.height), "Menu Pausa");
 
-						if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 12, 3 * (Screen.height / 6), Screen.width / 4, Screen.height / 10), "Volver al Menu")) {
+						if (GUI.Button (new Rect (Screen.width / 12, Screen.height /3, Screen.width / 4, Screen.height / 4), new GUIContent(volverConexion,"Volver al Menu"), stilobotones)) {
 								StartCoroutine (desconectarUser ());
 						}
 
-						if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 12, 4 * (Screen.height / 6), Screen.width / 4, Screen.height / 10), "Maleta")) {
+						if (GUI.Button (new Rect (9*(Screen.width / 24), Screen.height /3, Screen.width / 4, Screen.height / 4), "Maleta")) {
 								Maleta maleta = Camera.main.gameObject.GetComponent<Maleta> ();
 								maleta.mostarMaleta = true;
 
 								abrirMenu = false;
 						}
 
-						if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 12, 5 * (Screen.height / 6), Screen.width / 4, Screen.height / 10), "Volver")) {
+						if (GUI.Button (new Rect (8*(Screen.width / 12), Screen.height /3, Screen.width / 4, Screen.height / 4),new GUIContent(volver,"volver"), stilobotones)) {
 								abrirMenu = false;
 								MoverMouse.movimiento = true;
 								MoverMouse.cambioCamara = false;
@@ -251,9 +252,6 @@ public class Conexion : MonoBehaviour
 
 				Network.isMessageQueueRunning = true;
 
-				if (General.paso_mision == 1) {
-						g.transform.position = GameObject.Find ("PlayerJuego").transform.position;
-				}
 				if (GameObject.Find("Luz_tormenta")) {
 						Camera.main.GetComponent<Misiones>().luzrayos = GameObject.Find ("Luz_tormenta");
 						Camera.main.GetComponent<Misiones> ().luzrayos.SetActive (false);
@@ -339,16 +337,8 @@ public class Conexion : MonoBehaviour
 
 								string[] mensajeConcatenado = mensajeNuevo [1].Split ('[');
 								GUI.color = new Color (float.Parse (colorRGB [0]), float.Parse (colorRGB [1]), float.Parse (colorRGB [2]));
-								if (mensajeConcatenado.Length > 1) {
-										GUI.Label (new Rect (Screen.width / 12, (numeroMensajes - i) * (Screen.height / 10), 2 * Screen.width, Screen.height / 10), mensajeNuevo [0] + ": " + mensajeConcatenado [0]);
-										if (mensajeConcatenado [1] != General.username && General.paso_mision >= 3 && int.Parse(General.misionActual[0]) >= 2)
-										if (GUI.Button (new Rect (Screen.width / 12 + Screen.width / 2, (numeroMensajes - i) * (Screen.height / 10), Screen.width / 3, Screen.height / 10), "Unirme")) {
-												nw.RPC ("agregarEquipo", RPCMode.All, mensajeConcatenado [1], General.username);
-												mensajes.Remove (mensajes [i]);
-										}
-								} else {
+
 										GUI.Label (new Rect (Screen.width / 12, (numeroMensajes - i) * (Screen.height / 10), 2 * Screen.width, Screen.height / 10), mensajeNuevo [0] + ": " + mensajeNuevo [1]);
-								}
 
 						}
 
@@ -407,8 +397,7 @@ public class Conexion : MonoBehaviour
 						}
 
 						if (GUI.Button (new Rect (0, 4 * (Screen.height / 16), Screen.width / 3, 2 * (Screen.height / 16)), "¿Necesito un equipo?")) {
-								mensaje = "¿Necesito un equipo?.[" + General.username;
-								MoverMouse.jugadoresEquipo [0] = General.username;
+								mensaje = "¿Necesito un equipo?";
 								verChat = false;
 						}
 
@@ -453,35 +442,6 @@ public class Conexion : MonoBehaviour
 						chozaLevel.transform.Rotate (-90f, 0f, 0f);
 						chozaLevel.transform.localScale = new Vector3 (4.0f, 4.0f, 3.0f);
 						chozaLevel.name = "choza-" + usuario;
-				}
-		}
-
-		[RPC]
-		public void agregarEquipo (string usuarioLider, string usuarioAgregar)
-		{
-				if (usuarioLider == General.username) {
-						if (MoverMouse.jugadoresEquipo [1] == null) {
-								MoverMouse.jugadoresEquipo [1] = usuarioAgregar;
-						} else if (MoverMouse.jugadoresEquipo [2] == null || MoverMouse.jugadoresEquipo [2] == "") {
-								Debug.Log (usuarioAgregar);
-								MoverMouse.jugadoresEquipo [2] = usuarioAgregar;
-						}
-
-						if (MoverMouse.jugadoresEquipo [2] == null) {
-								MoverMouse.jugadoresEquipo [2] = "";
-						}
-
-						nw.RPC ("unirseEquipo", RPCMode.All, MoverMouse.jugadoresEquipo [0], MoverMouse.jugadoresEquipo [1], MoverMouse.jugadoresEquipo [2]);		
-				}
-		}
-
-		[RPC]
-		public void unirseEquipo (string usuario1, string usuario2, string usuario3)
-		{
-				if (usuario2 == General.username || usuario3 == General.username) {
-						MoverMouse.jugadoresEquipo [0] = usuario1;
-						MoverMouse.jugadoresEquipo [1] = usuario2;
-						MoverMouse.jugadoresEquipo [2] = usuario3;
 				}
 		}
 }
