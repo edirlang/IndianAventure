@@ -11,7 +11,9 @@ public class ChiaPerseguir : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		target = GameObject.Find (Network.player.ipAddress);
-		luz = GameObject.Find ("Luz").GetComponent<Light> ();
+				if (GameObject.Find ("Luz")) {
+						luz = GameObject.Find ("Luz").GetComponent<Light> ();
+				}
 		llegoChia = false;
 		animator = GetComponent<Animator> ();
 	}
@@ -35,22 +37,25 @@ public class ChiaPerseguir : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		GUIStyle style = new GUIStyle ();
-		style.alignment = TextAnchor.MiddleCenter;
-		style = GUI.skin.GetStyle ("Box");
-		style.fontSize = (int)(20.0f );
-		if(llegoChia)
-		{
+				GUIStyle style = new GUIStyle ();
+				style = GUI.skin.GetStyle ("Box");
+				style.alignment = TextAnchor.MiddleCenter;
+				style.fontSize = (int)(20.0f );
+				if(llegoChia)
+				{
 						if (int.Parse (General.misionActual [0]) >= 2) {
-								luz.intensity = 1.5f;
+								if(luz != null)
+									luz.intensity = 1.5f;
 						} else {
-								luz.intensity = 0.5f;
+								if(luz != null)
+									luz.intensity = 0.5f;
 						}
-			GUI.Box(new Rect(0,3*Screen.height/4, Screen.width,Screen.height/4),mensajeChia);
-			MoverMouse.movimiento = true;
+						GUI.Box(new Rect(Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4),mensajeChia);
+						MoverMouse.movimiento = true;
 						MoverMouse.cambioCamara = false;
-		}else{
-			luz.intensity = 0;
+				}else{
+						if(luz != null)
+								luz.intensity = 0;
+				}
 		}
-	}
 }

@@ -10,7 +10,7 @@ public class Conexion : MonoBehaviour
 		public GameObject chozaFinal;
 		public Texture corazonTexture;
 		public Texture monedasTexture;
-		public Texture ayudaTexture, chat, menu, correr1, correr2, volver, volverConexion;
+		public Texture ayudaTexture, chat, menu, correr1, correr2, volver, volverConexion, maletaText, piedra;
 		public string textoAyuda = "Chia";
 		public static string mensaje = "";
 		private ArrayList mensajes;
@@ -89,6 +89,7 @@ public class Conexion : MonoBehaviour
 						pantallaServidor ();
 						if (GUI.Button (new Rect (25 * (Screen.width / 32), 5 * (Screen.height / 6), Screen.width / 5, Screen.height / 10), "Volver al Menu")) {
 								Application.LoadLevel ("menu");
+								Destroy (gameObject, 100f);
 						}
 				} else {
 						pantallaJuego ();
@@ -101,10 +102,12 @@ public class Conexion : MonoBehaviour
 								if (GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed == 3) {
 										if (GUI.Button (new Rect (13 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height / 8, 5 * (Screen.height / 16)), correr1)) {
 												GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed = 8f;
+												GameObject.Find (Network.player.ipAddress).GetComponent<movimiento> ().speed = 8f;
 										}
 								} else {
 										if (GUI.Button (new Rect (13 * (Screen.width / 16), 4 * (Screen.height / 6), Screen.height / 8, 5 * (Screen.height / 16)), correr2)) {
 												GameObject.Find (Network.player.ipAddress).GetComponent<MoverMouse> ().speed = 3f;
+												GameObject.Find (Network.player.ipAddress).GetComponent<movimiento> ().speed = 3f;
 										}
 								}
 						}
@@ -155,22 +158,30 @@ public class Conexion : MonoBehaviour
 				if (abrirMenu) {
 						GUI.Box (new Rect (0, 0, Screen.width, Screen.height), "Menu Pausa");
 
-						if (GUI.Button (new Rect (Screen.width / 12, Screen.height /3, Screen.width / 4, Screen.height / 4), new GUIContent(volverConexion,"Volver al Menu"), stilobotones)) {
+						if (GUI.Button (new Rect (Screen.width / 12, Screen.height /3, Screen.width / 6, Screen.height / 4), new GUIContent(volverConexion,"Volver al Menu"), stilobotones)) {
 								StartCoroutine (desconectarUser ());
 						}
 
-						if (GUI.Button (new Rect (9*(Screen.width / 24), Screen.height /3, Screen.width / 4, Screen.height / 4), "Maleta")) {
+						if (GUI.Button (new Rect (7*(Screen.width / 24), Screen.height /3, Screen.width / 6, Screen.height / 4),  new GUIContent(maletaText,"Maleta"), stilobotones)) {
 								Maleta maleta = Camera.main.gameObject.GetComponent<Maleta> ();
 								maleta.mostarMaleta = true;
 
 								abrirMenu = false;
 						}
 
-						if (GUI.Button (new Rect (8*(Screen.width / 12), Screen.height /3, Screen.width / 4, Screen.height / 4),new GUIContent(volver,"volver"), stilobotones)) {
+						if (GUI.Button (new Rect (12*(Screen.width / 24), Screen.height /3, Screen.width / 6, Screen.height / 4),  new GUIContent(piedra,"Piedra Hogar"), stilobotones)) {
+								abrirMenu = false;
+								MoverMouse.movimiento = false;
+								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego").transform.position;
+								MoverMouse.movimiento = true;
+						}
+
+						if (GUI.Button (new Rect (17*(Screen.width / 24), Screen.height /3, Screen.width / 6, Screen.height / 4),new GUIContent(volver,"volver"), stilobotones)) {
 								abrirMenu = false;
 								MoverMouse.movimiento = true;
 								MoverMouse.cambioCamara = false;
 						}
+
 				}
 
 				//Chat

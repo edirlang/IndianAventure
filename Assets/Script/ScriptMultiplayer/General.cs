@@ -20,6 +20,7 @@ public class General : MonoBehaviour {
 		float tiempoOvwer;
 	// Use this for initialization
 	void Start () {
+				
 				salud = 1;
 		chia = chiaPrefab;
 		PlayerPrefs.GetInt ("salud",3);

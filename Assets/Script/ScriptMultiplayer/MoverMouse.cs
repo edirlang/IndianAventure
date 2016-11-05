@@ -64,6 +64,21 @@ public class MoverMouse : MonoBehaviour
 						camaraMapa.transform.localPosition = new Vector3(0f,10f,0f);
 				}
 
+				if (nw.isMine && !cambioCamara) {
+						GameObject camara = Camera.main.gameObject;
+						camara.transform.parent = transform;
+						camara.transform.localRotation = new Quaternion ();
+						camara.transform.Rotate (new Vector3 (20f, 0, 0));
+						camara.transform.localPosition = new Vector3 (-0.352941f, 1.576233f, -1.929336f);
+				}
+
+
+
+				if (!Application.isMobilePlatform) {
+					return;
+				}
+
+				Debug.Log ("celular");
 				Ray ray = new Ray ();
 
 				if (Input.GetMouseButtonDown (0)) {
@@ -75,19 +90,10 @@ public class MoverMouse : MonoBehaviour
 						}
 				}
 
-				if (nw.isMine && !cambioCamara) {
-						GameObject camara = Camera.main.gameObject;
-						camara.transform.parent = transform;
-						camara.transform.localRotation = new Quaternion ();
-						camara.transform.Rotate (new Vector3 (20f, 0, 0));
-						camara.transform.localPosition = new Vector3 (-0.352941f, 1.576233f, -1.929336f);
-				} else {
-						//posicion = transform.position;
-				}
-
 				if (nw.isMine) {
 						mover (posicion);
 				}
+
 		}
 
 		private void mover (Vector3 target)

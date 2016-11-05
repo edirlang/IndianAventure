@@ -49,6 +49,7 @@ public class introduccion : MonoBehaviour {
 				style.fontSize = (int)(20.0f);
 				GUI.Box (new Rect (Screen.width/2, 9 * Screen.height / 10, Screen.width/2, Screen.height / 10), "Fusagasuga, 2016");
 
+				GUI.color = Color.black;
 				if (tiempo > 3 && tiempo < 5) {
 						luz.GetComponent<Light> ().color = Color.black;
 						luz.GetComponent<Light> ().intensity = 8;
@@ -59,5 +60,7 @@ public class introduccion : MonoBehaviour {
 				}else if(tiempo < 1){
 						GUI.Label (new Rect (Screen.width/2 - Screen.width / 6, Screen.height / 2 - Screen.height / 12, Screen.width / 3, Screen.height / 10), "nooooooooooooooooo");
 				}
+
+				GUI.color = Color.white;
 		}
 }

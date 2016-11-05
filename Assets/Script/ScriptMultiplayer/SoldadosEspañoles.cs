@@ -58,8 +58,9 @@ public class SoldadosEspañoles : MonoBehaviour {
 						if (GameObject.Find ("Medieval_House")) {
 								casa.SetActive (false);
 						}
+						animator.SetFloat ("speed", 1.0f);
 				} else {
-						animator.SetBool ("hablar", true);
+						animator.SetFloat ("speed", 0.0f);
 						tiempo -= Time.deltaTime;
 				}
 

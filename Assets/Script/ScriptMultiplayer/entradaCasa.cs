@@ -24,7 +24,6 @@ public class entradaCasa : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-
 				if (trasportar) {
 						if(soyEntrar)
 								player.transform.position = new Vector3(dentro.transform.position.x,dentro.transform.position.y,dentro.transform.position.z - 2f);
@@ -49,7 +48,7 @@ public class entradaCasa : MonoBehaviour
 										style = GUI.skin.GetStyle ("Box");
 										style.fontSize = (int)(20.0f);
 
-										GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje + "de tu casa");
+										//GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje + "de tu casa");
 								}
 								if (tiempo < 1 && tiempo > 0) {
 										MoverMouse.cambioCamara = false;

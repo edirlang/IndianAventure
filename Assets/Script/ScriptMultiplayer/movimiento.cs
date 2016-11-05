@@ -23,8 +23,9 @@ public class movimiento : MonoBehaviour {
 	void Update() {
 		animator = GetComponent<Animator> ();
 		nw = GetComponent<NetworkView> ();
-		if (nw.isMine)
+		if (nw.isMine )
 		{
+						
 			controlMovimiento ();
 			//moverClic();
 		}
@@ -34,12 +35,17 @@ public class movimiento : MonoBehaviour {
 	{
 		GameObject player = GameObject.Find (Network.player.ipAddress);
 		CharacterController controller = player.GetComponent<CharacterController>();
-		if (controller.isGrounded) {
+
+				if (!MoverMouse.movimiento) {
+						animator.SetFloat ("speed", 0.0f);
+						return;
+				}
+					
 			moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
 			moveDirection = player.transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
 			
-			transform.Rotate(0,Input.GetAxis("Horizontal"),0);
+			transform.Rotate(0,Input.GetAxis("Horizontal")*speed,0);
 
 			float f_hor = Input.GetAxis("Horizontal");
 			float f_ver = Input.GetAxis("Vertical");
@@ -47,23 +53,11 @@ public class movimiento : MonoBehaviour {
 			nw.RPC("activarCaminar",RPCMode.Others, f_hor*f_hor+f_ver*f_ver);
 
 			if (Input.GetButton("Jump"))
-				moveDirection.y = jumpSpeed;
-		}
-		moveDirection.y -= gravity * Time.deltaTime;
-		controller.Move(moveDirection * Time.deltaTime);
+						moveDirection.y = jumpSpeed;
+			moveDirection.y -= gravity * Time.deltaTime;
+			controller.Move(moveDirection * Time.deltaTime);
 	}
-
-	void moverClic (){
-
-		Debug.Log (Vector3.Distance (posicion, transform.position));
-		if(Vector3.Distance(posicion,transform.position) > 10){
-
-			Quaternion rotacion = Quaternion.LookRotation (posicion - transform.position);
-			transform.rotation = Quaternion.Slerp(transform.rotation, rotacion, 6.0f * Time.deltaTime);
-			transform.Translate(0,0,speed * Time.deltaTime);
-		}
-	}
-
+	
 	[RPC]
 	public void activarCaminar(float valor)
 	{

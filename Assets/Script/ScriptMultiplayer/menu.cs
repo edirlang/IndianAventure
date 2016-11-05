@@ -120,6 +120,7 @@ public class menu : MonoBehaviour
 						General.idPersonaje = 0;
 						General.personaje = null;
 						Network.Disconnect (200);
+						Destroy (GameObject.Find("IniciarVariables"),200f);
 						Application.LoadLevel ("main");
 				}
 		

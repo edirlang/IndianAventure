@@ -63,20 +63,20 @@ public class Virrey : MonoBehaviour {
 												pieza.transform.parent = virrey.transform;
 												pieza.transform.rotation = new Quaternion ();
 												pieza.transform.Rotate (0,265,0);
-												pieza.transform.localPosition = new Vector3 (-2.25f, 0.2f, -3f);
+												pieza.transform.localPosition = new Vector3 (2f, 0f, 0f);
 												pieza.name = "pieza0";
 
 												Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 												maleta.eliminarTextura ("premio");
 										} else {
-												GameObject.Find ("pieza0").transform.Rotate (-10f * Time.deltaTime, 0f, 0f); 
+												GameObject.Find ("pieza0").transform.Rotate ( 0f, -10f * Time.deltaTime, 0f); 
 
 												if (!GameObject.Find ("permiso")) {
 														GameObject permisoObj = (GameObject)Instantiate (permiso, virrey.transform.position, transform.rotation);
 														permisoObj.transform.parent = virrey.transform;
 														permisoObj.transform.rotation = new Quaternion ();
-														permisoObj.transform.Rotate (300,265,0);
-														permisoObj.transform.localPosition = new Vector3 (-2.25f, 0.2f, 3f);
+														permisoObj.transform.Rotate (300f, 180f ,0f);
+														permisoObj.transform.localPosition = new Vector3 (-2f, 0f, 0f);
 														permisoObj.name = "permiso";
 												}
 										}

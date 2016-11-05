@@ -768,4 +768,15 @@ public class Misiones : MonoBehaviour
 		private void destruitChoza(){
 
 		}
+
+
+		private void PuntosClave(){
+				if (General.misionActual [0] == "1") {
+				
+				}else if (General.misionActual [0] == "2") {
+
+				}else if (General.misionActual [0] == "3") {
+
+				}
+		}
 }
