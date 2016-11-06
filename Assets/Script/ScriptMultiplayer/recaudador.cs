@@ -71,7 +71,8 @@ public class recaudador : MonoBehaviour {
 										mensaje = "Bienvenido a esta nueva ciudad.";
 
 								} else if (tiempo > 8) {
-										mensaje = "Te recibo el título de propiedad y 30 monedas de oro de impuestos de tu casa.";
+										mensaje = "Te recibo el título de propiedad y 30 monedas\n" +
+											"de oro de impuestos de tu casa.";
 
 										if (!GameObject.Find ("titulo")) {
 												General.monedas -= 30;
@@ -86,7 +87,9 @@ public class recaudador : MonoBehaviour {
 										}
 								} 
 								else if (tiempo > 0) {
-										mensaje = "Gracias, te entrego las llaves de tu nuevo hogar, \n tu casa la puedes encontrar en las casas que ves al lado de nosotros. Ve y encuéntrala.";
+										mensaje = "Gracias, te entrego las llaves de tu nuevo hogar, " +
+											"\n tu casa la puedes encontrar en las casas que \n" +
+											"ves al lado de nosotros. Ve y encuéntrala.";
 
 										if (!GameObject.Find ("llave")) {
 												GameObject llaveObj = (GameObject)Instantiate (llave, recaudador_game.transform.position, transform.rotation);
@@ -144,6 +147,9 @@ public class recaudador : MonoBehaviour {
 						style.fontSize = (int)(20.0f);
 
 						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+
+						style.fontSize = (int)(15.0f);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/4,Screen.height/24),"Recaudador");
 
 						MoverMouse.movimiento = true;
 				}

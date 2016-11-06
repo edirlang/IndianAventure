@@ -30,9 +30,12 @@ public class Radar : MonoBehaviour
 				// Draw player blip (centerObject)
 				//		float bX=centerObject.transform.position.x * mapScale;
 				//	    float bY=centerObject.transform.position.z * mapScale;
-
+				if (centerObject == null) {
+						return;
+				}
 				if (Network.peerType != NetworkPeerType.Disconnected && GameObject.Find(Network.player.ipAddress).GetComponent<NetworkView>().isMine) {
-						GUI.DrawTexture (new Rect (mapCenter.x - 32, mapCenter.y - 32, Screen.height/4, Screen.height/4), radarBG);
+						
+						GUI.DrawTexture(new Rect (mapCenter.x - Screen.height/8, mapCenter.y - Screen.height/8, Screen.height/4, Screen.height/4), radarBG);
 						DrawBlipsFor ();
 				}
 
@@ -40,7 +43,7 @@ public class Radar : MonoBehaviour
 
 		private void DrawBlipsFor()
 		{
-
+				
 				// Find all game objects with tag 
 				GameObject[] gos = GameObject.FindGameObjectsWithTag("ciudad"); 
 
@@ -91,8 +94,7 @@ public class Radar : MonoBehaviour
 				if(dist<= maxDist)
 				{ 
 						// this is the diameter of our largest radar circle
-						float tamaño = Screen.height/24;
-						Debug.Log (tamaño);
+						float tamaño = Screen.height/48;
 						if (tamaño < 5) {
 								tamaño = 5;
 						}

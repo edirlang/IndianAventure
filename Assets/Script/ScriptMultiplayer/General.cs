@@ -39,11 +39,6 @@ public class General : MonoBehaviour {
 						SceneManager.LoadScene("gameOver");
 						General.paso_mision = 1;
 						General.salud = 3;
-						StartCoroutine (actualizarUser ());
-						tiempoOvwer = 10;
-						Camera.main.transform.parent = gameObject.transform;
-						Camera.main.name = "Main Camera2";
-						gameOvwer = true;
 				}
 				if (tiempoOvwer > 0) {
 						tiempoOvwer -= Time.deltaTime;

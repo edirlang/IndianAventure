@@ -51,7 +51,6 @@ public class Misiones : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-				
 				if (General.misionActual [0] == "3") {
 						switch (General.idPersonaje) {
 						case 1: 
@@ -67,40 +66,7 @@ public class Misiones : MonoBehaviour
 				}
 
 				Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
-				if (General.misionActual [0] == "2" && General.paso_mision <= 5 && !maleta.estaTextura (tributo.name)) {
-						maleta.agregarTextura (tributo);
-				}else if (General.misionActual [0] == "2" && General.paso_mision == 6 && !maleta.estaTextura (certificado.name)) {
-						
-						maleta.agregarTextura (certificado);	
-						if(maleta.estaTextura(tributo.name)){
-								maleta.eliminarTextura (tributo.name);
-						}
-				} else if (General.misionActual [0] == "2" && General.paso_mision == 7 && !maleta.estaTextura (llave.name)) {
-						maleta.agregarTextura (llave);
-						if(maleta.estaTextura(certificado.name)){
-								maleta.eliminarTextura (certificado.name);
-						}
-						if(maleta.estaTextura(tributo.name)){
-								maleta.eliminarTextura (tributo.name);
-						}
-				}else if (General.misionActual [0] == "3" && General.paso_mision >= 4 && !maleta.estaTextura (cruz.name)) {
-						maleta.agregarTextura (cruz);
-
-				}else if (General.misionActual [0] == "3" && General.paso_mision == 5 && !maleta.estaTextura (articulos.name)) {
-						maleta.agregarTextura (articulos);
-
-				}else if (General.misionActual [0] == "3" && General.paso_mision == 6 && !maleta.estaTextura (titulo.name)) {
-						maleta.agregarTextura (titulo);
-
-						if(maleta.estaTextura(articulos.name)){
-								maleta.eliminarTextura (articulos.name);
-						}
-				}else if (General.misionActual [0] == "3" && General.paso_mision == 7 && !maleta.estaTextura (llave.name)) {
-						maleta.agregarTextura (llave);
-						if(maleta.estaTextura(titulo.name)){
-								maleta.eliminarTextura (titulo.name);
-						}
-				}
+				prepararMaleta (maleta);
 
 
 				if (instanciar) {
@@ -157,7 +123,6 @@ public class Misiones : MonoBehaviour
 								Maleta.vaciar = true;
 
 								MoverMouse.movimiento = false;
-								Destroy (GameObject.Find ("camara"));
 								SceneManager.LoadScene("level2");
 								if (GameObject.Find ("Pieza de oro(Clone)"))
 										Destroy (GameObject.Find ("Pieza de oro(Clone)"));
@@ -179,7 +144,7 @@ public class Misiones : MonoBehaviour
 								}
 
 								Network.Destroy (GameObject.Find (Network.player.ipAddress));
-								GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, 1);
+								GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), new Quaternion(), 1);
 								g.transform.localScale = new Vector3 (2, 2, 2);
 								g.AddComponent<BoxCollider> ();
 								g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
@@ -204,7 +169,7 @@ public class Misiones : MonoBehaviour
 								Misiones.cambio_mapa = true;
 
 								Network.Destroy (GameObject.Find (Network.player.ipAddress));
-								GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), transform.rotation, 1);
+								GameObject g = (GameObject)Network.Instantiate (General.personaje, new Vector3 (General.posicionIncial.x, General.posicionIncial.y + 10f, General.posicionIncial.z), new Quaternion(), 1);
 								g.transform.localScale = new Vector3 (1, 1, 1);
 								g.AddComponent<BoxCollider> ();
 								g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
@@ -236,8 +201,6 @@ public class Misiones : MonoBehaviour
 						
 						GameObject.Find ("PlayerJuego2").name = "PlayerJuego";
 						GameObject.Find ("Luz").GetComponent<Light>().intensity = 1.5f;
-						GameObject.Find ("Luz").transform.position = GameObject.Find ("LuzTest").transform.position;
-						Destroy (GameObject.Find ("LuzTest"));
 						if (General.paso_mision == 1 || General.paso_mision == 0)
 								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego").transform.position;
 
@@ -278,8 +241,49 @@ public class Misiones : MonoBehaviour
 						luzrayos.SetActive (true);
 				}
 
+				if (GameObject.Find (Network.player.ipAddress)) {
+						if(GameObject.Find (Network.player.ipAddress).GetComponent<NetworkView> ().isMine)
+								PuntosClave ();
+				}
 		}
 
+		void prepararMaleta(Maleta maleta){
+				
+				if (General.misionActual [0] == "2" && General.paso_mision <= 5 && !maleta.estaTextura (tributo.name)) {
+						maleta.agregarTextura (tributo);
+				}else if (General.misionActual [0] == "2" && General.paso_mision == 6 && !maleta.estaTextura (certificado.name)) {
+
+						maleta.agregarTextura (certificado);	
+						if(maleta.estaTextura(tributo.name)){
+								maleta.eliminarTextura (tributo.name);
+						}
+				} else if (General.misionActual [0] == "2" && General.paso_mision == 7 && !maleta.estaTextura (llave.name)) {
+						maleta.agregarTextura (llave);
+						if(maleta.estaTextura(certificado.name)){
+								maleta.eliminarTextura (certificado.name);
+						}
+						if(maleta.estaTextura(tributo.name)){
+								maleta.eliminarTextura (tributo.name);
+						}
+				}else if (General.misionActual [0] == "3" && General.paso_mision >= 4 && !maleta.estaTextura (cruz.name)) {
+						maleta.agregarTextura (cruz);
+
+				}else if (General.misionActual [0] == "3" && General.paso_mision == 5 && !maleta.estaTextura (articulos.name)) {
+						maleta.agregarTextura (articulos);
+
+				}else if (General.misionActual [0] == "3" && General.paso_mision == 6 && !maleta.estaTextura (titulo.name)) {
+						maleta.agregarTextura (titulo);
+
+						if(maleta.estaTextura(articulos.name)){
+								maleta.eliminarTextura (articulos.name);
+						}
+				}else if (General.misionActual [0] == "3" && General.paso_mision == 7 && !maleta.estaTextura (llave.name)) {
+						maleta.agregarTextura (llave);
+						if(maleta.estaTextura(titulo.name)){
+								maleta.eliminarTextura (titulo.name);
+						}
+				}
+		}
 		private void chiaInstanciar ()
 		{
 				if (!GameObject.Find ("Chia(Clone)")) {
@@ -304,9 +308,11 @@ public class Misiones : MonoBehaviour
 				switch (General.paso_mision) {
 				case 1:
 						if (General.timepo > 10) {
-								mensaje = " Hola, bienvenidos a Natives \n Yo soy Chía, diosa de la luna";
+								mensaje = "Hola, bienvenidos a Natives. Yo soy Chía, diosa de la luna \n" +
+										"Ayudo a tu pueblo, los Sutagaos a llevar una vida";
 						} else if (General.timepo > 1) {
-								mensaje = "Ayudo a tu pueblo, los Sutagaos a llevar una vida llena de travesías. \n Hoy inicias este maravilloso viaje. Entonces que esperamos, ¡EMPECEMOS!";
+								mensaje = "llena de travesías. Hoy inicias este maravilloso viaje." +
+									"\n Entonces que esperamos, ¡EMPECEMOS!";
 						} else if (General.timepo > 0 && General.timepo < 0.5) {
 								General.timepo = 0;
 								procesoMision1 (General.paso_mision);
@@ -314,49 +320,62 @@ public class Misiones : MonoBehaviour
 						break;
 				case 2:
 						if (General.timepo > 12) {
-								mensaje = "Para poder sobrevivir en esta tierra mágica, \n debes primero tener donde vivir, para ello necesitaremos conseguir algunos materiales.";
+								mensaje = "Para poder sobrevivir en esta tierra mágica, debes primero \n" +
+									"tener donde vivir, para ello necesitaremos conseguir";
 						} else if (General.timepo > 8) {
-								mensaje = "Lo primero que debes hacer es ir a Silvania, \n  la tierra de la madera y trae un poco de ella para construir tú hogar.";
+								mensaje = "algunos materiales. Lo primero que debes hacer es ir a \n " +
+										"Silvania, la tierra de la madera y trae un poco de ";
 						} else if (General.timepo > 0) {
-								mensaje = " Guíate por las señales que están alrededor del mapa";
+								mensaje = "ella para construir tú hogar. Guíate\n" +
+										"por las señales que están alrededor del mapa";
 						}
 						break;
 				case 3:
 						if (General.timepo > 1) {
-								mensaje = "Muy bien,  recuerda recoger 6 palos de madera \n y luego retornar a Fusa para seguir la construcción de tu hogar.";
+								mensaje = "Muy bien,  recuerda recoger 6 palos de madera y luego \n " +
+									"retornar a Fusa para seguir la construcción de tu hogar.";
 						}
 						break;
 				case 4:
 						if (General.timepo > 12) {
-								mensaje = "Ya tienes los palos \n estos los usaras como pared de tu choza.";
+								mensaje = "Ya tienes los palos estos los usaras como pared de tu \n " +
+										"choza. Ahora necesitamos el techo para cubrirnos";
 						} else if (General.timepo > 8) {
-								mensaje = "Ahora necesitamos el techo para cubrirnos de la lluvia, \n  para ello necestamos hojas de palma boba.";
+								mensaje = "de la lluvia, para ello necestamos hojas de palma boba. \n" +
+										"Las cuales puedes conseguir en Pasca";
 						} else if (General.timepo > 0) {
-								mensaje = " Las cuales puedes conseguir en Pasca \n luego regresa a Fusagasuga";
+								mensaje = "luego regresa a Fusagasuga";
 						}
 						break;
 				case 5:
 						if (General.timepo > 0) {
-								mensaje = "Recuerda que debes recoger 20 hojas \n para poder construir el techo Y luego volver a fusa a terminar tu hogar.";
+								mensaje = "Recuerda que debes recoger 20 hojas para poder construir \n" +
+									"el techo Y luego volver a fusa a terminar tu hogar.";
 						}
 						break;
 				case 6:
-						if (General.timepo > 0) {
-								mensaje = "Muy bien, por ultimo ve y busca barro, así finalizaras La recolección de materiales. \n encuentralo en Fusagasuga junto al lago";
+						if (General.timepo > 5) {
+								mensaje = "Muy bien, por ultimo ve y busca archilla, \n" +
+										"así finalizaras la recolección de materiales.";
+						}else if (General.timepo > 0) {
+								mensaje = "Encuentralo en Fusagasuga junto al lago";
 						}
 						break;
 				case 7:
 						if (General.timepo > 8) {
-								mensaje = "Ya conseguiste todos los materiales, \n ¡Qué bien! Ahora debes construir tu hogar,";
+								mensaje = "Ya conseguiste todos los materiales, ¡Qué bien! Ahora \n" +
+										"debes construir tu hogar, ve al punto central";
 						} else if (General.timepo > 0) {
-								mensaje = "ve al punto central de nuestro pueblo, \n cerca al fuego y construye tu casa.";
+								mensaje = "de nuestro pueblo, cerca al fuego y construye tu casa.";
 						}
 						break;
 				case 8:
 						if (General.timepo > 8) {
-								mensaje = "¡Felicitaciones! Haz logrado construir tu hogar, \n este será tu refugio hasta que alguien venga y te lo quite, por ahora disfrutalo.";
+								mensaje = "¡Felicitaciones! Haz logrado construir tu hogar, este \n" +
+									"será tu refugio hasta que alguien venga y te lo quite, por ahora";
 						} else if (General.timepo > 1) {
-								mensaje = "Por tu esfuerzo y dedicación, \n  te has ganado este premio de oro. Te invito a que entres a tu casa";
+								mensaje = "disfrutalo. Por tu esfuerzo y dedicación, te has ganado este\n " +
+										"premio de oro. Te invito a que entres a tu casa";
 								if (!GameObject.Find ("Pieza de oro(Clone)")) {
 										GameObject player = GameObject.Find (Network.player.ipAddress);
 										GameObject pieza = (GameObject)Instantiate (piezaOro, player.transform.position, transform.rotation);
@@ -467,13 +486,18 @@ public class Misiones : MonoBehaviour
 				switch (General.paso_mision) {
 				case 1:
 						if (General.timepo > 27) {
-								mensaje = "haz perdido tu casa, ahora debemos conseguir una nueva \n En el lugar donde estas será el nuevo pueblo para resguardar tu familia.";
+								mensaje = "Haz perdido tu casa, ahora debemos conseguir una nueva \n " +
+									"En el lugar donde estas será el nuevo pueblo para";
 						} else if (General.timepo > 18) {
-								mensaje = "Hoy, 5 de febrero de 1592, fuimos colonizados por los españoles, \n convirtiéndonos en una ciudad.";
+								mensaje = "resguardar tu familia. Hoy, 5 de febrero de 1592, fuimos \n" +
+										"colonizados por los españoles, \n " +
+										"convirtiéndonos en una ciudad. ";
 						} else if (General.timepo > 9) {
-								mensaje = "Ahora necesitamos pedirles permiso para poder tener nuestro hogar, \n para ello debes buscar al virrey que se encuentra ubicado.";
+								mensaje = "Ahora necesitamos pedirles permiso para poder tener\n" +
+										"nuestro hogar, para ello debes buscar al virrey ";
 						} else if (General.timepo > 1) {
-								mensaje = "en nuestra señora de Altagracia \n para que te otorgue el permiso necesario para habitar la zona..";
+								mensaje = "que se encuentra ubicado en nuestra señora de Altagracia \n " +
+									"para que te otorgue el permiso necesario para habitar la zona.";
 						} else if (General.timepo > 0 && General.timepo < 1) {
 								General.timepo = 0;
 								procesoMision2 (General.paso_mision);
@@ -481,9 +505,10 @@ public class Misiones : MonoBehaviour
 						break;
 				case 2:
 						if (General.timepo > 8) {
-								mensaje = "debes buscar al virrey de España que se encuentra ubicado en nuestra";
+								mensaje = "debes buscar al virrey de España que se encuentra \n" +
+										"ubicado en nuestra señora de Altagracia para";
 						} else if (General.timepo > 0) {
-								mensaje = " señora de Altagracia para que te otorgue el permiso necesario para habitar la zona.";
+								mensaje = "que te otorgue el permiso necesario para habitar la zona.";
 						}
 						break;
 
@@ -491,7 +516,8 @@ public class Misiones : MonoBehaviour
 						if (General.timepo > 10) {
 								mensaje = "Busca a tres compañeros más, con sus tributos.";
 						} else if (General.timepo > 0) {
-								mensaje = "Con ello podrán ir a hablar con el virrey \n para que les den el permiso para tener las llaves de su nuevo hogar.";
+								mensaje = "Con ello podrán ir a hablar con el virrey para que les\n" +
+									"den el permiso para tener las llaves de su nuevo hogar.";
 						}  
 						break;
 				case 4 :
@@ -502,12 +528,14 @@ public class Misiones : MonoBehaviour
 						break;
 				case 6:
 						if (General.timepo > 0) {
-								mensaje = "Recuerda buscar a Bernardino de Albornoz que se encuentra en Fusagasugá.";
+								mensaje = "Recuerda buscar a Bernardino de Albornoz \n" +
+									"que se encuentra en Fusagasugá.";
 						}
 						break;
 				case 7:
 						if (General.timepo > 0) {
-								mensaje = "Encuentra Tu casa, prueba en cada casa hasta encontrarla.";
+								mensaje = "Encuentra Tu casa, prueba en cada casa \n" +
+									"hasta encontrarla.";
 						}
 
 						break;
@@ -520,8 +548,8 @@ public class Misiones : MonoBehaviour
 		{
 				switch (paso) {
 				case 0:
-						General.timepo = 20;
-						General.timepoChia = 20.5f;
+						General.timepo = 35;
+						General.timepoChia = 35.5f;
 						instanciar = true;
 						General.paso_mision = 1;
 						StartCoroutine (General.actualizarUser ());
@@ -579,57 +607,71 @@ public class Misiones : MonoBehaviour
 				switch (General.paso_mision) {
 				case 1:
 						if (General.timepo > 25) {
-								mensaje = "Bienvenido de nuevo. En este punto encontraras edificaciones más grandes y fuertes";
+								mensaje = "Bienvenido de nuevo. En este punto encontraras \n" +
+									"edificaciones más grandes y fuertes";
 						} else if (General.timepo > 18) {
-								mensaje = ", las cuales fueron dejadas por la cultura española que nos colonizo.";
+								mensaje = ", las cuales fueron dejadas por la cultura \n" +
+									"española que nos colonizo.";
 						} else if (General.timepo > 12) {
 								mensaje = "Para poder iniciar esta nueva travesía,";
 						}else if (General.timepo > 5) {
-								mensaje = "debes buscar al cura Antonio Martínez \n que te dará nuevas indicaciones.";
+								mensaje = "debes buscar al cura Antonio Martínez \n " +
+									"que te dará nuevas indicaciones.";
 						}else if (General.timepo > 0 && General.timepo < 1) {
 								General.timepo = 0;
 								procesoMision3 (General.paso_mision);
 						}
 						break;
 				case 2:
-						mensaje = "Recuerda buscar al cura Antonio Martínez, él te dirá que hacer.";
+						mensaje = "Recuerda buscar al cura Antonio Martínez, \n" +
+							"él te dirá que hacer.";
 						break;
 				case 3:
 						if (General.timepo > 8) {
 								mensaje = "¡Muy bien! Ya conoces de la nueva religión.";
 						}else if (General.timepo > 1) {
-								mensaje = "Ahora debes buscar a la casona de Balmoral, \n allá te darán nuevas indicaciones. ";
+								mensaje = "Ahora debes buscar a la casona de Balmoral, " +
+									"\n allá te darán nuevas indicaciones. ";
 						}else if (General.timepo > 0 && General.timepo < 1) {
 								General.timepo = 0;
 								procesoMision3 (General.paso_mision);
 						}
 						break;
 				case 4:
-						mensaje = "Recuerda buscar la casona de Coburgo, allá te darán nuevas indicaciones.";
+						mensaje = "Recuerda buscar la casona de Balmoral, \n" +
+							"allá te darán nuevas indicaciones.";
 						break;
 				case 5:
-						mensaje = "Ya tienes los artículos, \n llévalos a la casona de Coburgo, allá te dirán que hacer. ";
+						mensaje = "Ya tienes los artículos, llévalos a la \n" +
+							"casona de Coburgo, allá te dirán que hacer. ";
 						break;
 				case 6:
-						mensaje = "Recuerda buscar al recaudador de impuestos, él te dará la información de tu nuevo hogar.";
+						mensaje = "Recuerda buscar al recaudador de impuestos, \n" +
+							"él te dará la información de tu nuevo hogar.";
 						break;
 				case 7:
-						mensaje = "Recuerda probar las llaves en esas casas para encontrar la tuya.";
+						mensaje = "Recuerda probar las llaves en esas casas \n" +
+							"para encontrar la tuya.";
 						break;
 				case 8:
-						mensaje = "¡Muy bien! Este es tu nuevo hogar. Ahora vamos a adornarlo. \n Busca a Jose Celestino mutis en la casona la venta, él te dirá que hacer.";
+						mensaje = "¡Muy bien! Este es tu nuevo hogar. Ahora\n" +
+								"vamos a adornarlo. Busca a Jose Celestino mutis \n" +
+							"en la casona la venta, él te dirá que hacer.";
 						if (General.timepo > 0 && General.timepo < 1) {
 								procesoMision3 (General.paso_mision);
 						}
 						break;
 				case 9:
-						mensaje = "Busca a Jose Celestino mutis en la casona la venta, él te necesita.";
+						mensaje = "Busca a Jose Celestino mutis en la casona \n" +
+							"la venta, él te necesita.";
 						break;
 				case 10:
-						mensaje = "Recuerda llevar la Quina a Alfonso López, que se encuentra en la casona de Coburgo.";
+						mensaje = "Recuerda llevar la Quina a Alfonso López, \n" +
+							"que se encuentra en la casona de Coburgo.";
 						break;
 				case 11:
-						mensaje = "Muy bien, para terminar tu misión, lleva tu mata de café para adornar tu casa.";
+						mensaje = "Muy bien, para terminar tu misión, \n" +
+							"lleva tu mata de café para adornar tu casa.";
 						break;
 				}
 
@@ -771,12 +813,70 @@ public class Misiones : MonoBehaviour
 
 
 		private void PuntosClave(){
+				if (GameObject.Find ("PlayerJuego2")) {
+						GameObject.Find ("PlayerJuego2").name = "PlayerJuego";	
+				}
+				if (!GameObject.Find ("PlayerJuego")) {
+						return;	
+				}
 				if (General.misionActual [0] == "1") {
+						if (General.paso_mision == 2) {
+								GameObject.Find ("maderas").tag = "ObjetoMision";
+						} else if (General.paso_mision == 4) {
+								GameObject.Find ("maderas").tag = "Untagged";
+								GameObject.Find ("hojas").tag = "ObjetoMision";
+						} else if (General.paso_mision == 6) {
+								GameObject.Find ("hojas").tag = "Untagged";
+								GameObject.Find ("barro").tag = "ObjetoMision";
+						}
 				
-				}else if (General.misionActual [0] == "2") {
+				} else if (General.misionActual [0] == "2") {
+						if (General.paso_mision == 2) {
+								GameObject.Find ("Virrey").tag = "ObjetoMision";
+						} else if (General.paso_mision == 6) {
+								GameObject.Find ("Virrey").tag = "Untagged";
+								GameObject.Find ("BernardinoGrupo").tag = "ObjetoMision";
+						} else if (General.paso_mision == 7) {
+								GameObject.Find ("BernardinoGrupo").tag = "Untagged";
+								GameObject.Find ("Medieval_House").tag = "ObjetoMision";
+						}
 
-				}else if (General.misionActual [0] == "3") {
+				} else if (General.misionActual [0] == "3") {
+						if (General.paso_mision == 2) {
+								GameObject.Find ("Parroco").tag = "ObjetoMision";
+						} else if (General.paso_mision == 3) {
+								GameObject.Find ("Parroco").tag = "";
+								GameObject.Find ("QuintaBalmoral").tag = "ObjetoMision";
+						} else if (General.paso_mision == 5) {
+								GameObject.Find ("QuintaBalmoral").tag = "Untagged";
+								GameObject.Find ("CasonaCoburgo").tag = "ObjetoMision";
+						} else if (General.paso_mision == 6) {
+								GameObject.Find ("CasonaCoburgo").tag = "Untagged";
+								GameObject.Find ("Recaudador").tag = "ObjetoMision";
+						} else if (General.paso_mision == 7) {
+								GameObject.Find ("Recaudador").tag = "Untagged";
+								GameObject.Find ("Casa1").tag = "ObjetoMision";
+								GameObject.Find ("Casa2").tag = "ObjetoMision";
+								GameObject.Find ("Casa3").tag = "ObjetoMision";
+								GameObject.Find ("Casa4").tag = "ObjetoMision";
+						} else if (General.paso_mision == 8) {
+								GameObject.Find ("Casa1").tag = "Untagged";
+								GameObject.Find ("Casa2").tag = "Untagged";
+								GameObject.Find ("Casa3").tag = "Untagged";
+								GameObject.Find ("Casa4").tag = "Untagged";
+								GameObject.Find ("CasonaLaVenta").tag = "ObjetoMision";
+						} else if (General.paso_mision == 10) {
+								GameObject.Find ("CasonaLaVenta").tag = "Untagged";
+								GameObject.Find ("CasonaCoburgo").tag = "Untagged";
+						} else if (General.paso_mision == 11){
 
+								GameObject.Find("CasonaCoburgo").tag="Untagged";
+								GameObject.Find("Casa1").tag="ObjetoMision";
+								GameObject.Find("Casa2").tag="ObjetoMision";
+								GameObject.Find("Casa3").tag="ObjetoMision";
+								GameObject.Find("Casa4").tag="ObjetoMision";
+
+						}
 				}
 		}
 }

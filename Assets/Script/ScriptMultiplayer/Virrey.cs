@@ -82,13 +82,13 @@ public class Virrey : MonoBehaviour {
 										}
 
 								} else if (tiempo > 10) {
-										mensaje = "Llevadlo a Bernardino de Albornoz que se encuentra en Fusagasugá, y entregadlo.";
+										mensaje = "Llevadlo a Bernardino de Albornoz que se encuentra en Fusagasugá, \n";
 										GameObject.Find ("pieza0").transform.Translate(0.01f,0,0); 
 										GameObject.Find ("permiso").transform.Translate(-0.01f,0,0); 
 
 
 								} else if (tiempo > 5) {
-										mensaje = "Él les dirá que hacer.";
+										mensaje = "y entregadlo. Él les dirá que hacer.";
 								}
 								break;
 						}
@@ -98,7 +98,10 @@ public class Virrey : MonoBehaviour {
 						style = GUI.skin.GetStyle ("Box");
 						style.fontSize = (int)(20.0f);
 
-						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4), mensaje);
+
+						style.fontSize = (int)(15.0f);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/4,Screen.height/24),"Virrey");
 
 						if (General.paso_mision == 5 && General.misionActual [0] == "2" && tiempo < 0.5) {
 								//General.timepo = 10;

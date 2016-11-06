@@ -126,7 +126,8 @@ public class ActivarGonzalo : MonoBehaviour
 								}
 								break;
 						case 3:
-								mensaje = "Recuerda que debes unirte con otros compañeros y completar tres tributos.\n Así podrán hablar con el virrey. ";
+								mensaje = "Recuerda que debes unirte con otros compañeros y completar \n" +
+									"tres tributos. Así podrán hablar con el virrey. ";
 								break;
 						case 4: 
 								if (tiempo > 8) {
@@ -150,7 +151,7 @@ public class ActivarGonzalo : MonoBehaviour
 						style = GUI.skin.GetStyle ("Box");
 						style.fontSize = (int)(20.0f);
 			
-						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4), mensaje);
 
 						if (General.paso_mision == 2 && General.misionActual [0] == "2" && tiempo < 0.5) {
 								//General.timepo = 10;

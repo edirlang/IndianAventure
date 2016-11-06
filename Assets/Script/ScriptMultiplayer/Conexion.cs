@@ -46,6 +46,7 @@ public class Conexion : MonoBehaviour
 
 		void Update ()
 		{
+				
 				if (GameObject.Find ("MainCamera2")) {
 						Destroy (GameObject.Find ("MainCamera2"));
 				}
@@ -60,7 +61,9 @@ public class Conexion : MonoBehaviour
 				}
 				if (reiniciar) {
 						tiempo_reinicio -= Time.deltaTime;
-
+						if (GameObject.Find ("PlayerJuego2")) {
+								GameObject.Find ("PlayerJuego2").name = "PlayerJuego";
+						}
 						if (tiempo_reinicio < 0) {
 								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego").transform.position;
 								reiniciar = false;
@@ -70,6 +73,9 @@ public class Conexion : MonoBehaviour
 
 		void  OnGUI ()
 		{
+				if (General.salud <= 0) {
+						return;
+				}
 
 				GUIStyle style = new GUIStyle ();
 				style.alignment = TextAnchor.MiddleLeft;
@@ -115,7 +121,7 @@ public class Conexion : MonoBehaviour
 
 				if (salir) {
 						Network.Disconnect (200);
-						StartCoroutine (General.actualizarUser ());
+						nw.RPC ("guardarDatos", RPCMode.All,General.username);
 						Application.LoadLevel ("lobyScena");
 						GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 						foreach (GameObject jugador in players) {
@@ -172,7 +178,11 @@ public class Conexion : MonoBehaviour
 						if (GUI.Button (new Rect (12*(Screen.width / 24), Screen.height /3, Screen.width / 6, Screen.height / 4),  new GUIContent(piedra,"Piedra Hogar"), stilobotones)) {
 								abrirMenu = false;
 								MoverMouse.movimiento = false;
-								GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find("PlayerJuego").transform.position;
+								if (GameObject.Find ("PlayerJuego"))
+										GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego").transform.position;
+								else {
+										GameObject.Find (Network.player.ipAddress).transform.position = GameObject.Find ("PlayerJuego2").transform.position;
+								}
 								MoverMouse.movimiento = true;
 						}
 
@@ -430,14 +440,9 @@ public class Conexion : MonoBehaviour
 				Debug.Log ("Clean up after player " + player);
 				Network.RemoveRPCs (player);
 				Network.DestroyPlayerObjects (player);
-
+				salir = true;
 		}
-
-		public virtual void OnServerDisconnect (NetworkConnection conn)
-		{
-				NetworkServer.DestroyPlayersForConnection (conn);
-		}
-
+				
 		[RPC]
 		public void recibir (string text, string usuario, string color)
 		{
@@ -454,5 +459,11 @@ public class Conexion : MonoBehaviour
 						chozaLevel.transform.localScale = new Vector3 (4.0f, 4.0f, 3.0f);
 						chozaLevel.name = "choza-" + usuario;
 				}
+		}
+
+		[RPC]
+		public void guardarDatos (string usuario)
+		{
+				StartCoroutine (General.actualizarUser ());
 		}
 }

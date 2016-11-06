@@ -65,14 +65,18 @@ public class EnriqueOlaya : MonoBehaviour {
 
 						if (General.paso_mision == 4) {
 								if (tiempo > 15) {
-										mensaje = "Bienvenido a la casona de Balmoral. \n Construida en 1870.";
+										mensaje = "Bienvenido a la casona de Balmoral. " +
+											"\n Construida en 1870.";
 
 								} else if (tiempo > 10) {
-										mensaje = "Aquí se realizaron grandes reuniones \n para crear las leyes de 1886 en nuestro país que rigen actualmente.";
+										mensaje = "Aquí se realizaron grandes reuniones para crear" +
+											"\n las leyes de 1886 en nuestro país que \n" +
+											"rigen actualmente.";
 								} else if (tiempo > 8) {
 										mensaje = "Para continuar,";
 								}else if (tiempo > 0) {
-										mensaje = "debes llevar estos artículos para que sean firmados y publicados.";
+										mensaje = "debes llevar estos artículos para que \n" +
+											"sean firmados y publicados.";
 										if (!GameObject.Find ("articulos")) {
 												GameObject Obj = (GameObject)Instantiate (articulos, transform.position, transform.rotation);
 												Obj.transform.parent = player.transform;
@@ -102,6 +106,9 @@ public class EnriqueOlaya : MonoBehaviour {
 						style.fontSize = (int)(20.0f);
 
 						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+
+						style.fontSize = (int)(15.0f);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/3,Screen.height/24),"Enrique Olaya Herrera");
 
 						MoverMouse.movimiento = true;
 				}

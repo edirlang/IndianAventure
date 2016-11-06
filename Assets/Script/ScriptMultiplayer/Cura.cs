@@ -7,6 +7,7 @@ public class Cura : MonoBehaviour {
 		public string mensaje;
 		public static GameObject[] equipo;
 		public GameObject cura, cruz;
+		public Animator animator;
 		GameObject player;
 		public float tiempo = -1f;
 		public bool iniciarConversasion = false, persegir = false;
@@ -33,7 +34,9 @@ public class Cura : MonoBehaviour {
 								moveDirection = new Vector3 (0, 0, 1);
 								moveDirection = cura.transform.TransformDirection (moveDirection);
 								moveDirection *= 2;
+								animator.SetFloat ("speed",1.0f);
 						} else {
+								animator.SetFloat ("speed",0.0f);
 								moveDirection = Vector3.zero;
 								iniciarConversasion = true;
 								tiempo = 24;
@@ -61,14 +64,17 @@ public class Cura : MonoBehaviour {
 
 						if (General.paso_mision == 2) {
 								if (tiempo > 18) {
-										mensaje = "Bienvenido a la nueva iglesia, \n esta iglesia fue reconstruida en 1776,";
+										mensaje = "Bienvenido a la nueva iglesia, \n " +
+											"esta iglesia fue reconstruida en 1776,";
 
 								} else if (tiempo > 12) {
 										mensaje = "mostrando la construcción de la nueva ciudad.";
 								} else if (tiempo > 8) {
-										mensaje = "Desde aquí tu comunidad y tu empiezan a tomar la religión católica";
+										mensaje = "Desde aquí tu comunidad y tu empiezan a tomar \n" +
+											"la religión católica";
 								}else if (tiempo > 0) {
-										mensaje = "para ello te entrego esta cruz, \n símbolo de nuestra religión católica.";
+										mensaje = "para ello te entrego esta cruz, \n " +
+											"símbolo de nuestra religión católica.";
 										if (!GameObject.Find ("cruz")) {
 												GameObject cruzObj = (GameObject)Instantiate (cruz, transform.position, transform.rotation);
 												cruzObj.transform.parent = player.transform;
@@ -99,6 +105,8 @@ public class Cura : MonoBehaviour {
 
 						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
 
+						style.fontSize = (int)(15.0f);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/3,Screen.height/24),"Antonio Martinez (Cura)");
 						MoverMouse.movimiento = true;
 				}
 		}

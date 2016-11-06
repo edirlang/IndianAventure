@@ -74,7 +74,9 @@ public class AcionesBernardino : MonoBehaviour {
 
 								} else {
 										tiempo = 8;
-										mensaje = "Recuerda que debes ir donde el virrey que se encuentra en Altagracia de Sumapaz \n y traerme un permiso, así poder darte los materiales para construir su humilde morada.";
+										mensaje = "Recuerda que debes ir donde el virrey en Altagracia de \n" +
+												"Sumapaz y traerme un permiso, así poder darte los materiales\n" +
+											"para construir su humilde morada.";
 								}
 
 								players.RemoveAt (0);
@@ -91,7 +93,8 @@ public class AcionesBernardino : MonoBehaviour {
 
 						if (General.paso_mision == 6) {
 								if (tiempo > 40) {
-										mensaje = "Bienvenidos amigos míos, os recibo el permiso \n de vuestro virrey para poder entregarles las llaves de su casa.";
+										mensaje = "Bienvenidos amigos míos, os recibo el permiso de vuestro\n " +
+												"virrey para poder entregarles las llaves de su casa.";
 										if (!GameObject.Find ("permiso") && tiempo < 44) {
 												GameObject permisoObj = (GameObject)Instantiate (permiso, transform.position, transform.rotation);
 												permisoObj.transform.parent = player.transform;
@@ -105,7 +108,8 @@ public class AcionesBernardino : MonoBehaviour {
 								} else if (tiempo > 35) {
 										mensaje = "Aquí fundaremos un nuevo pueblo llamado Fusagasugá.";
 								} else if (tiempo > 30) {
-										mensaje = "Muy bien, aquí está su casa, ya podéis habitar en esta humilde morada.";
+										mensaje = "Muy bien, aquí está su casa, ya podéis habitar \n" +
+											"en esta humilde morada.";
 										if (!GameObject.Find ("llave")) {
 												GameObject llaveObj = (GameObject)Instantiate (llave, bernardino.transform.position, transform.rotation);
 												llaveObj.transform.parent = player.transform;
@@ -117,15 +121,18 @@ public class AcionesBernardino : MonoBehaviour {
 												Destroy (GameObject.Find ("permiso"));
 												Destroy (GameObject.Find ("llave"));
 										}
-										mensaje = "Tu casa, así como las de su alrededor, \n se ha construido con los siguientes materiales:";
+										mensaje = "Tu casa, así como las de su alrededor, \n " +
+											"se ha construido con los siguientes materiales:";
 								} else if (tiempo > 20) {
-										mensaje = "Ladrillo de barro (Adobe), la cual sirve como pared de nuestras casas";
+										mensaje = "Ladrillo de Adobe, la cual sirve como pared de nuestras casas";
 								} else if (tiempo > 15) {
 										mensaje = "Teja de barro, la que nos protege de la lluvia";
 								} else if (tiempo > 10) {
-										mensaje = "Piedra como cimiento, la que sostendrá nuestra casa sin que se derrumbe";
+										mensaje = "Piedra como cimiento, la que sostendrá nuestra casa \n" +
+											"sin que se derrumbe";
 								} else if (tiempo > 5) {
-										mensaje = "Madera, Usada como marcos de las ventanas y puertas, además de ayudar a adornar tu casa.";
+										mensaje = "Madera, Usada como marcos de las ventanas y puertas, \n" +
+											"además de ayudar a adornar tu casa.";
 								} 
 
 								if (General.paso_mision == 6 && General.misionActual [0] == "2" && tiempo < 0.5) {
@@ -135,7 +142,9 @@ public class AcionesBernardino : MonoBehaviour {
 										mision.procesoMision2 (General.paso_mision);
 								}
 						} else if (General.paso_mision < 6) {
-								mensaje = "Recuerda que debes ir donde el virrey que se encuentra en Altagracia de Sumapaz \n y traerme un permiso, así poder darte los materiales para construir su humilde morada.";
+								mensaje = "Recuerda que debes ir donde el virrey en Altagracia de \n" +
+										"Sumapaz y traerme un permiso, así poder darte los materiales\n" +
+										"para construir su humilde morada.";
 						} else {
 								mensaje = "Ve a tu casa, y resguardate de esta terrible tormenta";
 						}
@@ -145,7 +154,10 @@ public class AcionesBernardino : MonoBehaviour {
 						style = GUI.skin.GetStyle ("Box");
 						style.fontSize = (int)(20.0f);
 
-						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4), mensaje);
+
+						style.fontSize = (int)(15.0f);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/3,Screen.height/24),"Gonzalo Jimenez de Quesada");
 
 						MoverMouse.movimiento = true;
 				}

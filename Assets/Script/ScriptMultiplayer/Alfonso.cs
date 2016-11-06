@@ -90,7 +90,8 @@ public class Alfonso : MonoBehaviour {
 												Destroy (GameObject.Find ("articulos"));
 										}
 								}else if (tiempo > 0) {
-										mensaje = "Debes ir cerca de la iglesia, hay te dirán donde será tu próximo hogar.";
+										mensaje = "Debes ir cerca de la iglesia, hay \n" +
+											"te dirán donde será tu próximo hogar.";
 								}
 
 								if (General.paso_mision == 5 && General.misionActual [0] == "3" && tiempo < 0.5) {
@@ -103,7 +104,7 @@ public class Alfonso : MonoBehaviour {
 										mision.procesoMision3 (General.paso_mision);
 								}
 						} else if(General.paso_mision != 8) {
-								mensaje = "Bienvenido a la mi casa Coburgo.";
+								mensaje = "Bienvenido a mi casa Coburgo.";
 						}
 
 						GUIStyle style = new GUIStyle ();
@@ -112,6 +113,9 @@ public class Alfonso : MonoBehaviour {
 						style.fontSize = (int)(20.0f);
 
 						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+
+						style.fontSize = (int)(15.0f);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/3,Screen.height/24),"Alfonso Lopez Pumarejo");
 
 						MoverMouse.movimiento = true;
 				}
