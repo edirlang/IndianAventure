@@ -11,8 +11,10 @@ public class General : MonoBehaviour {
 	public static GameObject personaje;
 	public static Vector3 posicionIncial;
 	public static int idPersonaje, paso_mision=1;
-	public static string hosting = "http://fusa.audiplantas.com/IndianAventure/index.php/";
-	public static bool conectado = false, bono=false, mensajeRecojer = false;
+	public static string hosting = "http://fusa.audiplantas.com/API/index.php/";
+	//	public static string hosting = "localhost/API/index.php/";
+
+		public static bool conectado = false, bono=false, mensajeRecojer = false;
 	public static string[] misionActual = new string[3];
 	public static float timepoChia=10, timepo=-1;
 		public Texture mapa;
@@ -65,6 +67,7 @@ public class General : MonoBehaviour {
 	public static IEnumerator consultarPersonajeUsername(WWW www){
 		yield return www;
 		if(www.error == null){
+						Debug.Log (www.text);
 			General.idPersonaje = int.Parse(www.text);
 		}else{
 			Debug.Log(www.error);

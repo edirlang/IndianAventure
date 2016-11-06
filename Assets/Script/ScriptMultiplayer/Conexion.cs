@@ -120,8 +120,9 @@ public class Conexion : MonoBehaviour
 				}
 
 				if (salir) {
-						Network.Disconnect (200);
-						nw.RPC ("guardarDatos", RPCMode.All,General.username);
+						//nw.RPC ("guardarDatos", RPCMode.All,General.username);
+						StartCoroutine (General.actualizarUser ());
+						Network.Disconnect (500);
 						Application.LoadLevel ("lobyScena");
 						GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 						foreach (GameObject jugador in players) {
@@ -313,6 +314,7 @@ public class Conexion : MonoBehaviour
 				yield return www;
 				if (www.error == null) {
 						Debug.Log (www.text);
+						MoverMouse.cambioCamara = false;
 						salir = true;
 				} else {
 						Debug.Log (www.error);
