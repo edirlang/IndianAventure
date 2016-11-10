@@ -67,24 +67,26 @@ public class Alfonso : MonoBehaviour {
 								if (tiempo > 15) {
 										mensaje = "Bienvenido a este lugar\n ";
 								} else if (tiempo > 10) {
-										mensaje = "os recibo los artículos que Don Enrique me envió contigo.";
+										mensaje = "os recibo los artículos que Don \n" +
+											"Enrique me envió contigo.";
 										if (!GameObject.Find ("articulos")) {
 
 												GameObject obj = (GameObject)Instantiate (articulos, player.transform.position, transform.rotation);
 												obj.transform.parent = player.transform;
 												obj.transform.rotation = new Quaternion ();
-												obj.transform.Rotate (0,265,0);
-												obj.transform.localPosition = new Vector3 (-2.25f, 0.2f, -3f);
+												obj.transform.Rotate (270,180,0);
+												obj.transform.localPosition = new Vector3 (2f, 0.2f, 3f);
 												obj.name = "articulos";
 
 										}
 								} else if (tiempo > 8) {
-										mensaje = "Gracias. Por este favor, te entrego este título de propiedad.";
+										mensaje = "Gracias. Por este favor, te entrego \n" +
+											"este título de propiedad.";
 										if (!GameObject.Find ("titulo")) {
 												GameObject permisoObj = (GameObject)Instantiate (titulo, player.transform.position, transform.rotation);
 												permisoObj.transform.parent = player.transform;
 												permisoObj.transform.rotation = new Quaternion ();
-												permisoObj.transform.Rotate (300,265,0);
+												permisoObj.transform.Rotate (300,0,0);
 												permisoObj.transform.localPosition = new Vector3 (-2.25f, 0.2f, 3f);
 												permisoObj.name = "titulo";
 												Destroy (GameObject.Find ("articulos"));
@@ -103,7 +105,7 @@ public class Alfonso : MonoBehaviour {
 										Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 										mision.procesoMision3 (General.paso_mision);
 								}
-						} else if(General.paso_mision != 8) {
+						} else if(General.paso_mision != 10) {
 								mensaje = "Bienvenido a mi casa Coburgo.";
 						}
 
@@ -112,7 +114,7 @@ public class Alfonso : MonoBehaviour {
 						style = GUI.skin.GetStyle ("Box");
 						style.fontSize = (int)(20.0f);
 
-						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4), mensaje);
 
 						style.fontSize = (int)(15.0f);
 						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/3,Screen.height/24),"Alfonso Lopez Pumarejo");

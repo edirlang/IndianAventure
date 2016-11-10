@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FinJuego : MonoBehaviour {
 
-		public GameObject luz, creditos, lluvia;
+		public GameObject luz, creditos, lluvia, pj1, pj2, pj3;
 		public AnimationClip animacion;
 		float tiempo, tiempoCreditos;
 		bool iniciarCreditos;
@@ -13,6 +13,29 @@ public class FinJuego : MonoBehaviour {
 				tiempo = 6;
 				iniciarCreditos = false;
 				tiempoCreditos = animacion.length;
+
+				GameObject jugador = pj1;
+				switch (General.idPersonaje) {
+				case 1:
+						jugador = pj1;
+						break;
+				case 2:
+						jugador = pj2;
+						break;
+				case 3:
+						jugador = pj3;
+						break;
+				}
+
+				Camera.main.transform.parent = GameObject.Find ("IniciarVariables").transform;
+				Network.Destroy (GameObject.Find (Network.player.ipAddress));
+				GameObject g = (GameObject) Network.Instantiate (jugador, GameObject.Find("PlayerJuego").transform.position, new Quaternion(), 1);
+				g.transform.localScale = new Vector3 (2, 2, 2);
+				g.AddComponent<BoxCollider> ();
+				g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
+
+				g.name = Network.player.ipAddress;
+
 				GameObject.Find ("MusicaFondo").GetComponent<AudioSource> ().volume = 1;
 				GameObject rain = (GameObject) Instantiate (lluvia, transform.position, transform.rotation);
 				rain.transform.parent = GameObject.Find (Network.player.ipAddress).transform;
@@ -42,8 +65,8 @@ public class FinJuego : MonoBehaviour {
 				if (tiempoCreditos < 0) {
 						Destroy (GameObject.Find("Luz"));
 						MoverMouse.cambioCamara = false;
-						Destroy (GameObject.Find(Network.player.ipAddress));
 						StartCoroutine (Camera.main.GetComponent<Conexion>().desconectarUser ());
+
 				}
 	}
 

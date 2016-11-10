@@ -113,18 +113,17 @@ public class recaudador : MonoBehaviour {
 								mensaje = "Gracias, Alfonso te envía este regalo por ayudarle.";
 								if (!GameObject.Find ("cafe")) {
 										General.monedas -= 30;
-										GameObject permisoObj = (GameObject)Instantiate (quina, transform.position, transform.rotation);
-										permisoObj.transform.parent = player.transform;
-										permisoObj.transform.rotation = new Quaternion ();
-										permisoObj.transform.Rotate (300, 0, 0);
-										permisoObj.transform.localPosition = new Vector3 (-0.95f, 0.5858f, 2.3f);
-										permisoObj.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
-										permisoObj.name = "quina";
+										GameObject quinaobj = (GameObject)Instantiate (quina, transform.position, transform.rotation);
+										quinaobj.transform.parent = player.transform;
+										quinaobj.transform.rotation = new Quaternion ();
+										quinaobj.transform.Rotate (300, 0, 0);
+										quinaobj.transform.localPosition = new Vector3 (-0.95f, 0.5858f, 2.3f);
+										quinaobj.name = "quina";
 
-										GameObject llaveObj = (GameObject)Instantiate (cafe, recaudador_game.transform.position, transform.rotation);
-										llaveObj.transform.parent = player.transform;
-										llaveObj.transform.localPosition = new Vector3 (2.14f, 0.84f, 2.08f);
-										llaveObj.name = "cafe"; 
+										GameObject cafeObj = (GameObject)Instantiate (cafe, recaudador_game.transform.position, transform.rotation);
+										cafeObj.transform.parent = player.transform;
+										cafeObj.transform.localPosition = new Vector3 (2.14f, 0f, 2.08f);
+										cafeObj.name = "cafe"; 
 								}
 
 								if (General.paso_mision == 10 && General.misionActual [0] == "3" && tiempo < 0.5) {
@@ -146,7 +145,7 @@ public class recaudador : MonoBehaviour {
 						style = GUI.skin.GetStyle ("Box");
 						style.fontSize = (int)(20.0f);
 
-						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4), mensaje);
 
 						style.fontSize = (int)(15.0f);
 						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/4,Screen.height/24),"Recaudador");

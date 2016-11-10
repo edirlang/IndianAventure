@@ -178,7 +178,6 @@ public class interfaz_login : MonoBehaviour
 				} else {
 						Debug.Log (www.error);
 						mensaje = "Verifica tu conexión de red";
-
 				}
 		}
 
@@ -191,8 +190,9 @@ public class interfaz_login : MonoBehaviour
 								registrar = false;
 								loginAutomatico = true;
 						} else {
+								
 								mensaje = "No se logro crear tu cuenta";
-								Debug.Log ("No se logro crear tu cuenta");
+								Debug.Log (www.text);
 						}
 				} else {
 						Debug.Log (www.error);

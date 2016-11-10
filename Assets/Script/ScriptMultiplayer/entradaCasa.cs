@@ -59,9 +59,9 @@ public class entradaCasa : MonoBehaviour
 
 		public void OnTriggerEnter (Collider colision)
 		{
-				if (colision.tag == "Player") {
+				if (colision.name == Network.player.ipAddress) {
 						player = colision.gameObject;
-						if (General.paso_mision == 7 && General.misionActual[0] == "2") {
+						if (General.paso_mision == 7 && General.misionActual [0] == "2") {
 								
 								tiempo = 5;
 								MoverMouse.cambioCamara = true;
@@ -70,7 +70,7 @@ public class entradaCasa : MonoBehaviour
 										Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 										mision.procesoMision2 (General.paso_mision);
 								}
-						} else  if(General.paso_mision == 7 && General.misionActual[0]=="3"){
+						} else if (General.paso_mision == 7 && General.misionActual [0] == "3") {
 								
 								Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 								if (soyEntrar && numeroCasa == mision.numeroLlave) {
@@ -78,7 +78,12 @@ public class entradaCasa : MonoBehaviour
 										trasportar = true;
 										mision.procesoMision3 (General.paso_mision);
 								}
-						}else  if(General.paso_mision == 8 && General.misionActual[0]=="3"){
+						} else if (General.paso_mision == 8 && General.misionActual [0] == "3") {
+								Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
+								if (numeroCasa == mision.numeroLlave) {
+										trasportar = true;
+								}
+						} else if (General.paso_mision > 8 && General.paso_mision < 11 && General.misionActual [0] == "3") {
 								Misiones mision = Camera.main.gameObject.GetComponent<Misiones> ();
 								if (numeroCasa == mision.numeroLlave) {
 										trasportar = true;

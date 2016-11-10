@@ -6,11 +6,13 @@ public class Virrey : MonoBehaviour {
 		public string mensaje;
 		public GameObject virrey, premio, permiso;
 		public Texture premioTextura;
+		public AudioClip v1, v2, v3;
 		GameObject gonzaloInstanciado;
 		GameObject player;
 		ArrayList players;
 		public float tiempo = -1f;
 		public bool iniciarConversasion = false, cambio = false;
+		AudioSource voz;
 		Vector3 moveDirection;
 		// Use this for initialization
 		void Start ()
@@ -25,12 +27,15 @@ public class Virrey : MonoBehaviour {
 						Maleta maleta = Camera.main.gameObject.GetComponent<Maleta>();
 						maleta.eliminarTextura (premioTextura.name);
 				}
+				voz = virrey.GetComponent<AudioSource> ();
+				voz.enabled = false;
 		}
 
 		// Update is called once per frame
 		void Update ()
 		{
 				if (iniciarConversasion) {
+						voz.enabled = true;
 						tiempo -= Time.deltaTime;
 				}
 
@@ -46,6 +51,10 @@ public class Virrey : MonoBehaviour {
 								cambio = false;
 						} 
 				}
+
+				if (tiempo < 0) {
+						voz.enabled = false;
+				}
 		}
 
 		void OnGUI ()
@@ -55,8 +64,18 @@ public class Virrey : MonoBehaviour {
 						switch (General.paso_mision) {
 						case 5: 
 								if (tiempo > 20) {
+										
 										mensaje = "Bienvenidos a Altagracia de Sumapaz,";
+
+										if (voz.clip.name != v1.name) {
+												voz.clip = v1;
+												voz.Play ();
+										}
 								} else if (tiempo > 15) {
+										if (voz.clip.name != v2.name) {
+												voz.clip = v2;
+												voz.Play ();
+										}
 										mensaje = "he aquí recibo sus tributos y te entrego este permiso.";
 										if (!GameObject.Find ("pieza0")) {
 												GameObject pieza = (GameObject)Instantiate (premio, virrey.transform.position, transform.rotation);
@@ -82,13 +101,17 @@ public class Virrey : MonoBehaviour {
 										}
 
 								} else if (tiempo > 10) {
-										mensaje = "Llevadlo a Bernardino de Albornoz que se encuentra en Fusagasugá, \n";
+										if (voz.clip.name != v3.name) {
+												voz.clip = v3;
+												voz.Play ();
+										}
+										mensaje = "Llevadlo a Bernardino de Albornoz que se encuentra en";
 										GameObject.Find ("pieza0").transform.Translate(0.01f,0,0); 
 										GameObject.Find ("permiso").transform.Translate(-0.01f,0,0); 
 
 
 								} else if (tiempo > 5) {
-										mensaje = "y entregadlo. Él les dirá que hacer.";
+										mensaje = "Fusagasugá, y entregadlo. Él les dirá que hacer.";
 								}
 								break;
 						}

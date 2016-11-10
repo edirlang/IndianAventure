@@ -28,7 +28,7 @@ public class MoverMouse : MonoBehaviour
 
 				posicion = transform.position;
 
-				if (General.paso_mision == 1 && nw.isMine && Application.loadedLevelName != "lobyScena") {
+				if (General.paso_mision == 1 && nw.isMine && Application.loadedLevelName != "lobyScena" && Application.loadedLevelName != "introduccion") {
 						Debug.Log ("Llamando a chia en "+ Application.loadedLevelName);
 						if (General.misionActual [0] == "2") {
 								General.timepo = 35;

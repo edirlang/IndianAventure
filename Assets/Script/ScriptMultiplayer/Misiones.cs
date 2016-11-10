@@ -792,7 +792,8 @@ public class Misiones : MonoBehaviour
 
 				string mensaje = "";
 				if (General.timepo > 0) {
-						mensaje = "Excelente, ya tienes tu casa en esta nueva era. Tu viaje terminara pronto";
+						mensaje = "Excelente, ya tienes tu casa en esta nueva era.\n" +
+							"Tu viaje terminara pronto";
 				} 
 				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
 		}
@@ -822,16 +823,16 @@ public class Misiones : MonoBehaviour
 				if (General.misionActual [0] == "1") {
 						if (General.paso_mision == 2) {
 								GameObject.Find ("maderas").tag = "ObjetoMision";
-						} else if (General.paso_mision == 4) {
+						} else if (General.paso_mision >= 4 && General.paso_mision < 6) {
 								GameObject.Find ("maderas").tag = "Untagged";
 								GameObject.Find ("hojas").tag = "ObjetoMision";
-						} else if (General.paso_mision == 6) {
+						} else if (General.paso_mision >= 6) {
 								GameObject.Find ("hojas").tag = "Untagged";
 								GameObject.Find ("barro").tag = "ObjetoMision";
 						}
 				
 				} else if (General.misionActual [0] == "2") {
-						if (General.paso_mision == 2) {
+						if (General.paso_mision >= 2 && General.paso_mision < 6) {
 								GameObject.Find ("Virrey").tag = "ObjetoMision";
 						} else if (General.paso_mision == 6) {
 								GameObject.Find ("Virrey").tag = "Untagged";
@@ -842,10 +843,14 @@ public class Misiones : MonoBehaviour
 						}
 
 				} else if (General.misionActual [0] == "3") {
+						if (!GameObject.Find ("Casonas")) {
+								return;
+						}
+
 						if (General.paso_mision == 2) {
 								GameObject.Find ("Parroco").tag = "ObjetoMision";
 						} else if (General.paso_mision == 3) {
-								GameObject.Find ("Parroco").tag = "";
+								GameObject.Find ("Parroco").tag = "Untagged";
 								GameObject.Find ("QuintaBalmoral").tag = "ObjetoMision";
 						} else if (General.paso_mision == 5) {
 								GameObject.Find ("QuintaBalmoral").tag = "Untagged";
@@ -867,7 +872,7 @@ public class Misiones : MonoBehaviour
 								GameObject.Find ("CasonaLaVenta").tag = "ObjetoMision";
 						} else if (General.paso_mision == 10) {
 								GameObject.Find ("CasonaLaVenta").tag = "Untagged";
-								GameObject.Find ("CasonaCoburgo").tag = "Untagged";
+								GameObject.Find ("CasonaCoburgo").tag = "ObjetoMision";
 						} else if (General.paso_mision == 11){
 
 								GameObject.Find("CasonaCoburgo").tag="Untagged";

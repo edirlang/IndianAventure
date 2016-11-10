@@ -7,6 +7,7 @@ public class AcionesBernardino : MonoBehaviour {
 		public string mensaje;
 		public static GameObject[] equipo;
 		public GameObject bernardino, permiso, llave;
+		public AudioClip b0, b1, b2, b3, b4, b5, b6, b7, b8;
 		GameObject player;
 		ArrayList players;
 		public float tiempo = -1f;
@@ -14,6 +15,7 @@ public class AcionesBernardino : MonoBehaviour {
 		Vector3 moveDirection = Vector3.zero;
 		bool entro;
 		Animator animator;
+		AudioSource voz;
 		// Use this for initialization
 		void Start ()
 		{
@@ -23,6 +25,8 @@ public class AcionesBernardino : MonoBehaviour {
 				equipo = new GameObject[3];
 				players = new ArrayList ();
 				animator = bernardino.GetComponent<Animator> ();
+				voz = bernardino.GetComponent<AudioSource> ();
+				voz.enabled = false;
 		}
 
 		// Update is called once per frame
@@ -56,10 +60,12 @@ public class AcionesBernardino : MonoBehaviour {
 				}
 
 				if (iniciarConversasion) {
+						voz.enabled = true;
 						tiempo -= Time.deltaTime;
 				}
 
 				if (tiempo < 0) {
+						voz.enabled = false;
 						iniciarConversasion = false;
 				}
 				if (tiempo < 0) {
@@ -74,6 +80,10 @@ public class AcionesBernardino : MonoBehaviour {
 
 								} else {
 										tiempo = 8;
+										if (voz.clip.name != b0.name) {
+												voz.clip = b0;
+												voz.Play ();
+										}
 										mensaje = "Recuerda que debes ir donde el virrey en Altagracia de \n" +
 												"Sumapaz y traerme un permiso, así poder darte los materiales\n" +
 											"para construir su humilde morada.";
@@ -93,6 +103,10 @@ public class AcionesBernardino : MonoBehaviour {
 
 						if (General.paso_mision == 6) {
 								if (tiempo > 40) {
+										if (voz.clip.name != b1.name) {
+												voz.clip = b1;
+												voz.Play ();
+										}
 										mensaje = "Bienvenidos amigos míos, os recibo el permiso de vuestro\n " +
 												"virrey para poder entregarles las llaves de su casa.";
 										if (!GameObject.Find ("permiso") && tiempo < 44) {
@@ -106,8 +120,16 @@ public class AcionesBernardino : MonoBehaviour {
 
 										}
 								} else if (tiempo > 35) {
+										if (voz.clip.name != b2.name) {
+												voz.clip = b2;
+												voz.Play ();
+										}
 										mensaje = "Aquí fundaremos un nuevo pueblo llamado Fusagasugá.";
 								} else if (tiempo > 30) {
+										if (voz.clip.name != b3.name) {
+												voz.clip = b3;
+												voz.Play ();
+										}
 										mensaje = "Muy bien, aquí está su casa, ya podéis habitar \n" +
 											"en esta humilde morada.";
 										if (!GameObject.Find ("llave")) {
@@ -121,16 +143,36 @@ public class AcionesBernardino : MonoBehaviour {
 												Destroy (GameObject.Find ("permiso"));
 												Destroy (GameObject.Find ("llave"));
 										}
+										if (voz.clip.name != b4.name) {
+												voz.clip = b4;
+												voz.Play ();
+										}
 										mensaje = "Tu casa, así como las de su alrededor, \n " +
 											"se ha construido con los siguientes materiales:";
 								} else if (tiempo > 20) {
+										if (voz.clip.name != b5.name) {
+												voz.clip = b5;
+												voz.Play ();
+										}
 										mensaje = "Ladrillo de Adobe, la cual sirve como pared de nuestras casas";
 								} else if (tiempo > 15) {
+										if (voz.clip.name != b6.name) {
+												voz.clip = b6;
+												voz.Play ();
+										}
 										mensaje = "Teja de barro, la que nos protege de la lluvia";
 								} else if (tiempo > 10) {
+										if (voz.clip.name != b7.name) {
+												voz.clip = b7;
+												voz.Play ();
+										}
 										mensaje = "Piedra como cimiento, la que sostendrá nuestra casa \n" +
 											"sin que se derrumbe";
 								} else if (tiempo > 5) {
+										if (voz.clip.name != b8.name) {
+												voz.clip = b8;
+												voz.Play ();
+										}
 										mensaje = "Madera, Usada como marcos de las ventanas y puertas, \n" +
 											"además de ayudar a adornar tu casa.";
 								} 
@@ -142,6 +184,10 @@ public class AcionesBernardino : MonoBehaviour {
 										mision.procesoMision2 (General.paso_mision);
 								}
 						} else if (General.paso_mision < 6) {
+								if (voz.clip.name != b0.name) {
+										voz.clip = b0;
+										voz.Play ();
+								}
 								mensaje = "Recuerda que debes ir donde el virrey en Altagracia de \n" +
 										"Sumapaz y traerme un permiso, así poder darte los materiales\n" +
 										"para construir su humilde morada.";

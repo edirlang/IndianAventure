@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class introduccion : MonoBehaviour {
 
-		public GameObject lluviaPrefab, luz, rayos;
+		public GameObject lluviaPrefab, luz, rayos, pj1,pj2,pj3;
 		GameObject jugador, lluvia;
 		float tiempo = 20f;
 		bool crearLlubia;
@@ -14,6 +14,27 @@ public class introduccion : MonoBehaviour {
 						SceneManager.LoadScene ("main");
 				}
 				crearLlubia = true;
+				GameObject jugador = pj1;
+				switch (General.idPersonaje) {
+				case 1:
+						jugador = pj1;
+						break;
+				case 2:
+						jugador = pj2;
+						break;
+				case 3:
+						jugador = pj3;
+						break;
+				}
+
+				Camera.main.transform.parent = GameObject.Find ("IniciarVariables").transform;
+				Network.Destroy (GameObject.Find (Network.player.ipAddress));
+				GameObject g = (GameObject) Network.Instantiate (jugador, GameObject.Find("PlayerJuego").transform.position, new Quaternion(), 1);
+				g.transform.localScale = new Vector3 (2, 2, 2);
+				g.AddComponent<BoxCollider> ();
+				g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
+
+				g.name = Network.player.ipAddress;
 
 	}
 	
@@ -32,11 +53,20 @@ public class introduccion : MonoBehaviour {
 				if (tiempo < 0) {
 						luz.GetComponent<Light> ().color = Color.white;
 						luz.GetComponent<Light> ().intensity = 8;
-						Destroy (GameObject.Find ("camara"));
-						SceneManager.LoadScene ("level1");
+
+						Camera.main.transform.parent = GameObject.Find ("IniciarVariables").transform;
+
 						Destroy (lluvia);
 						Misiones mision = Camera.main.gameObject.GetComponent<Misiones>();
 						mision.terminoMision = true;
+						Network.Destroy (GameObject.Find (Network.player.ipAddress));
+						GameObject g = (GameObject)Network.Instantiate (General.personaje, GameObject.Find("PlayerJuego").transform.position, new Quaternion(), 1);
+						g.transform.localScale = new Vector3 (2, 2, 2);
+						g.AddComponent<BoxCollider> ();
+						g.GetComponent<BoxCollider> ().size = new Vector3 (0.1f, 0.1f, 0.1f);
+						g.name = Network.player.ipAddress;
+
+						SceneManager.LoadScene ("level1");
 				}
 	}
 

@@ -19,7 +19,11 @@ public class Radar : MonoBehaviour
 
 		void Update(){
 				if(Network.peerType != NetworkPeerType.Disconnected){
-						centerObject = GameObject.Find (Network.player.ipAddress).transform;
+						if (GameObject.Find (Network.player.ipAddress)) {
+								centerObject = GameObject.Find (Network.player.ipAddress).transform;
+						}else{
+								centerObject = GameObject.Find ("PlayerJuego").transform;
+						}
 				}
 		}
 		void OnGUI() 

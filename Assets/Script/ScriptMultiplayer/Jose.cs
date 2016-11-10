@@ -66,9 +66,12 @@ public class Jose : MonoBehaviour {
 								if (tiempo > 18) {
 										mensaje = "Bienvenido, esta es la casona la venta, \n ";
 								}else if (tiempo > 12) {
-										mensaje = "aquí estoy realizando varias investigaciones sobre la fauna del Sumapaz. \n Me ha llegado información de que Alfonso López está enfermo";
+										mensaje = "aquí estoy realizando varias investigaciones sobre la fauna\n" +
+												"del Sumapaz. Me ha llegado información de que \n" +
+												"Alfonso López está enfermo";
 								}else if (tiempo > 5) {
-										mensaje = "y no ha podido publicar las leyes \n Llévale esta planta,";
+										mensaje = "y no ha podido publicar las leyes \n " +
+											"Llévale esta planta,";
 										if (!GameObject.Find ("quina")) {
 												GameObject cruzObj = (GameObject)Instantiate (quina, transform.position, transform.rotation);
 												cruzObj.transform.parent = player.transform;
@@ -78,7 +81,8 @@ public class Jose : MonoBehaviour {
 												cruzObj.name = "quina";
 										}
 								}else if (tiempo > 1) {
-										mensaje = "se llama Quina, es muy usada como medicina. \n Ve rápido, no te demores mucho.";
+										mensaje = "se llama Quina, es muy usada como medicina. " +
+											"\n Ve rápido, no te demores mucho.";
 								}
 
 								if (General.paso_mision == 9 && General.misionActual [0] == "3" && tiempo < 0.5) {
@@ -91,7 +95,7 @@ public class Jose : MonoBehaviour {
 										mision.procesoMision3 (General.paso_mision);
 								}
 						} else {
-								mensaje = "Bienvenido a mi casa Coburgo.";
+								mensaje = "Bienvenido a la Casona la Venta.";
 						}
 
 						GUIStyle style = new GUIStyle ();
@@ -99,7 +103,10 @@ public class Jose : MonoBehaviour {
 						style = GUI.skin.GetStyle ("Box");
 						style.fontSize = (int)(20.0f);
 
-						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4), mensaje);
+
+						style.fontSize = (int)(15.0f);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/3,Screen.height/24),"Jose Celestino Mutis");
 
 						MoverMouse.movimiento = true;
 				}

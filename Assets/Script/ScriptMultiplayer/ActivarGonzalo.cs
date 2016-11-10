@@ -7,6 +7,7 @@ public class ActivarGonzalo : MonoBehaviour
 		public string mensaje;
 		public GameObject gonzalo;
 		public static GameObject[] equipo;
+		public AudioClip g1, g2, g3, g4, g0;
 		GameObject gonzaloInstanciado;
 		GameObject player;
 		ArrayList players;
@@ -14,6 +15,8 @@ public class ActivarGonzalo : MonoBehaviour
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
 		Animator animator;
+		AudioSource voz;
+
 		// Use this for initialization
 		void Start ()
 		{
@@ -26,6 +29,8 @@ public class ActivarGonzalo : MonoBehaviour
 				gonzaloInstanciado = (GameObject)Instantiate (gonzalo, new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), transform.rotation);
 				gonzaloInstanciado.name = "gonzaloJimenez";
 				animator = GameObject.Find("Gonzalo-Jimenez-1").GetComponent<Animator> ();
+
+				voz = gonzaloInstanciado.GetComponent<AudioSource> ();
 		}
 	
 		// Update is called once per frame
@@ -62,6 +67,7 @@ public class ActivarGonzalo : MonoBehaviour
 
 				if (iniciarConversasion) {
 						tiempo -= Time.deltaTime;
+						voz.enabled = true;
 				}
 
 				if (tiempo < 0) {
@@ -86,6 +92,10 @@ public class ActivarGonzalo : MonoBehaviour
 										if (General.paso_mision >= 3) {
 												tiempo = 5;
 												mensaje = "podéis pasar, sean respetuosos con su virrey.";
+												if (voz.clip.name != g4.name) {
+														voz.clip = g4;
+														voz.Play ();
+												}
 												//GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;
 										} else {
 												tiempo = 8;
@@ -105,6 +115,10 @@ public class ActivarGonzalo : MonoBehaviour
 						if(reja.transform.localPosition.z > -4.798f)
 							reja.transform.Translate (-0.02f, 0, 0);
 				}
+
+				if (tiempo < 0) {
+						voz.enabled = false;
+				}
 		}
 
 		void OnGUI ()
@@ -115,17 +129,34 @@ public class ActivarGonzalo : MonoBehaviour
 						switch (General.paso_mision) {
 						case 2: 
 								if (tiempo > 20) {
+										if (voz.clip.name != g1.name) {
+												voz.clip = g1;
+												voz.Play ();
+										}
 										mensaje = "Bienvenidos a Altagracia de Sumapaz,";
 								} else if (tiempo > 15) {
+										if (voz.clip.name != g2.name) {
+												voz.clip = g2;
+												voz.Play ();
+										}
 										mensaje = "para poder hablar con el virrey, debes traer un tributo.";
 								} else if (tiempo > 8) {
+										
 										mensaje = "He observado que traes tu tributo";
 								} else if (tiempo > 0) {
+										if (voz.clip.name != g4.name) {
+												voz.clip = g4;
+												voz.Play ();
+										}
 										mensaje = "podeis pasar, sean respetusos con su virrey";
 										reja.transform.Translate(0.01f, 0, 0);
 								}
 								break;
 						case 3:
+								if (voz.clip.name != g0.name) {
+										voz.clip = g0;
+										voz.Play ();
+								}
 								mensaje = "Recuerda que debes unirte con otros compañeros y completar \n" +
 									"tres tributos. Así podrán hablar con el virrey. ";
 								break;
@@ -133,6 +164,10 @@ public class ActivarGonzalo : MonoBehaviour
 								if (tiempo > 8) {
 										mensaje = "He observado que traen sus tributos";
 								} else if (tiempo > 1) {
+										if (voz.clip.name != g4.name) {
+												voz.clip = g4;
+												voz.Play ();
+										}
 										mensaje = "podeis pasar, sean respetusos con su virrey";
 										//GameObject.Find ("puerta").GetComponent<BoxCollider> ().isTrigger = true;
 								}

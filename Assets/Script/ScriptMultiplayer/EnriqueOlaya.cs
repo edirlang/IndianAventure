@@ -81,7 +81,7 @@ public class EnriqueOlaya : MonoBehaviour {
 												GameObject Obj = (GameObject)Instantiate (articulos, transform.position, transform.rotation);
 												Obj.transform.parent = player.transform;
 												Obj.transform.rotation = new Quaternion ();
-												Obj.transform.Rotate (300,0,0);
+												Obj.transform.Rotate (270,180,0);
 												Obj.transform.localPosition = new Vector3 (-0.95f, 0.5858f, 2.3f );
 												Obj.name = "articulos";
 										}
@@ -105,7 +105,7 @@ public class EnriqueOlaya : MonoBehaviour {
 						style = GUI.skin.GetStyle ("Box");
 						style.fontSize = (int)(20.0f);
 
-						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensaje);
+						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4), mensaje);
 
 						style.fontSize = (int)(15.0f);
 						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4 - Screen.height/24, Screen.width/3,Screen.height/24),"Enrique Olaya Herrera");

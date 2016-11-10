@@ -44,7 +44,7 @@ public class MensajesCuriosos : MonoBehaviour {
 						style = GUI.skin.GetStyle ("Box");
 						style.fontSize = (int)(20.0f);
 
-						GUI.Box (new Rect (0, 3 * Screen.height / 4, Screen.width, Screen.height / 4), mensajes[numeroMensaje-1]);
+						GUI.Box (new Rect (0, 2 * Screen.height / 4, Screen.width, Screen.height / 4), mensajes[numeroMensaje-1]);
 
 				}
 		}

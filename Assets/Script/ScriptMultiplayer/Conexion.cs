@@ -94,8 +94,9 @@ public class Conexion : MonoBehaviour
 								Application.LoadLevel ("SelecionarPersonaje");
 						pantallaServidor ();
 						if (GUI.Button (new Rect (25 * (Screen.width / 32), 5 * (Screen.height / 6), Screen.width / 5, Screen.height / 10), "Volver al Menu")) {
+								Destroy (gameObject,1f);
 								Application.LoadLevel ("menu");
-								Destroy (gameObject, 100f);
+								Debug.Log ("Volver al menu");
 						}
 				} else {
 						pantallaJuego ();
@@ -123,7 +124,12 @@ public class Conexion : MonoBehaviour
 						//nw.RPC ("guardarDatos", RPCMode.All,General.username);
 						StartCoroutine (General.actualizarUser ());
 						Network.Disconnect (500);
-						Application.LoadLevel ("lobyScena");
+						if (General.misionActual [0] == "4") {
+									//Camera.main.transform.parent = GameObject.Find (Network.player.ipAddress).transform;
+								Application.LoadLevel ("menu");
+						} else {
+								Application.LoadLevel ("lobyScena");
+						}
 						GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 						foreach (GameObject jugador in players) {
 								Destroy(jugador);
