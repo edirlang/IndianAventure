@@ -5,7 +5,7 @@ public class ChiaPerseguir : MonoBehaviour {
 
 	GameObject target;
 	Light luz;
-	bool llegoChia;
+	public bool llegoChia;
 	public string mensajeChia;
 	private Animator animator;
 	// Use this for initialization

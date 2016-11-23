@@ -10,38 +10,12 @@ public class Misiones : MonoBehaviour
 		public GameObject rain, luzrayos, luz, luzrayosprefab;
 		public Material tormenta;
 		public GameObject piezaOro, pjR12, pjR22, pjR32, pjR13, pjR23, pjR33;
+		public AudioClip c1_1,c1_2,c1_3,c1_4,c1_5,c1_6,c1_7,c1_8,c2_1,c2_2,c2_6,c2_F,c3_1,c3_2,c3_3,c3_4,c3_5,c3_6,c3_7,c3_8,c3_9,c3_10,c3_11,c3_F;
 		public bool terminoMision = false;
-		Mision mision1, mision2;
 		GameObject ayudaPersonaje;
 		private int numeroMaderas = 0, numerohojas = 0;
 		public int numeroLlave;
-
-		struct Mision
-		{
-				public string nombre;
-				public string[] pasos;
-		};
-		// Use this for initialization
-		void Awake ()
-		{
-				mision1 = new Mision ();
-				string[] pasos = new string[5];
-				mision1.nombre = "Conociendo a nuestros antepasados";
-				pasos [0] = "Debes conseguir 6 trozos de madera para construir tu choza ";
-				pasos [1] = "Busca hojas de la palma de Boba, \n consige 20 hojas para poder construir tu casa";
-				pasos [2] = "Toma una vasija y trae barro, junto al lago la encontraras";
-				pasos [3] = "Ubicate en Fusagasuga, lugar donde se encuentra nuestra aldea \n alli podras construir tu choza";
-				mision1.pasos = pasos;
-
-				mision2 = new Mision ();
-				pasos = new string[4];
-				mision2.nombre = "Establecer el nuevo pueblo de indios";
-				pasos [0] = "Visita al Virrey en Nuestra señora de Altagracia, \n para ello debes seguir el camino de piedra";
-				pasos [1] = "Unete con 2 compañeros mas para conseguir el permiso con Gonzalo. \n Puedes intentar buscar compañeros, hablando por el chat ";
-				pasos [2] = "Gonzalo te ha dado el permiso, \n puedes pasar a hablar con el virrey";
-				pasos [3] = "Vuelve a Fusagasuga con tus compañeros \n  y habla con Bernandino";
-				mision2.pasos = pasos;
-		}
+		AudioSource vozChia;
 
 		void Start ()
 		{
@@ -70,14 +44,66 @@ public class Misiones : MonoBehaviour
 
 
 				if (instanciar) {
-						chiaInstanciar ();
+						
 						if (General.timepo <= 0) {
-								if (General.misionActual [0] == "2") {
+								if (General.misionActual [0] == "1") {
+										General.timepo = 15;
+										General.timepoChia = 15;
+								}else if (General.misionActual [0] == "2") {
 										General.timepo = 35;
 										General.timepoChia = 36;
+								} else if (General.misionActual [0] == "3" && General.paso_mision == 1) {
+										General.timepo = 22;
+										General.timepoChia = 22.5f;
 								} else if (General.misionActual [0] == "3") {
-										General.timepo = 30;
-										General.timepoChia = 30.5f;
+										switch (General.paso_mision) {
+										case 2:
+												General.timepo = 6;
+												General.timepoChia = 6.5f;
+												break;
+										case 3:
+												General.timepo = 10;
+												General.timepoChia = 10.5f;
+												break;
+										case 4:
+												General.timepo = 7;
+												General.timepoChia = 7.5f;
+												break;
+										case 5:
+												General.timepo = 7;
+												General.timepoChia = 7.5f;
+												break;
+										case 6:
+												General.timepo = 10;
+												General.timepoChia = 10.5f;
+												break;
+										case 7:
+												General.timepo = 6;
+												General.timepoChia = 6.5f;
+												break;
+										case 8:
+												General.timepo = 10;
+												General.timepoChia = 10.5f;
+												break;
+										case 9:
+												General.timepo = 7;
+												General.timepoChia = 7.5f;
+												break;
+										case 10:
+												General.timepo = 7;
+												General.timepoChia = 7.5f;
+												break;
+										case 11:
+												General.timepo = 6;
+												General.timepoChia = 6.5f;
+												break;
+										default:
+												General.timepo = 15;
+												General.timepoChia = 15.5f;
+												break;
+										}
+										General.timepo = 15;
+										General.timepoChia = 15.5f;
 								} else{
 										General.timepo = 15;
 										General.timepoChia = 16;
@@ -87,6 +113,8 @@ public class Misiones : MonoBehaviour
 								General.timepo = 1f;
 								General.timepoChia = 1.5f;
 						}
+
+						chiaInstanciar ();
 				}
 				if (General.timepo > 0) {
 						if (terminoMision) {
@@ -296,6 +324,7 @@ public class Misiones : MonoBehaviour
 						ayudaPersonaje.transform.parent = player.transform;
 						ayudaPersonaje.transform.localPosition = new Vector3 (0f, 10f, 30f);
 
+						vozChia = ayudaPersonaje.GetComponent<AudioSource> ();
 						instanciar = false;
 				} else {
 						Camera.main.GetComponent<AudioSource> ().enabled = false;
@@ -307,75 +336,121 @@ public class Misiones : MonoBehaviour
 				string mensaje = "";
 				switch (General.paso_mision) {
 				case 1:
-						if (General.timepo > 10) {
+						if (vozChia.clip.name != c1_1.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c1_1;
+								vozChia.Play ();
+						}
+						if (General.timepo > 7f) {
 								mensaje = "Hola, bienvenidos a Natives. Yo soy Chía, diosa de la luna \n" +
 										"Ayudo a tu pueblo, los Sutagaos a llevar una vida";
-						} else if (General.timepo > 1) {
+						} else if (General.timepo > 0.5) {
 								mensaje = "llena de travesías. Hoy inicias este maravilloso viaje." +
 									"\n Entonces que esperamos, ¡EMPECEMOS!";
-						} else if (General.timepo > 0 && General.timepo < 0.5) {
+								
+						} else if (General.timepo > 0 && General.timepo < 0.2) {
 								General.timepo = 0;
 								procesoMision1 (General.paso_mision);
 						}
 						break;
 				case 2:
-						if (General.timepo > 12) {
+						if (vozChia.clip.name != c1_2.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c1_2;
+								vozChia.Play ();
+						}
+						if (General.timepo > 16) {
 								mensaje = "Para poder sobrevivir en esta tierra mágica, debes primero \n" +
 									"tener donde vivir, para ello necesitaremos conseguir";
-						} else if (General.timepo > 8) {
+								
+						} else if (General.timepo > 9f) {
 								mensaje = "algunos materiales. Lo primero que debes hacer es ir a \n " +
 										"Silvania, la tierra de la madera y trae un poco de ";
+								
 						} else if (General.timepo > 0) {
 								mensaje = "ella para construir tú hogar. Guíate\n" +
 										"por las señales que están alrededor del mapa";
 						}
 						break;
 				case 3:
-						if (General.timepo > 1) {
+						if (vozChia.clip.name != c1_3.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c1_3;
+								vozChia.Play ();
+						}
+						if (General.timepo > 0) {
 								mensaje = "Muy bien,  recuerda recoger 6 palos de madera y luego \n " +
 									"retornar a Fusa para seguir la construcción de tu hogar.";
 						}
 						break;
 				case 4:
-						if (General.timepo > 12) {
+						if (vozChia.clip.name != c1_4.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c1_4;
+								vozChia.Play ();
+						}
+						if (General.timepo > 14) {
 								mensaje = "Ya tienes los palos estos los usaras como pared de tu \n " +
 										"choza. Ahora necesitamos el techo para cubrirnos";
-						} else if (General.timepo > 8) {
+								
+						} else if (General.timepo > 9) {
 								mensaje = "de la lluvia, para ello necestamos hojas de palma boba. \n" +
 										"Las cuales puedes conseguir en Pasca";
+								
 						} else if (General.timepo > 0) {
-								mensaje = "luego regresa a Fusagasuga";
+								mensaje = "luego regresa a Fusagasuga para seguir con tu mision";
+
 						}
 						break;
 				case 5:
+						if (vozChia.clip.name != c1_5.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c1_5;
+								vozChia.Play ();
+						}
 						if (General.timepo > 0) {
 								mensaje = "Recuerda que debes recoger 20 hojas para poder construir \n" +
 									"el techo Y luego volver a fusa a terminar tu hogar.";
+								
 						}
 						break;
 				case 6:
-						if (General.timepo > 5) {
-								mensaje = "Muy bien, por ultimo ve y busca archilla, \n" +
+						if (vozChia.clip.name != c1_6.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c1_6;
+								vozChia.Play ();
+						}
+						if (General.timepo > 4) {
+								mensaje = "Muy bien, por ultimo ve y busca arcilla, \n" +
 										"así finalizaras la recolección de materiales.";
+								
 						}else if (General.timepo > 0) {
-								mensaje = "Encuentralo en Fusagasuga junto al lago";
+								mensaje = "Encuentrala en Fusagasuga junto al lago";
+
 						}
 						break;
 				case 7:
-						if (General.timepo > 8) {
+						if (vozChia.clip.name != c1_7.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c1_7;
+								vozChia.Play ();
+						}
+						if (General.timepo > 7) {
 								mensaje = "Ya conseguiste todos los materiales, ¡Qué bien! Ahora \n" +
-										"debes construir tu hogar, ve al punto central";
+										"debes construir tu hogar,";
+								
 						} else if (General.timepo > 0) {
-								mensaje = "de nuestro pueblo, cerca al fuego y construye tu casa.";
+								mensaje = "ve al punto central de nuestro pueblo,\n" +
+									"cerca al fuego y construye tu casa.";
+								
 						}
 						break;
 				case 8:
+						if (vozChia.clip.name != c1_8.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c1_8;
+								vozChia.Play ();
+						}
 						if (General.timepo > 8) {
 								mensaje = "¡Felicitaciones! Haz logrado construir tu hogar, este \n" +
 									"será tu refugio hasta que alguien venga y te lo quite, por ahora";
+							
 						} else if (General.timepo > 1) {
 								mensaje = "disfrutalo. Por tu esfuerzo y dedicación, te has ganado este\n " +
 										"premio de oro. Te invito a que entres a tu casa";
+								
 								if (!GameObject.Find ("Pieza de oro(Clone)")) {
 										GameObject player = GameObject.Find (Network.player.ipAddress);
 										GameObject pieza = (GameObject)Instantiate (piezaOro, player.transform.position, transform.rotation);
@@ -407,15 +482,15 @@ public class Misiones : MonoBehaviour
 		{
 				switch (paso) {
 				case 1:
-						General.timepo = 20;
-						General.timepoChia = 20.5f;
+						General.timepo = 25;
+						General.timepoChia = 25.5f;
 						instanciar = true;
 						General.paso_mision = 2;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 2:
-						General.timepo = 10;
-						General.timepoChia = 10.5f;
+						General.timepo = 8;
+						General.timepoChia = 8.5f;
 						instanciar = true;
 						General.paso_mision = 3;
 						StartCoroutine (General.actualizarUser ());
@@ -424,8 +499,8 @@ public class Misiones : MonoBehaviour
 						Debug.Log ("maderas " + numeroMaderas);
 						numeroMaderas += 1;
 						if (numeroMaderas >= 6) {
-								General.timepo = 20;
-								General.timepoChia = 20.5f;
+								General.timepo = 18;
+								General.timepoChia = 18.5f;
 								instanciar = true;
 								General.paso_mision = 4;
 								StartCoroutine (General.actualizarUser ());
@@ -442,23 +517,23 @@ public class Misiones : MonoBehaviour
 				case 5:
 						numerohojas += 2;
 						if (numerohojas >= 20) {
-								General.timepo = 15;
-								General.timepoChia = 15.5f;
+								General.timepo = 10;
+								General.timepoChia = 10.5f;
 								instanciar = true;
 								General.paso_mision = 6;
 								StartCoroutine (General.actualizarUser ());
 						}
 						break;
 				case 6:
-						General.timepo = 15;
-						General.timepoChia = 15.5f;
+						General.timepo = 14;
+						General.timepoChia = 14.5f;
 						instanciar = true;
 						General.paso_mision = 7;
 						StartCoroutine (General.actualizarUser ());
 						break;
 				case 7:
-						General.timepo = 15;
-						General.timepoChia = 15.5f;
+						General.timepo = 19;
+						General.timepoChia = 19.5f;
 						instanciar = true;
 						General.paso_mision = 8;
 						break;
@@ -485,17 +560,20 @@ public class Misiones : MonoBehaviour
 				string mensaje = "";
 				switch (General.paso_mision) {
 				case 1:
+						if (vozChia.clip.name != c2_1.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c2_1;
+								vozChia.Play ();
+						}
 						if (General.timepo > 27) {
 								mensaje = "Haz perdido tu casa, ahora debemos conseguir una nueva \n " +
 									"En el lugar donde estas será el nuevo pueblo para";
 						} else if (General.timepo > 18) {
-								mensaje = "resguardar tu familia. Hoy, 5 de febrero de 1592, fuimos \n" +
-										"colonizados por los españoles, \n " +
-										"convirtiéndonos en una ciudad. ";
+								mensaje = "resguardar tu familia. Hoy, 5 de febrero de 1592, fuiste \n" +
+										"colonizados por los españoles.";
 						} else if (General.timepo > 9) {
 								mensaje = "Ahora necesitamos pedirles permiso para poder tener\n" +
 										"nuestro hogar, para ello debes buscar al virrey ";
-						} else if (General.timepo > 1) {
+						} else if (General.timepo > 0.5) {
 								mensaje = "que se encuentra ubicado en nuestra señora de Altagracia \n " +
 									"para que te otorgue el permiso necesario para habitar la zona.";
 						} else if (General.timepo > 0 && General.timepo < 1) {
@@ -504,12 +582,13 @@ public class Misiones : MonoBehaviour
 						}
 						break;
 				case 2:
-						if (General.timepo > 8) {
-								mensaje = "debes buscar al virrey de España que se encuentra \n" +
-										"ubicado en nuestra señora de Altagracia para";
-						} else if (General.timepo > 0) {
-								mensaje = "que te otorgue el permiso necesario para habitar la zona.";
+						if (vozChia.clip.name != c2_2.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c2_2;
+								vozChia.Play ();
 						}
+						if (General.timepo > 0) {
+								mensaje = "Recuerda ir hasta donde el virrey para reclamar tu permiso\n";
+						} 
 						break;
 
 				case 3:
@@ -521,12 +600,16 @@ public class Misiones : MonoBehaviour
 						}  
 						break;
 				case 4 :
-						
+						//Audio 2
 						if (General.timepo > 0) {
 								mensaje = "Recuerda ir hasta donde el Virrey a reclamar tu permiso.";
 						} 
 						break;
 				case 6:
+						if (vozChia.clip.name != c2_6.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c2_6;
+								vozChia.Play ();
+						}
 						if (General.timepo > 0) {
 								mensaje = "Recuerda buscar a Bernardino de Albornoz \n" +
 									"que se encuentra en Fusagasugá.";
@@ -586,8 +669,8 @@ public class Misiones : MonoBehaviour
 				case 7:
 						luz.SetActive (true);
 
-						General.timepo = 40f;
-						General.timepoChia = 40.5f;
+						General.timepo = 23f;
+						General.timepoChia = 23.5f;
 						instanciar = true;
 						terminoMision = true;
 						General.paso_mision = 1;
@@ -606,27 +689,39 @@ public class Misiones : MonoBehaviour
 				string mensaje = "";
 				switch (General.paso_mision) {
 				case 1:
-						if (General.timepo > 25) {
+						if (vozChia.clip.name != c3_1.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_1;
+								vozChia.Play ();
+						}
+						if (General.timepo > 15) {
 								mensaje = "Bienvenido de nuevo. En este punto encontraras \n" +
 									"edificaciones más grandes y fuertes";
-						} else if (General.timepo > 18) {
-								mensaje = ", las cuales fueron dejadas por la cultura \n" +
+						} else if (General.timepo > 11) {
+								mensaje = ",que fueron dejadas por la cultura\n" +
 									"española que nos colonizo.";
-						} else if (General.timepo > 12) {
+						} else if (General.timepo > 8) {
 								mensaje = "Para poder iniciar esta nueva travesía,";
-						}else if (General.timepo > 5) {
+						}else if (General.timepo > 1) {
 								mensaje = "debes buscar al cura Antonio Martínez \n " +
 									"que te dará nuevas indicaciones.";
-						}else if (General.timepo > 0 && General.timepo < 1) {
+						}else if (General.timepo > 0 && General.timepo < 0.5) {
 								General.timepo = 0;
 								procesoMision3 (General.paso_mision);
 						}
 						break;
 				case 2:
+						if (vozChia.clip.name != c3_2.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_2;
+								vozChia.Play ();
+						}
 						mensaje = "Recuerda buscar al cura Antonio Martínez, \n" +
 							"él te dirá que hacer.";
 						break;
 				case 3:
+						if (vozChia.clip.name != c3_3.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_3;
+								vozChia.Play ();
+						}
 						if (General.timepo > 8) {
 								mensaje = "¡Muy bien! Ya conoces de la nueva religión.";
 						}else if (General.timepo > 1) {
@@ -638,22 +733,42 @@ public class Misiones : MonoBehaviour
 						}
 						break;
 				case 4:
+						if (vozChia.clip.name != c3_4.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_4;
+								vozChia.Play ();
+						}
 						mensaje = "Recuerda buscar la casona de Balmoral, \n" +
-							"allá te darán nuevas indicaciones.";
+							"allá te darán las nuevas indicaciones.";
 						break;
 				case 5:
+						if (vozChia.clip.name != c3_5.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_5;
+								vozChia.Play ();
+						}
 						mensaje = "Ya tienes los artículos, llévalos a la \n" +
 							"casona de Coburgo, allá te dirán que hacer. ";
 						break;
 				case 6:
-						mensaje = "Recuerda buscar al recaudador de impuestos, \n" +
-							"él te dará la información de tu nuevo hogar.";
+						if (vozChia.clip.name != c3_6.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_6;
+								vozChia.Play ();
+						}
+						mensaje = "Recuerda buscar al recaudador de impuestos, el te dara la\n" +
+								"informaciòn de tu nuevo hogar, este se encuentra cerca \n de la iglesia.";
 						break;
 				case 7:
+						if (vozChia.clip.name != c3_7.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_7;
+								vozChia.Play ();
+						}
 						mensaje = "Recuerda probar las llaves en esas casas \n" +
 							"para encontrar la tuya.";
 						break;
 				case 8:
+						if (vozChia.clip.name != c3_8.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_8;
+								vozChia.Play ();
+						}
 						mensaje = "¡Muy bien! Este es tu nuevo hogar. Ahora\n" +
 								"vamos a adornarlo. Busca a Jose Celestino mutis \n" +
 							"en la casona la venta, él te dirá que hacer.";
@@ -662,14 +777,26 @@ public class Misiones : MonoBehaviour
 						}
 						break;
 				case 9:
-						mensaje = "Busca a Jose Celestino mutis en la casona \n" +
-							"la venta, él te necesita.";
+						if (vozChia.clip.name != c3_9.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_9;
+								vozChia.Play ();
+						}
+						mensaje = "Recuerda busca a Jose Celestino mutis en la casona \n" +
+								"la venta, él te dirá que hacer.";
 						break;
 				case 10:
+						if (vozChia.clip.name != c3_10.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_10;
+								vozChia.Play ();
+						}
 						mensaje = "Recuerda llevar la Quina a Alfonso López, \n" +
 							"que se encuentra en la casona de Coburgo.";
 						break;
 				case 11:
+						if (vozChia.clip.name != c3_11.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+								vozChia.clip = c3_11;
+								vozChia.Play ();
+						}
 						mensaje = "Muy bien, para terminar tu misión, \n" +
 							"lleva tu mata de café para adornar tu casa.";
 						break;
@@ -767,21 +894,22 @@ public class Misiones : MonoBehaviour
 				if(GameObject.Find("Rain(Clone)")){
 						Destroy (GameObject.Find("Rain(Clone)"));
 				}
+				if (vozChia.clip.name != c2_F.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+						vozChia.clip = c2_F;
+						vozChia.Play ();
+				}
 				string mensaje = "";
-				if (General.timepo > 35) {
-						mensaje = "¡Felicitaciones! Haz terminado la misión, \n" + General.misionActual [1];
-				} else if (General.timepo > 30) {
-						mensaje = ", este será tu humilde hogar.";
-				} else if (General.timepo > 20) {
-						mensaje = "Haz pasado al siguiente nivel";
-				} else if (General.timepo > 10) {
-						mensaje = "Por haber terminado la misión has ganado 50 monedas de oro";
+				if (General.timepo > 20) {
+						mensaje = "¡Felicitaciones! Haz terminado la misión, \n";
+				} else if (General.timepo > 12) {
+						mensaje = ", este será tu humilde hogar. Por haber terminado \n" +
+							"la misión has ganado 50 monedas de oro";
+				} else if (General.timepo > 5) {
+						mensaje = "Si te das cuenta está construido de madera, tejas \n" +
+							"para proteger de la lluvia";
+				} else if (General.timepo > 0) {
+						mensaje = "ladrillos de barro y piedra para sostener tu casa";
 
-						if (!GameObject.Find ("Pieza de oro(Clone)")) {
-								
-						}
-				} else {
-						mensaje = "Conservalo, te puede servir mas adelante";
 				}
 				ayudaPersonaje.GetComponent<ChiaPerseguir> ().mensajeChia = mensaje;
 		}
@@ -789,7 +917,10 @@ public class Misiones : MonoBehaviour
 		void completarMision3 ()
 		{
 				//ayudaPersonaje.transform.parent = transform;
-
+				if (vozChia.clip.name != c3_F.name && GameObject.Find ("Chia(Clone)").GetComponent<ChiaPerseguir>().llegoChia) {
+						vozChia.clip = c3_F;
+						vozChia.Play ();
+				}
 				string mensaje = "";
 				if (General.timepo > 0) {
 						mensaje = "Excelente, ya tienes tu casa en esta nueva era.\n" +

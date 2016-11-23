@@ -79,14 +79,7 @@ public class AcionesBernardino : MonoBehaviour {
 										tiempo = 48;
 
 								} else {
-										tiempo = 8;
-										if (voz.clip.name != b0.name) {
-												voz.clip = b0;
-												voz.Play ();
-										}
-										mensaje = "Recuerda que debes ir donde el virrey en Altagracia de \n" +
-												"Sumapaz y traerme un permiso, así poder darte los materiales\n" +
-											"para construir su humilde morada.";
+										tiempo = 12;
 								}
 
 								players.RemoveAt (0);
@@ -188,17 +181,17 @@ public class AcionesBernardino : MonoBehaviour {
 										voz.clip = b0;
 										voz.Play ();
 								}
-								mensaje = "Recuerda que debes ir donde el virrey en Altagracia de \n" +
-										"Sumapaz y traerme un permiso, así poder darte los materiales\n" +
-										"para construir su humilde morada.";
+								mensaje = "Recuerda que fundaremos un nuevo pueblo, pero primero debes ir\n" +
+										"donde el virrey que se encuentra en Altagracia de Sumapaz y traerme\n" +
+										"un permiso, y así poder darte las llaves de tu humilde morada.";
 						} else {
-								mensaje = "Ve a tu casa, y resguardate de esta terrible tormenta";
+								mensaje = "Ve a tu casa, y resguárdate de esta terrible tormenta";
 						}
 
 						GUIStyle style = new GUIStyle ();
 						style.alignment = TextAnchor.MiddleCenter;
 						style = GUI.skin.GetStyle ("Box");
-						style.fontSize = (int)(20.0f);
+						style.fontSize = (int)(18.0f);
 
 						GUI.Box (new Rect (Screen.width/10, 3*Screen.height/4, 2*(Screen.width/3),Screen.height/4), mensaje);
 

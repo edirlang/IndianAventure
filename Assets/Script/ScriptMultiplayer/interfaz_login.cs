@@ -169,7 +169,8 @@ public class interfaz_login : MonoBehaviour
 		{
 				yield return www;
 				if (www.error == null) {
-						if (www.text.Length == 2 || www.text.Length == 1) {
+						Debug.Log (www.text.Length);
+						if (www.text.Length >= 1 && www.text.Length <= 3) {
 								resultado = true;
 						} else {
 								mensaje = www.text;

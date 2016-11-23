@@ -7,10 +7,12 @@ public class recaudador : MonoBehaviour {
 		public GameObject recaudador_game, titulo, llave, alfonso, quina, cafe;
 		GameObject player;
 		ArrayList players;
+		public AudioClip r1, r2;
 		public float tiempo = -1f;
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
 		Animator animator;
+		AudioSource voz;
 		// Use this for initialization
 		void Start ()
 		{
@@ -19,6 +21,7 @@ public class recaudador : MonoBehaviour {
 				}
 				players = new ArrayList ();
 				animator = recaudador_game.GetComponent<Animator> ();
+				voz = recaudador_game.GetComponent<AudioSource> ();
 		}
 
 		// Update is called once per frame
@@ -28,7 +31,11 @@ public class recaudador : MonoBehaviour {
 				if (persegir) {
 						moveDirection = Vector3.zero;
 						iniciarConversasion = true;
-						tiempo = 16;
+						if (General.paso_mision > 9) {
+								tiempo = 5;
+						}else{
+							tiempo = 17;
+						}
 						persegir = false;
 				}
 
@@ -66,7 +73,11 @@ public class recaudador : MonoBehaviour {
 				if (iniciarConversasion && player.GetComponent<NetworkView> ().isMine) {
 
 						if (General.paso_mision == 6) {
-								if (tiempo > 16) {
+								if (voz.clip.name != r1.name) {
+										voz.clip = r1;
+										voz.Play ();
+								}
+								if (tiempo > 13) {
 
 										mensaje = "Bienvenido a esta nueva ciudad.";
 
@@ -110,6 +121,10 @@ public class recaudador : MonoBehaviour {
 										mision.procesoMision3 (General.paso_mision);
 								}
 						} else if (General.paso_mision == 10) {
+								if (voz.clip.name != r2.name) {
+										voz.clip = r2;
+										voz.Play ();
+								}
 								mensaje = "Gracias, Alfonso te envía este regalo por ayudarle.";
 								if (!GameObject.Find ("cafe")) {
 										General.monedas -= 30;
@@ -137,7 +152,7 @@ public class recaudador : MonoBehaviour {
 										mision.procesoMision3 (General.paso_mision);
 								}
 						}else {
-								mensaje = "Hola, bienvenido a fusagasuga";
+								mensaje = "Hola, bienvenido a Fusagasugá";
 						}
 
 						GUIStyle style = new GUIStyle ();

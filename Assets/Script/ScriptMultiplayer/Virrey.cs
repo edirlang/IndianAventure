@@ -43,7 +43,7 @@ public class Virrey : MonoBehaviour {
 
 						if (cambio) {
 								if (General.paso_mision == 5) {
-										tiempo = 25;
+										tiempo = 20;
 										iniciarConversasion = true;
 								} else {
 										iniciarConversasion = false;
@@ -63,7 +63,7 @@ public class Virrey : MonoBehaviour {
 
 						switch (General.paso_mision) {
 						case 5: 
-								if (tiempo > 20) {
+								if (tiempo > 16) {
 										
 										mensaje = "Bienvenidos a Altagracia de Sumapaz,";
 
@@ -71,7 +71,7 @@ public class Virrey : MonoBehaviour {
 												voz.clip = v1;
 												voz.Play ();
 										}
-								} else if (tiempo > 15) {
+								} else if (tiempo > 11) {
 										if (voz.clip.name != v2.name) {
 												voz.clip = v2;
 												voz.Play ();
@@ -100,7 +100,7 @@ public class Virrey : MonoBehaviour {
 												}
 										}
 
-								} else if (tiempo > 10) {
+								} else if (tiempo > 5) {
 										if (voz.clip.name != v3.name) {
 												voz.clip = v3;
 												voz.Play ();
@@ -110,7 +110,7 @@ public class Virrey : MonoBehaviour {
 										GameObject.Find ("permiso").transform.Translate(-0.01f,0,0); 
 
 
-								} else if (tiempo > 5) {
+								} else if (tiempo > 1) {
 										mensaje = "Fusagasugá, y entregadlo. Él les dirá que hacer.";
 								}
 								break;

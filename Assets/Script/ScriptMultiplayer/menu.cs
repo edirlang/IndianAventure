@@ -105,7 +105,7 @@ public class menu : MonoBehaviour
 		
 				GUI.Box (new Rect (2 * (Screen.width / 6) - Screen.width / 8, 7 * (Screen.height / 40), Screen.width / 6, Screen.height / 48), "");
 		
-				GUI.Label (new Rect (2 * (Screen.width / 6) - Screen.width / 8, 3 * (Screen.height / 10), Screen.width / 6, Screen.height / 12), "Mision Actual");
+				GUI.Label (new Rect (2 * (Screen.width / 6) - Screen.width / 8, 3 * (Screen.height / 10), Screen.width / 6, Screen.height / 12), "Misión Actual");
 		
 				GUI.Label (new Rect (3 * (Screen.width / 12) - Screen.width / 8, 4 * (Screen.height / 10), Screen.width / 3, Screen.height / 3), General.misionActual [1]);
 		
@@ -113,7 +113,7 @@ public class menu : MonoBehaviour
 						opciones = 2;
 				}
 		
-				if (GUI.Button (new Rect (2 * (Screen.width / 6) - Screen.width / 8, 8 * (Screen.height / 10), Screen.width / 5, Screen.height / 12), "Cerrar Sesion")) {
+				if (GUI.Button (new Rect (2 * (Screen.width / 6) - Screen.width / 8, 8 * (Screen.height / 10), Screen.width / 5, Screen.height / 12), "Cerrar Sesión")) {
 						opciones = 1;
 						General.conectado = false;
 						General.username = null;
@@ -183,7 +183,7 @@ public class menu : MonoBehaviour
 				style = GUI.skin.GetStyle ("label");
 				style.fontSize = (int)(25.0f);
 				style.alignment = TextAnchor.UpperLeft;
-				GUI.Box (new Rect (Screen.width / 10, Screen.height / 10, Screen.width - Screen.width / 7, Screen.height - Screen.height / 6), "Mision " + mision [0]);
+				GUI.Box (new Rect (Screen.width / 10, Screen.height / 10, Screen.width - Screen.width / 7, Screen.height - Screen.height / 6), "Misión " + mision [0]);
 
 				style.fontStyle = FontStyle.Bold;
 				GUI.Label (new Rect (3 * (Screen.width / 20), 4 * (Screen.height / 20), Screen.width / 2, Screen.height / 12), "Nombre:");

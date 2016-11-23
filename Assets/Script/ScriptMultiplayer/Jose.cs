@@ -11,6 +11,7 @@ public class Jose : MonoBehaviour {
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
 		Animator animator;
+		AudioSource voz;
 		// Use this for initialization
 		void Start ()
 		{
@@ -18,6 +19,7 @@ public class Jose : MonoBehaviour {
 						SceneManager.LoadScene("main");
 				}
 				animator = GameObject.Find("Jose-Celestino-Mutis").GetComponent<Animator> ();
+				voz = jose.GetComponent<AudioSource> ();
 		}
 
 		// Update is called once per frame
@@ -38,9 +40,11 @@ public class Jose : MonoBehaviour {
 						} else {
 								moveDirection = Vector3.zero;
 								iniciarConversasion = true;
-								tiempo = 25;
+								tiempo = 22;
 								if (General.paso_mision != 9) {
-										tiempo = 6;
+										tiempo = 5;
+								}else {
+										voz.Play ();
 								}
 								persegir = false;
 								animator.SetFloat ("speed", 0.0f);
@@ -63,13 +67,13 @@ public class Jose : MonoBehaviour {
 				if (iniciarConversasion && player.GetComponent<NetworkView> ().isMine) {
 
 						if (General.paso_mision == 9) {
-								if (tiempo > 18) {
+								if (tiempo > 19	) {
 										mensaje = "Bienvenido, esta es la casona la venta, \n ";
-								}else if (tiempo > 12) {
+								}else if (tiempo > 10) {
 										mensaje = "aquí estoy realizando varias investigaciones sobre la fauna\n" +
 												"del Sumapaz. Me ha llegado información de que \n" +
 												"Alfonso López está enfermo";
-								}else if (tiempo > 5) {
+								}else if (tiempo > 6) {
 										mensaje = "y no ha podido publicar las leyes \n " +
 											"Llévale esta planta,";
 										if (!GameObject.Find ("quina")) {
@@ -80,7 +84,7 @@ public class Jose : MonoBehaviour {
 												cruzObj.transform.localPosition = new Vector3 (-0.95f, 0.5858f, 2.3f );
 												cruzObj.name = "quina";
 										}
-								}else if (tiempo > 1) {
+								}else if (tiempo > 0.5) {
 										mensaje = "se llama Quina, es muy usada como medicina. " +
 											"\n Ve rápido, no te demores mucho.";
 								}

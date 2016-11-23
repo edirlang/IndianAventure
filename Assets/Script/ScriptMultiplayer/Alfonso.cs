@@ -12,6 +12,7 @@ public class Alfonso : MonoBehaviour {
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
 		Animator animator;
+		AudioSource voz;
 		// Use this for initialization
 		void Start ()
 		{
@@ -19,6 +20,7 @@ public class Alfonso : MonoBehaviour {
 						SceneManager.LoadScene("main");
 				}
 				animator = alfonso.GetComponent<Animator> ();
+				voz = alfonso.GetComponent<AudioSource> ();
 		}
 
 		// Update is called once per frame
@@ -40,9 +42,11 @@ public class Alfonso : MonoBehaviour {
 								animator.SetFloat ("speed",0f);
 								moveDirection = Vector3.zero;
 								iniciarConversasion = true;
-								tiempo = 20;
+								tiempo = 17;
 								if (General.paso_mision != 5) {
 										tiempo = 10;
+								} else {
+										voz.Play ();
 								}
 								persegir = false;
 						}

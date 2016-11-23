@@ -12,12 +12,14 @@ public class Cura : MonoBehaviour {
 		public float tiempo = -1f;
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
+		AudioSource voz;
 		// Use this for initialization
 		void Start ()
 		{
 				if (General.username == "") {
 						SceneManager.LoadScene("main");
 				}
+				voz = cura.GetComponent<AudioSource> ();
 		}
 
 		// Update is called once per frame
@@ -42,8 +44,12 @@ public class Cura : MonoBehaviour {
 								tiempo = 24;
 								if (General.paso_mision != 2) {
 										tiempo = 10;
+								} else {
+										voz.Play ();
 								}
 								persegir = false;
+
+								
 						}
 						moveDirection.y -= 200 * Time.deltaTime;
 						controller.Move (moveDirection * Time.deltaTime);
@@ -63,6 +69,7 @@ public class Cura : MonoBehaviour {
 				if (iniciarConversasion && player.GetComponent<NetworkView> ().isMine) {
 
 						if (General.paso_mision == 2) {
+								
 								if (tiempo > 18) {
 										mensaje = "Bienvenido a la nueva iglesia, \n " +
 											"esta iglesia fue reconstruida en 1776,";

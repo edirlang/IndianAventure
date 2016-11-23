@@ -12,6 +12,7 @@ public class EnriqueOlaya : MonoBehaviour {
 		public bool iniciarConversasion = false, persegir = false;
 		Vector3 moveDirection = Vector3.zero;
 		Animator animator;
+		AudioSource voz;
 		// Use this for initialization
 		void Start ()
 		{
@@ -19,6 +20,7 @@ public class EnriqueOlaya : MonoBehaviour {
 						SceneManager.LoadScene("main");
 				}
 				animator = enrique.GetComponent<Animator> ();
+				voz = enrique.GetComponent<AudioSource> ();
 		}
 
 		// Update is called once per frame
@@ -39,9 +41,11 @@ public class EnriqueOlaya : MonoBehaviour {
 						} else {
 								moveDirection = Vector3.zero;
 								iniciarConversasion = true;
-								tiempo = 20;
+								tiempo = 26;
 								if (General.paso_mision != 4) {
 										tiempo = 10;
+								} else {
+										voz.Play ();
 								}
 								persegir = false;
 								animator.SetFloat ("speed",0f);
@@ -65,7 +69,7 @@ public class EnriqueOlaya : MonoBehaviour {
 
 						if (General.paso_mision == 4) {
 								if (tiempo > 15) {
-										mensaje = "Bienvenido a la casona de Balmoral. " +
+										mensaje = "Bienvenido a la quinta de Balmoral. " +
 											"\n Construida en 1870.";
 
 								} else if (tiempo > 10) {
